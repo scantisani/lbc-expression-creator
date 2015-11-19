@@ -5,6 +5,7 @@
   <title>LBC Expression Creator</title>
   <script src="blockly/blockly_compressed.js"></script>
   <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/javascript_compressed.js"></script>
   <script src="blockly/msg/js/en.js"></script>
 </head>
 <body>
@@ -20,10 +21,23 @@
     <block type="text_print"></block>
   </xml>
 
+  <p>
+    <button onclick="showCode()">Show JavaScript</button>
+  </p>
+
+  <p>
+    <div id='code'></div>
+  </p>
+
   <script>
     var workspace = Blockly.inject('blocklyDiv',
         {media: 'blockly/media/',
          toolbox: document.getElementById('toolbox')});
+
+    function showCode() {
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      document.getElementById("code").innerHTML = code;
+    }
   </script>
 </body>
 </html>
