@@ -20,3 +20,26 @@ Blockly.JavaScript['lbc_global'] = function(block) {
   var code = 'Global(' + expression + ')';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
+
+Blockly.JavaScript['lbc_compare'] = function(block) {
+  var OPERATORS = {
+    'EQ': 'Equals',
+    'NEQ': 'NotEquals',
+    'LT': 'LessThan',
+    'LTE': 'LessThanEquals',
+    'GT': 'GreaterThan',
+    'GTE': 'GreaterThanEquals'
+  };
+
+  var operator = block.getFieldValue('OP');
+  var order = (operator == 'EQ' || operator == 'NEQ') ?
+      Blockly.JavaScript.ORDER_EQUALITY : Blockly.JavaScript.ORDER_RELATIONAL;
+  var argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
+  var argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
+
+  var comparison = OPERATORS[operator];
+
+  var code = 'Conditional(' + comparison + '(' + argument0 + ', ' + argument1 + '))';
+  return [code, order];
+};
+

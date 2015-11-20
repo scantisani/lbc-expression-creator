@@ -37,3 +37,28 @@ Blockly.Blocks['lbc_global'] = {
     this.setTooltip('');
   }
 };
+
+Blockly.Blocks['lbc_compare'] = {
+  /**
+   * Block for comparison operator.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var OPERATORS = [
+          ['is equal to', 'EQ'],
+          ['is not equal to', 'NEQ'],
+          ['is less than', 'LT'],
+          ['is less than or equal to', 'LTE'],
+          ['is greater than', 'GT'],
+          ['is greater than or equal to', 'GTE']
+        ];
+    this.setColour(60);
+    this.setOutput(true, 'Boolean');
+    this.appendValueInput('A')
+        .setCheck('Value');
+    this.appendValueInput('B')
+        .setCheck('Value')
+        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+    this.setInputsInline(true);
+  }
+};
