@@ -23,3 +23,17 @@ Blockly.Blocks['lbc_concentration'] = {
     this.setOutput(true, "Expr");
   }
 };
+
+Blockly.Blocks['lbc_global'] = {
+  /**
+   * Block for global temporal modality.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(10);
+    this.appendValueInput("EXPRESSION")
+        .setCheck("Boolean")
+        .appendField("Eventually,");
+    this.setTooltip("");
+  }
+};
