@@ -16,11 +16,11 @@ Blockly.Blocks['lbc_concentration'] = {
    */
   init: function() {
     this.setColour(30);
-    this.appendValueInput("SPECIES")
-        .setCheck("String")
-        .appendField("the concentration of");
-    this.setTooltip("The concentration of a species.");
-    this.setOutput(true, "Expr");
+    this.appendValueInput('SPECIES')
+        .setCheck('String')
+        .appendField('the concentration of');
+    this.setTooltip('The concentration of a species.');
+    this.setOutput(true, 'Value');
   }
 };
 
@@ -31,9 +31,9 @@ Blockly.Blocks['lbc_global'] = {
    */
   init: function() {
     this.setColour(10);
-    this.appendValueInput("EXPRESSION")
-        .setCheck("Boolean")
-        .appendField("Eventually,");
-    this.setTooltip("");
+    this.appendValueInput('EXPRESSION')
+        .setCheck('Boolean')
+        .appendField('Eventually,');
+    this.setTooltip('');
   }
 };
