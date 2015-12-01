@@ -24,6 +24,7 @@
 
   <p>
     <button onclick="showCode()">Show AST</button>
+    <button onclick="showLBC()">Show LBC</button>
   </p>
 
   <p>
@@ -38,6 +39,16 @@
     function showCode() {
       var code = Blockly.JavaScript.workspaceToCode(workspace);
       document.getElementById("code").innerHTML = code;
+    }
+
+    function showLBC() {
+      tree = require('treehugger/tree');
+
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      if (code) {
+        var lbc = translateToLBC(tree.parse(code));
+        document.getElementById("code").innerHTML = lbc;
+      }
     }
   </script>
 </body>
