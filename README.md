@@ -1,6 +1,15 @@
 # lbc-expression-creator
 A graphical tool for creating expressions in the Logic of Behaviour in Context using Blockly.
 
-To use the expression creator, clone the repository and point your browser at `index.html`.
+To install, first clone the repository:
 
-If you want to run any unit tests, you'll have to run `git submodule init` and `git submodule update` from the root directory. This will get you the necessary Closure library files.
+	git clone https://github.com/scantisani/lbc-expression-creator.git
+
+Then initialize and update the submodules:
+
+	git submodule init
+	git submodule update
+
+To use the expression creator, point your browser at `index.html`.
+
+To run unit tests, load `js/blockly/tests/generators/index.html` in a browser that allows the use of the `file://` protocol (e.g. Firefox or Safari--**not Chrome**).
