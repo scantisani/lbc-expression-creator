@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title>LBC Expression Creator</title>
-  <script src="blockly/blockly_compressed.js"></script>
-  <script src="blockly/blocks_compressed.js"></script>
-  <script src="blockly/javascript_compressed.js"></script>
-  <script src="blockly/msg/js/en.js"></script>
+  <script src="js/blockly/blockly_compressed.js"></script>
+  <script src="js/blockly/blocks_compressed.js"></script>
+  <script src="js/blockly/javascript_compressed.js"></script>
+  <script src="js/blockly/msg/js/en.js"></script>
 
-  <script src="blockly/blocks/lbc.js"></script>
-  <script src="blockly/generators/javascript/lbc.js"></script>
+  <script src="js/blockly/blocks/lbc.js"></script>
+  <script src="js/blockly/generators/javascript/lbc.js"></script>
 </head>
 <body>
   <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
@@ -31,7 +31,7 @@
 
   <script>
     var workspace = Blockly.inject('blocklyDiv',
-        {media: 'blockly/media/',
+        {media: 'js/blockly/media/',
          toolbox: document.getElementById('toolbox')});
 
     function showCode() {
