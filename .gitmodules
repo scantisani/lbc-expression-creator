@@ -1,4 +1,4 @@
-[submodule "js/closure-library"]
+[submodule "closure-library"]
 	path = js/closure-library
 	url = https://github.com/google/closure-library.git
 [submodule "treehugger"]
