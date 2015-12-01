@@ -15,9 +15,9 @@ Blockly.JavaScript['lbc_concentration'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-Blockly.JavaScript['lbc_global'] = function(block) {
+Blockly.JavaScript['lbc_future'] = function(block) {
   var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
-  var code = 'Global(' + expression + ')';
+  var code = 'Future(' + expression + ')';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
