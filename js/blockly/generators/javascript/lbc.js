@@ -10,7 +10,7 @@ goog.require('Blockly.JavaScript');
 
 
 Blockly.JavaScript['lbc_concentration'] = function(block) {
-  var species = Blockly.JavaScript.valueToCode(block, 'SPECIES', Blockly.JavaScript.ORDER_NONE);
+  var species = block.getFieldValue('SPECIES');
   var code = 'Concentration(' + species + ')';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };

@@ -16,9 +16,9 @@ Blockly.Blocks['lbc_concentration'] = {
    */
   init: function() {
     this.setColour(30);
-    this.appendValueInput('SPECIES')
-        .setCheck('String')
-        .appendField('the concentration of');
+    this.appendDummyInput()
+        .appendField('the concentration of')
+        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.setTooltip('The concentration of a species.');
     this.setOutput(true, 'Value');
   }
