@@ -11,9 +11,49 @@
   <script src="js/blockly/blocks/lbc.js"></script>
   <script src="js/blockly/generators/javascript/lbc.js"></script>
   <script data-main='js/app.js' src='js/lib/require.js'></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      overflow: hidden;
+    }
+    table {
+      height: 100%;
+      width: 100%;
+    }
+    #blocklyArea {
+      height: 80%;
+    }
+    #buttonArea {
+      height: 5%;
+    }
+    #code {
+      height: 15%;
+    }
+  </style>
 </head>
+
 <body>
-  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+  <table>
+    <tr>
+      <td id="blocklyArea">
+      </td>
+    </tr>
+    <tr>
+      <td id="buttonArea">
+          <button onclick="showCode()">Show AST</button>
+          <button onclick="showLBC()">Show LBC</button>
+      </td>
+    </td>
+    <tr>
+      <td id="code">
+      </td>
+    </tr>
+  </table>
+
+  <div id="blocklyDiv" style="position: absolute"></div>
 
   <xml id="toolbox" style="display: none">
     <block type="lbc_concentration"></block>
@@ -31,9 +71,29 @@
   </p>
 
   <script>
+    var blocklyArea = document.getElementById('blocklyArea');
+    var blocklyDiv = document.getElementById('blocklyDiv');
     var workspace = Blockly.inject('blocklyDiv',
         {media: 'js/blockly/media/',
          toolbox: document.getElementById('toolbox')});
+    var onresize = function(e) {
+      // Compute the absolute coordinates and dimensions of blocklyArea.
+      var element = blocklyArea;
+      var x = 0;
+      var y = 0;
+      do {
+        x += element.offsetLeft;
+        y += element.offsetTop;
+        element = element.offsetParent;
+      } while (element);
+      // Position blocklyDiv over blocklyArea.
+      blocklyDiv.style.left = x + 'px';
+      blocklyDiv.style.top = y + 'px';
+      blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+      blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+    };
+    window.addEventListener('resize', onresize, false);
+    onresize();
 
     function showCode() {
       var code = Blockly.JavaScript.workspaceToCode(workspace);
