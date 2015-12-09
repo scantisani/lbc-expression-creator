@@ -11,24 +11,24 @@ goog.require('Blockly.JavaScript');
 
 Blockly.JavaScript['lbc_concentration'] = function(block) {
   var species = block.getFieldValue('SPECIES');
-  var code = 'Concentration("' + species + '")';
+  var code = 'Concentration ' + species;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['lbc_future'] = function(block) {
   var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
-  var code = 'Future(' + expression + ')';
+  var code = 'Future ' + expression;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['lbc_compare'] = function(block) {
   var OPERATORS = {
-    'EQ': 'Equals',
-    'NEQ': 'NotEquals',
-    'LT': 'LessThan',
-    'LTE': 'LessThanEquals',
-    'GT': 'GreaterThan',
-    'GTE': 'GreaterThanEquals'
+    'EQ': '=',
+    'NEQ': '!=',
+    'LT': '<',
+    'LTE': '<=',
+    'GT': '>',
+    'GTE': '>='
   };
 
   var operator = block.getFieldValue('OP');
@@ -39,7 +39,7 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
 
   var comparison = OPERATORS[operator];
 
-  var code = 'Conditional(' + comparison + '(' + argument0 + ', ' + argument1 + '))';
+  var code = argument0 + ' ' + comparison + ' ' + argument1;
   return [code, order];
 };
 
