@@ -43,7 +43,9 @@
     </tr>
     <tr>
       <td id="buttonArea">
-          <button onclick="showCode()">Show AST</button>
+          <button onclick="showExpression()">Show Expression</button>
+          <button onclick="showParse()">Show Parse</button>
+          <button onclick="showAST()">Show AST</button>
           <button onclick="showLBC()">Show LBC</button>
       </td>
     </td>
@@ -60,11 +62,6 @@
     <block type="lbc_future"></block>
     <block type="lbc_compare"></block>
   </xml>
-
-  <p>
-    <button onclick="showCode()">Show AST</button>
-    <button onclick="showLBC()">Show LBC</button>
-  </p>
 
   <p>
     <div id='code'></div>
@@ -95,19 +92,34 @@
     window.addEventListener('resize', onresize, false);
     onresize();
 
-    function showCode() {
+    function showExpression() {
       var code = Blockly.JavaScript.workspaceToCode(workspace);
       document.getElementById("code").innerHTML = code;
     }
 
-    function showLBC() {
-      tree = require('treehugger/tree');
-
+    function showParse() {
       var code = Blockly.JavaScript.workspaceToCode(workspace);
-      if (code) {
-        var lbc = translateToLBC(tree.parse(code));
-        document.getElementById("code").innerHTML = lbc;
+      try {
+        var str = JSON.stringify(parseExpression(code));
+      } catch (e) {
+        var str = "These blocks don't form a complete expression yet.";
       }
+      document.getElementById("code").innerHTML = str;
+    }
+
+    function showAST() {
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      try {
+        //var str = JSON.stringify(expressionToAST(code)); tree structure is too deep for stringify
+        console.log(expressionToAST(code));
+        var str = "Check console (Ctrl+Shift+J).";
+      } catch (e) {
+        var str = "These blocks don't form a complete expression yet.";
+      }
+      document.getElementById("code").innerHTML = str;
+    }
+
+    function showLBC() {
     }
   </script>
 </body>
