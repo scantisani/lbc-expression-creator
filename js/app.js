@@ -5,18 +5,8 @@ requirejs.config({
   }
 });
 
-require(['parsing/lbc-parser', 'TreeModel']);
+require(['parsing/lbc-parser']);
 
 var parseExpression = function(expression) {
   return parser.parse(expression);
-};
-
-var expressionToAST = function(expression) {
-  var TreeModel = require('TreeModel');
-
-  var model = parser.parse(expression);
-  var tree = new TreeModel();
-
-  var root = tree.parse(model);
-  return root;
 };
