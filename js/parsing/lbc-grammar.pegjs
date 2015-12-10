@@ -18,7 +18,7 @@ Value
   = Concentration / Real
 
 Conditional_Op
-  = op:([!<>] "=" / [<>=]) {
+  = op:$([!<>] "=" / [<>=]) {
     return {
       tag: op,
       children: []
