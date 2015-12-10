@@ -15,7 +15,7 @@ Conditional
   }
 
 Value
-  = Concentration / Rational
+  = Concentration / Real
 
 Conditional_Op
   = op:([!<>] "=" / [<>=]) {
@@ -71,10 +71,10 @@ Species
     }
   }
 
-Rational
+Real
   = n:[0-9]+ {
     return {
-      name: 'Rational',
+      name: 'Real',
       children: [{
         name: n,
         children: []
