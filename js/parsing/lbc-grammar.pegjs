@@ -61,7 +61,7 @@ Concentration_Op
   }
 
 Species
-  = s:[a-zA-Z]+ {
+  = s:$[a-zA-Z]+ {
     return {
       tag: 'Species',
       children: [{
@@ -72,7 +72,7 @@ Species
   }
 
 Real
-  = n:[0-9]+ {
+  = n:$[0-9]+ {
     return {
       tag: 'Real',
       children: [{
