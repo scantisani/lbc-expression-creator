@@ -10,7 +10,7 @@ Conditional
   = v1:Value _ op:Conditional_Op _ v2:Value {
     return {
       name: 'Conditional',
-      children: [{v1}, {op}, {v2}]
+      children: [v1, op, v2]
     }
   }
 
@@ -48,7 +48,7 @@ Concentration
   = op:Concentration_Op _ species:Species {
     return {
       name: 'Concentration',
-      children: [{op}, {species}]
+      children: [op, species]
     }
   }
 
