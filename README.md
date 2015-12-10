@@ -12,9 +12,9 @@ Then initialize and update the submodules:
 
 You'll need to install the `peg.js` library, and then generate the parser:
         
-        npm install -g pegjs
-        cd js/parsing
-        pegjs lbc-grammar.pegjs lbc-parser.js
+	npm install -g pegjs
+	cd js/parsing
+	./generateparser.sh
 
 After that, you should be all set up! To use the expression creator, point your browser at `index.html` in the repository's root directory.
 
