@@ -1,27 +1,30 @@
 Expression
-  = temp:Temporal _ cond:Conditional {
+  = temp:Temporal _ cond:Comparison {
     return {
-      name: 'Expression',
+      tag: 'Expression',
       children: [temp, cond]
     }
   }
 
-Conditional
-  = v1:Value _ op:Conditional_Op _ v2:Value {
+Comparison
+  = v1:Value _ op:Comparison_Op _ v2:Value {
     return {
-      name: 'Conditional',
-      children: [{v1}, {op}, {v2}]
+      tag: 'Comparison',
+      children: [v1, op, v2]
     }
   }
 
 Value
-  = Concentration / Rational
+  = Concentration / Real
 
-Conditional_Op
-  = op:([!<>] "=" / [<>=]) {
+Comparison_Op
+  = op:$([!<>] "=" / [<>=]) {
     return {
-      name: op,
-      children: []
+      tag: "Comparison_Op",
+      children: [{
+        tag: op,
+        children: []
+      }]
     }
   }
 
@@ -31,7 +34,7 @@ Temporal
 Global
   = "Global" {
     return {
-      name: 'Global',
+      tag: 'Global',
       children: []
     }
   }
@@ -39,7 +42,7 @@ Global
 Future
   = "Future" {
     return {
-      name: 'Future',
+      tag: 'Future',
       children: []
     }
   }
@@ -47,36 +50,36 @@ Future
 Concentration
   = op:Concentration_Op _ species:Species {
     return {
-      name: 'Concentration',
-      children: [{op}, {species}]
+      tag: 'Concentration',
+      children: [op, species]
     }
   }
 
 Concentration_Op
   = "Concentration" {
     return {
-      name: 'Concentration_Op',
+      tag: 'Concentration_Op',
       children: []
     }
   }
 
 Species
-  = s:[a-zA-Z]+ {
+  = s:$[a-zA-Z]+ {
     return {
-      name: 'Species',
+      tag: 'Species',
       children: [{
-        name: s,
+        tag: s,
         children: []
       }]
     }
   }
 
-Rational
-  = n:[0-9]+ {
+Real
+  = n:$[0-9]+ {
     return {
-      name: 'Rational',
+      tag: 'Real',
       children: [{
-        name: n,
+        tag: n,
         children: []
       }]
     }

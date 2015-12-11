@@ -26,7 +26,7 @@ Blockly.Blocks['lbc_concentration'] = {
 
 Blockly.Blocks['lbc_future'] = {
   /**
-   * Block for global temporal modality.
+   * Block for future temporal modality.
    * @this Blockly.Block
    */
   init: function() {

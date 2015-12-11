@@ -45,7 +45,6 @@
       <td id="buttonArea">
           <button onclick="showExpression()">Show Expression</button>
           <button onclick="showParse()">Show Parse</button>
-          <button onclick="showAST()">Show AST</button>
           <button onclick="showLBC()">Show LBC</button>
       </td>
     </td>
@@ -107,19 +106,14 @@
       document.getElementById("code").innerHTML = str;
     }
 
-    function showAST() {
-      var code = Blockly.JavaScript.workspaceToCode(workspace);
+    function showLBC() {
+      var expression = Blockly.JavaScript.workspaceToCode(workspace);
       try {
-        //var str = JSON.stringify(expressionToAST(code)); tree structure is too deep for stringify
-        console.log(expressionToAST(code));
-        var str = "Check console (Ctrl+Shift+J).";
+        var str = expressionToLBC(expression);
       } catch (e) {
         var str = "These blocks don't form a complete expression yet.";
       }
       document.getElementById("code").innerHTML = str;
-    }
-
-    function showLBC() {
     }
   </script>
 </body>
