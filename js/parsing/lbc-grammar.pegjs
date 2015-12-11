@@ -20,8 +20,11 @@ Value
 Conditional_Op
   = op:$([!<>] "=" / [<>=]) {
     return {
-      tag: op,
-      children: []
+      tag: "Conditional_Op",
+      children: [{
+        tag: op,
+        children: []
+      }]
     }
   }
 
