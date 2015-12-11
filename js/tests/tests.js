@@ -31,9 +31,7 @@ QUnit.test("Greater Than operator parses as expected", function(assert) {
                 "tag": "Species",
                 "children": [
                   {
-                    "tag": [
-                      "X"
-                    ],
+                    "tag": "X",
                     "children": []
                   }
                 ]
@@ -48,9 +46,7 @@ QUnit.test("Greater Than operator parses as expected", function(assert) {
             "tag": "Real",
             "children": [
               {
-                "tag": [
-                  "5"
-                ],
+                "tag": "5",
                 "children": []
               }
             ]
@@ -87,9 +83,7 @@ QUnit.test( "Less Than operator functions as expected", function(assert) {
                 "tag": "Species",
                 "children": [
                   {
-                    "tag": [
-                      "X"
-                    ],
+                    "tag": "X",
                     "children": []
                   }
                 ]
@@ -104,9 +98,7 @@ QUnit.test( "Less Than operator functions as expected", function(assert) {
             "tag": "Real",
             "children": [
               {
-                "tag": [
-                  "5"
-                ],
+                "tag": "5",
                 "children": []
               }
             ]
@@ -143,9 +135,7 @@ QUnit.test("Equality operator parses as expected", function(assert) {
                 "tag": "Species",
                 "children": [
                   {
-                    "tag": [
-                      "X"
-                    ],
+                    "tag": "X",
                     "children": []
                   }
                 ]
@@ -160,9 +150,7 @@ QUnit.test("Equality operator parses as expected", function(assert) {
             "tag": "Real",
             "children": [
               {
-                "tag": [
-                  "5"
-                ],
+                "tag": "5",
                 "children": []
               }
             ]
@@ -199,9 +187,7 @@ QUnit.test( "Not Equal operator parses as expected", function(assert) {
                 "tag": "Species",
                 "children": [
                   {
-                    "tag": [
-                      "X"
-                    ],
+                    "tag": "X",
                     "children": []
                   }
                 ]
@@ -216,9 +202,7 @@ QUnit.test( "Not Equal operator parses as expected", function(assert) {
             "tag": "Real",
             "children": [
               {
-                "tag": [
-                  "5"
-                ],
+                "tag": "5",
                 "children": []
               }
             ]
@@ -255,9 +239,7 @@ QUnit.test("Greater Than or Equal To operator functions as expected", function(a
                 "tag": "Species",
                 "children": [
                   {
-                    "tag": [
-                      "X"
-                    ],
+                    "tag": "X",
                     "children": []
                   }
                 ]
@@ -272,9 +254,7 @@ QUnit.test("Greater Than or Equal To operator functions as expected", function(a
             "tag": "Real",
             "children": [
               {
-                "tag": [
-                  "5"
-                ],
+                "tag": "5",
                 "children": []
               }
             ]
@@ -311,9 +291,7 @@ QUnit.test("Less Than Or Equal operator parses as expected", function(assert) {
                 "tag": "Species",
                 "children": [
                   {
-                    "tag": [
-                      "X"
-                    ],
+                    "tag": "X",
                     "children": []
                   }
                 ]
@@ -328,9 +306,7 @@ QUnit.test("Less Than Or Equal operator parses as expected", function(assert) {
             "tag": "Real",
             "children": [
               {
-                "tag": [
-                  "5"
-                ],
+                "tag": "5",
                 "children": []
               }
             ]
