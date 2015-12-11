@@ -38,6 +38,21 @@ Blockly.Blocks['lbc_future'] = {
   }
 };
 
+Blockly.Blocks['lbc_global'] = {
+  /**
+   * Block for future temporal modality.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(10);
+    this.appendValueInput('EXPRESSION')
+        .setCheck('Boolean')
+        .appendField('It is always the case that');
+    this.setTooltip('');
+  }
+};
+
+
 Blockly.Blocks['lbc_compare'] = {
   /**
    * Block for comparison operator.
