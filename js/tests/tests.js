@@ -18,7 +18,7 @@ QUnit.test("Greater Than operator parses as expected", function(assert) {
         "children": []
       },
       {
-        "tag": "Conditional",
+        "tag": "Comparison",
         "children": [
           {
             "tag": "Concentration",
@@ -70,7 +70,7 @@ QUnit.test( "Less Than operator functions as expected", function(assert) {
         "children": []
       },
       {
-        "tag": "Conditional",
+        "tag": "Comparison",
         "children": [
           {
             "tag": "Concentration",
@@ -122,7 +122,7 @@ QUnit.test("Equality operator parses as expected", function(assert) {
         "children": []
       },
       {
-        "tag": "Conditional",
+        "tag": "Comparison",
         "children": [
           {
             "tag": "Concentration",
@@ -174,7 +174,7 @@ QUnit.test( "Not Equal operator parses as expected", function(assert) {
         "children": []
       },
       {
-        "tag": "Conditional",
+        "tag": "Comparison",
         "children": [
           {
             "tag": "Concentration",
@@ -226,7 +226,7 @@ QUnit.test("Greater Than or Equal To operator functions as expected", function(a
         "children": []
       },
       {
-        "tag": "Conditional",
+        "tag": "Comparison",
         "children": [
           {
             "tag": "Concentration",
@@ -278,7 +278,7 @@ QUnit.test("Less Than Or Equal operator parses as expected", function(assert) {
         "children": []
       },
       {
-        "tag": "Conditional",
+        "tag": "Comparison",
         "children": [
           {
             "tag": "Concentration",

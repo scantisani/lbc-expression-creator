@@ -1,15 +1,15 @@
 Expression
-  = temp:Temporal _ cond:Conditional {
+  = temp:Temporal _ cond:Comparison {
     return {
       tag: 'Expression',
       children: [temp, cond]
     }
   }
 
-Conditional
-  = v1:Value _ op:Conditional_Op _ v2:Value {
+Comparison
+  = v1:Value _ op:Comparison_Op _ v2:Value {
     return {
-      tag: 'Conditional',
+      tag: 'Comparison',
       children: [v1, op, v2]
     }
   }
@@ -17,10 +17,10 @@ Conditional
 Value
   = Concentration / Real
 
-Conditional_Op
+Comparison_Op
   = op:$([!<>] "=" / [<>=]) {
     return {
-      tag: "Conditional_Op",
+      tag: "Comparison_Op",
       children: [{
         tag: op,
         children: []
