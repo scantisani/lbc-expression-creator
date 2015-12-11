@@ -120,6 +120,13 @@
     }
 
     function showLBC() {
+      var expression = Blockly.JavaScript.workspaceToCode(workspace);
+      try {
+        var str = expressionToLBC(expression);
+      } catch (e) {
+        var str = "These blocks don't form a complete expression yet.";
+      }
+      document.getElementById("code").innerHTML = str;
     }
   </script>
 </body>
