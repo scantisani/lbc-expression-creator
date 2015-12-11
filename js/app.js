@@ -43,3 +43,8 @@ var treeToLBC = function(tree) {
       return '';
   }
 };
+
+var expressionToLBC = function(expression) {
+  var tree = parseExpression(expression);
+  return treeToLBC(tree);
+};
