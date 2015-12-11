@@ -38,6 +38,21 @@ Blockly.Blocks['lbc_future'] = {
   }
 };
 
+Blockly.Blocks['lbc_global'] = {
+  /**
+   * Block for future temporal modality.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(10);
+    this.appendValueInput('EXPRESSION')
+        .setCheck('Boolean')
+        .appendField('It is always the case that');
+    this.setTooltip('');
+  }
+};
+
+
 Blockly.Blocks['lbc_compare'] = {
   /**
    * Block for comparison operator.
@@ -60,5 +75,53 @@ Blockly.Blocks['lbc_compare'] = {
         .setCheck('Value')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
+  }
+};
+
+Blockly.Blocks['lbc_temporal_compare'] = {
+  /**
+   * Block for comparison with temporal drop-down menu.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var OPERATORS = [
+          ['equal to', 'EQ'],
+          ['not equal to', 'NEQ'],
+          ['less than', 'LT'],
+          ['less than or equal to', 'LTE'],
+          ['greater than', 'GT'],
+          ['greater than or equal to', 'GTE']
+        ];
+
+    var TEMP_MODALITIES = [
+          ['eventually', 'F'],
+          ['always', 'G']
+        ];
+
+    this.setColour(60);
+    this.setOutput(false);
+    this.appendValueInput('A')
+        .setCheck('Value');
+    this.appendDummyInput()
+        .appendField('is')
+        .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
+    this.appendValueInput('B')
+        .setCheck('Value')
+        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+    this.setInputsInline(true);
+  }
+};
+
+Blockly.Blocks['lbc_real'] = {
+  /**
+   * Block for real numbers.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(80);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput('0',
+        Blockly.FieldTextInput.numberValidator), 'NUM');
+    this.setOutput(true, 'Value');
   }
 };
