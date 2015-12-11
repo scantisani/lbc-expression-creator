@@ -39,8 +39,11 @@ QUnit.test("Greater Than operator parses as expected", function(assert) {
             ]
           },
           {
-            "tag": ">",
-            "children": []
+            "tag": 'Comparison_Op',
+            "children": [{
+              "tag": ">",
+              "children": []
+            }]
           },
           {
             "tag": "Real",
@@ -91,8 +94,11 @@ QUnit.test( "Less Than operator functions as expected", function(assert) {
             ]
           },
           {
-            "tag": "<",
-            "children": []
+            "tag": 'Comparison_Op',
+            "children": [{
+              "tag": "<",
+              "children": []
+            }]
           },
           {
             "tag": "Real",
@@ -143,8 +149,11 @@ QUnit.test("Equality operator parses as expected", function(assert) {
             ]
           },
           {
-            "tag": "=",
-            "children": []
+            "tag": 'Comparison_Op',
+            "children": [{
+              "tag": "=",
+              "children": []
+            }]
           },
           {
             "tag": "Real",
@@ -195,8 +204,11 @@ QUnit.test( "Not Equal operator parses as expected", function(assert) {
             ]
           },
           {
-            "tag": "!=",
-            "children": []
+            "tag": 'Comparison_Op',
+            "children": [{
+              "tag": "!=",
+              "children": []
+            }]
           },
           {
             "tag": "Real",
@@ -247,8 +259,11 @@ QUnit.test("Greater Than or Equal To operator functions as expected", function(a
             ]
           },
           {
-            "tag": ">=",
-            "children": []
+            "tag": 'Comparison_Op',
+            "children": [{
+              "tag": ">=",
+              "children": []
+            }]
           },
           {
             "tag": "Real",
@@ -299,8 +314,11 @@ QUnit.test("Less Than Or Equal operator parses as expected", function(assert) {
             ]
           },
           {
-            "tag": "<=",
-            "children": []
+            "tag": 'Comparison_Op',
+            "children": [{
+              "tag": "<=",
+              "children": []
+            }]
           },
           {
             "tag": "Real",
