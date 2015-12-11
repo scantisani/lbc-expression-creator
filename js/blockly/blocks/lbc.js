@@ -62,3 +62,17 @@ Blockly.Blocks['lbc_compare'] = {
     this.setInputsInline(true);
   }
 };
+
+Blockly.Blocks['lbc_real'] = {
+  /**
+   * Block for real numbers.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(80);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput('0',
+        Blockly.FieldTextInput.numberValidator), 'NUM');
+    this.setOutput(true, 'Value');
+  }
+};

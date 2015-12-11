@@ -43,3 +43,7 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
   return [code, order];
 };
 
+Blockly.JavaScript['lbc_real'] = function(block) {
+  var num = block.getFieldValue('NUM');
+  return [num, Blockly.JavaScript.ORDER_ATOMIC];
+};
