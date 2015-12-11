@@ -49,6 +49,35 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
   return [code, order];
 };
 
+Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
+  var OPERATORS = {
+    'EQ': '=',
+    'NEQ': '!=',
+    'LT': '<',
+    'LTE': '<=',
+    'GT': '>',
+    'GTE': '>='
+  };
+
+  var TEMP_MODALITIES = {
+    'F': 'Future',
+    'G': 'Global'
+  };
+
+  var operator = block.getFieldValue('OP');
+  var order = (operator == 'EQ' || operator == 'NEQ') ?
+      Blockly.JavaScript.ORDER_EQUALITY : Blockly.JavaScript.ORDER_RELATIONAL;
+  var argument0 = Blockly.JavaScript.valueToCode(block, 'A', order) || '0';
+  var argument1 = Blockly.JavaScript.valueToCode(block, 'B', order) || '0';
+  var temporal = block.getFieldValue('TEMP');
+
+  var comparison = OPERATORS[operator];
+  temporal = TEMP_MODALITIES[temporal];
+
+  var code = temporal + ' ' + argument0 + ' ' + comparison + ' ' + argument1;
+  return [code, order];
+};
+
 Blockly.JavaScript['lbc_real'] = function(block) {
   var num = block.getFieldValue('NUM');
   return [num, Blockly.JavaScript.ORDER_ATOMIC];

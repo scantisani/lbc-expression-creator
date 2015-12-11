@@ -78,6 +78,40 @@ Blockly.Blocks['lbc_compare'] = {
   }
 };
 
+Blockly.Blocks['lbc_temporal_compare'] = {
+  /**
+   * Block for comparison with temporal drop-down menu.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var OPERATORS = [
+          ['equal to', 'EQ'],
+          ['not equal to', 'NEQ'],
+          ['less than', 'LT'],
+          ['less than or equal to', 'LTE'],
+          ['greater than', 'GT'],
+          ['greater than or equal to', 'GTE']
+        ];
+
+    var TEMP_MODALITIES = [
+          ['eventually', 'F'],
+          ['always', 'G']
+        ];
+
+    this.setColour(60);
+    this.setOutput(false);
+    this.appendValueInput('A')
+        .setCheck('Value');
+    this.appendDummyInput()
+        .appendField('is')
+        .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
+    this.appendValueInput('B')
+        .setCheck('Value')
+        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+    this.setInputsInline(true);
+  }
+};
+
 Blockly.Blocks['lbc_real'] = {
   /**
    * Block for real numbers.
