@@ -22,23 +22,11 @@ QUnit.test("Tree for 'Future Concentration A > 0' is translated correctly", func
         "children": [
           {
             "tag": "Concentration",
-            "children": [
-              {
-                "tag": "Concentration_Op",
-                "children": []
-              },
-              {
-                "tag": "Species",
-                "value": "A"
-              }
-            ]
+            "value": "A"
           },
           {
             "tag": "Comparison_Op",
-            "children": [{
-              "tag": ">",
-              "children": []
-            }]
+            "value": ">"
           },
           {
             "tag": "Real",
