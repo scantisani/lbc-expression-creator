@@ -1,13 +1,3 @@
-require.config({
-  baseUrl: 'js/lib',
-  paths: {
-    parsing: '../parsing',
-    'app': '../app'
-  }
-});
-
-require(['parsing/lbc-parser', 'app']);
-
 QUnit.module("Syntax tree to LBC translation tests");
 QUnit.test("Tree for 'Future Concentration A > 0' is translated correctly", function(assert) {
   var tree = {
