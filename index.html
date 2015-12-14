@@ -112,9 +112,11 @@
     function showLBC() {
       var expression = Blockly.JavaScript.workspaceToCode(workspace);
       try {
-        var str = expressionToLBC(expression);
+        var tree = JSON.parse(expression);
+        var str = treeToLBC(tree);
       } catch (e) {
         var str = "These blocks don't form a complete expression yet.";
+        console.log(e.message);
       }
       document.getElementById("code").innerHTML = str;
     }
