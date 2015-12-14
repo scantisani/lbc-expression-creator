@@ -167,3 +167,38 @@ QUnit.test("Comparison is translated correctly", function(assert) {
 
   assert.equal(treeToLBC(tree), '[X] > 5');
 });
+
+QUnit.module("Block-to-tree tests");
+QUnit.test("Concentration block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+  // make a new Concentration block
+  var block = Blockly.Block.obtain(workspace, 'lbc_concentration');
+
+  // set the block's SPECIES input field value to 'A'
+  block.setFieldValue('A', 'SPECIES');
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(block)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  assert.deepEqual(tree, {tag: 'Concentration', value: 'A'});
+});
+
+QUnit.test("Real block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+  // make a new Real block
+  var block = Blockly.Block.obtain(workspace, 'lbc_real');
+
+  // set the block's NUM input field value to '15'
+  block.setFieldValue('15', 'NUM');
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(block)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  assert.deepEqual(tree, {tag: 'Real', value: '15'});
+});
