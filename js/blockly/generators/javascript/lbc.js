@@ -21,7 +21,7 @@ Blockly.JavaScript['lbc_concentration'] = function(block) {
 Blockly.JavaScript['lbc_future'] = function(block) {
   var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
   var code = '{' +
-    '"tag": "TempComp",' + 
+    '"tag": "TempComp",' +
     '"children": [' +
       '{"tag": "Future"},' +
       expression +
@@ -32,7 +32,7 @@ Blockly.JavaScript['lbc_future'] = function(block) {
 Blockly.JavaScript['lbc_global'] = function(block) {
   var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
   var code = '{' +
-    '"tag": "Expression",' + 
+    '"tag": "Expression",' +
     '"children": [' +
       '{"tag": "Global"},' +
       expression +
