@@ -13,7 +13,11 @@ var parseExpression = function(expression) {
 
 var treeToLBC = function(tree) {
   switch (tree.tag) {
-    case 'Expression':
+    case 'TempComp':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'TempMidComp':
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
