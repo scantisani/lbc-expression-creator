@@ -44,7 +44,6 @@
     <tr>
       <td id="buttonArea">
           <button onclick="showExpression()">Show Expression</button>
-          <button onclick="showParse()">Show Parse</button>
           <button onclick="showLBC()">Show LBC</button>
       </td>
     </td>
@@ -97,16 +96,6 @@
     function showExpression() {
       var code = Blockly.JavaScript.workspaceToCode(workspace);
       document.getElementById("code").innerHTML = code;
-    }
-
-    function showParse() {
-      var code = Blockly.JavaScript.workspaceToCode(workspace);
-      try {
-        var str = JSON.stringify(parseExpression(code));
-      } catch (e) {
-        var str = "These blocks don't form a complete expression yet.";
-      }
-      document.getElementById("code").innerHTML = str;
     }
 
     function showLBC() {
