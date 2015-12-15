@@ -134,11 +134,7 @@ Blockly.Blocks['lbc_fg_compare'] = {
   init: function() {
     var OPERATORS = [
           ['rises to and stays above', 'GT'],
-          ['rises to and stays above or equal to', 'GTE'],
-          ['rises to and remains equal to', 'EQ'],
-          ['drops to and stays below', 'LT'],
-          ['drops to and stays below or equal to', 'LTE'],
-          ['drops to and remains equal to', 'EQ']
+          ['drops to and stays below', 'LT']
         ];
 
     this.setColour(60);

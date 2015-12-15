@@ -111,11 +111,8 @@ Blockly.JavaScript['lbc_real'] = function(block) {
 
 Blockly.JavaScript['lbc_fg_compare'] = function(block) {
   var OPERATORS = {
-    'EQ': '=',
     'LT': '<',
-    'LTE': '<=',
     'GT': '>',
-    'GTE': '>='
   };
 
   var operator = block.getFieldValue('OP');
