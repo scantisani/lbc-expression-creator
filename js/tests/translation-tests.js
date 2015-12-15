@@ -163,7 +163,7 @@ QUnit.test("FGComp is translated correctly", function(assert) {
     tag: 'FGComp',
     children: [
       {
-        tag: 'Species',
+        tag: 'Concentration',
         value: 'A'
       },
       {
