@@ -125,3 +125,30 @@ Blockly.Blocks['lbc_real'] = {
     this.setOutput(true, 'Value');
   }
 };
+
+Blockly.Blocks['lbc_fg_compare'] = {
+  /**
+   * Block for F(G())-style expressions.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var OPERATORS = [
+          ['rises to and stays above', 'GT'],
+          ['rises to and stays above or equal to', 'GTE'],
+          ['rises to and remains equal to', 'EQ'],
+          ['drops to and stays below', 'LT'],
+          ['drops to and stays below or equal to', 'LTE'],
+          ['drops to and remains equal to', 'EQ']
+        ];
+
+    this.setColour(60);
+    this.appendDummyInput()
+        .appendField('The concentration of')
+        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+    this.appendValueInput('VALUE')
+        .setCheck('Value');
+    // this.setInputsInline(true);
+  }
+};

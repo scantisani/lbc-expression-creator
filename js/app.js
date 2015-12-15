@@ -12,6 +12,12 @@ var treeToLBC = function(tree) {
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'FGComp':
+      var species = tree.children[0];
+      var op = tree.children[1];
+      var value = tree.children[2];
+      return  'F(G([' + species.value + '] ' +
+              op.value + ' ' + treeToLBC(value) + '))';
     case 'Temporal':
       return treeToLBC(tree.children[0]);
     case 'Global':

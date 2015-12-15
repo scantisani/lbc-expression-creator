@@ -108,3 +108,30 @@ Blockly.JavaScript['lbc_real'] = function(block) {
   var code = '{"tag": "Real", "value": "' + num + '"}';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
+
+Blockly.JavaScript['lbc_fg_compare'] = function(block) {
+  var OPERATORS = {
+    'EQ': '=',
+    'LT': '<',
+    'LTE': '<=',
+    'GT': '>',
+    'GTE': '>='
+  };
+
+  var operator = block.getFieldValue('OP');
+  operator = OPERATORS[operator];
+  var species = block.getFieldValue('SPECIES');
+
+  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
+
+  var code = '{' +
+    '"tag": "FGComp",' +
+    '"children": [' +
+      '{"tag": "Species",' +
+      '"value": "' + species + '"},' +
+      '{"tag": "Comparison_Op",' +
+      '"value": "' + operator + '"},' +
+      value +
+    ']}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
