@@ -53,26 +53,6 @@ QUnit.test("Concentrations are translated correctly", function(assert) {
   assert.equal(treeToLBC(tree), '[phos]');
 });
 
-QUnit.test("Values are translated correctly", function(assert) {
-  var tree = {
-    tag: 'Value',
-    children: [{
-      tag: 'Concentration',
-      value: 'A'
-    }]
-  };
-  assert.equal(treeToLBC(tree), '[A]');
-
-  tree = {
-    tag: 'Value',
-    children: [{
-      tag: 'Real',
-      value: '15'
-    }]
-  };
-  assert.equal(treeToLBC(tree), '15');
-});
-
 QUnit.test("Comparison operators are translated correctly", function(assert) {
   var tree = {
     tag: 'Comparison_Op',

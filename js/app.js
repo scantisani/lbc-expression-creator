@@ -31,8 +31,6 @@ var treeToLBC = function(tree) {
       var op = tree.children[1];
       var v2 = tree.children[2];
       return treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2);
-    case 'Value':
-      return treeToLBC(tree.children[0]);
     case 'Concentration':
       return '[' + tree.value + ']';
     case 'Real':
