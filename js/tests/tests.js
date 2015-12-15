@@ -168,6 +168,29 @@ QUnit.test("Comparison is translated correctly", function(assert) {
   assert.equal(treeToLBC(tree), '[X] > 5');
 });
 
+QUnit.test("FGComp is translated correctly", function(assert) {
+  var tree = {
+    tag: 'FGComp',
+    children: [
+      {
+        tag: 'Species',
+        value: 'A'
+      },
+      {
+        tag: 'Comparison_Op',
+        value: '<'
+      },
+      {
+        tag: 'Real',
+        value: '5'
+      }
+    ]
+  };
+
+  assert.equal(treeToLBC(tree), 'F(G([A] < 5))');
+});
+
+
 QUnit.module("Block-to-tree tests");
 QUnit.test("Concentration block generates correct tree", function(assert) {
   var workspace = new Blockly.Workspace();
@@ -201,4 +224,44 @@ QUnit.test("Real block generates correct tree", function(assert) {
   var tree = JSON.parse(code);
 
   assert.deepEqual(tree, {tag: 'Real', value: '15'});
+});
+
+QUnit.test("FGComp block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+
+  // make a new FGComp block
+  var fgcomp = Blockly.Block.obtain(workspace, 'lbc_fg_compare');
+  // make a new Real block
+  var real = Blockly.Block.obtain(workspace, 'lbc_real');
+
+  // connect the two blocks
+  var fgcomp_connection = fgcomp.getInput('VALUE').connection;
+  var real_connection = real.outputConnection;
+  fgcomp_connection.connect(real_connection);
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(fgcomp)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  var expectedTree = {
+    tag: 'FGComp',
+    children: [
+      {
+        tag: 'Species',
+        value: ''
+      },
+      {
+        tag: 'Comparison_Op',
+        value: '>'
+      },
+      {
+        tag: 'Real',
+        value: '0'
+      }
+    ]
+  };
+
+  assert.deepEqual(tree, expectedTree);
 });
