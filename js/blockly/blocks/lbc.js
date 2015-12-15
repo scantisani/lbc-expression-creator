@@ -20,7 +20,7 @@ Blockly.Blocks['lbc_concentration'] = {
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.setTooltip('The concentration of a species.');
-    this.setOutput(true, 'Value');
+    this.setOutput(true, 'Concentration');
   }
 };
 
@@ -70,7 +70,7 @@ Blockly.Blocks['lbc_compare'] = {
     this.setColour(60);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
-        .setCheck('Value');
+        .setCheck(['Real', 'Concentration']);
     this.appendValueInput('B')
         .setCheck('Value')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
@@ -101,12 +101,12 @@ Blockly.Blocks['lbc_temporal_compare'] = {
     this.setColour(60);
     this.setOutput(false);
     this.appendValueInput('A')
-        .setCheck('Value');
+        .setCheck(['Concentration', 'Real']);
     this.appendDummyInput()
         .appendField('is')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
     this.appendValueInput('B')
-        .setCheck('Value')
+        .setCheck(['Concentration', 'Real'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
   }
@@ -122,7 +122,7 @@ Blockly.Blocks['lbc_real'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'NUM');
-    this.setOutput(true, 'Value');
+    this.setOutput(true, 'Real');
   }
 };
 
@@ -148,7 +148,7 @@ Blockly.Blocks['lbc_fg_compare'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.appendValueInput('VALUE')
-        .setCheck('Value');
+        .setCheck(['Concentration', 'Real']);
     // this.setInputsInline(true);
   }
 };
