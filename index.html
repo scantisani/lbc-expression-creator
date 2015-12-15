@@ -106,7 +106,7 @@
         var tree = JSON.parse(expression);
         var str = treeToLBC(tree);
       } catch (e) {
-        var str = "These blocks don't form a complete expression yet.";
+        var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
         console.log(e.message);
       }
       document.getElementById("code").innerHTML = str;
@@ -118,7 +118,7 @@
         var tree = JSON.parse(expression);
         var str = treeToEnglish(tree);
       } catch (e) {
-        var str = "These blocks don't form a complete expression yet.";
+        var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
         console.log(e.message);
       }
       document.getElementById("code").innerHTML = str;
