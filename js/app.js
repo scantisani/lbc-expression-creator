@@ -35,3 +35,58 @@ var treeToLBC = function(tree) {
       return '';
   }
 };
+
+var treeToEnglish = function(tree) {
+  switch (tree.tag) {
+    case 'TempComp':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      var sentence = treeToEnglish(concentration) +
+              ' is ' + treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
+              ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'Future':
+      return 'eventually';
+    case 'Global':
+      return 'always';
+    case 'Concentration':
+      return 'the concentration of ' + tree.value;
+    case 'Comparison_Op':
+      switch (tree.value) {
+        case '>':
+          return 'greater than';
+        case '>=':
+          return 'greater than or equal to';
+        case '<':
+          return 'less than';
+        case '<=':
+          return 'less than or equal to';
+        case '=':
+          return 'equal to';
+        case '!=':
+          return 'not equal to';
+        default:
+          return '';
+      }
+      break;
+    case 'Real':
+      return tree.value;
+    default:
+      return '';
+  }
+};
+
+var format = function(sentence) {
+  // Capitalize the first letter of the sentence
+  formattedSentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+  // Add a full stop at the end of the sentence
+  formattedSentence = formattedSentence + '.';
+
+  return formattedSentence;
+};
