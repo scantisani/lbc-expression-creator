@@ -1,7 +1,3 @@
-var parseExpression = function(expression) {
-  return parser.parse(expression);
-};
-
 var treeToLBC = function(tree) {
   switch (tree.tag) {
     case 'TempComp':
@@ -38,9 +34,4 @@ var treeToLBC = function(tree) {
     default:
       return '';
   }
-};
-
-var expressionToLBC = function(expression) {
-  var tree = parseExpression(expression);
-  return treeToLBC(tree);
 };
