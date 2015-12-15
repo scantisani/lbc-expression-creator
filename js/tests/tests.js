@@ -1,348 +1,7 @@
-require.config({
-  baseUrl: 'js/lib',
-  paths: {
-    parsing: '../parsing',
-    'app': '../app'
-  }
-});
-
-require(['parsing/lbc-parser', 'app']);
-
-QUnit.module("Operator parsing tests");
-QUnit.test("Greater Than operator parses as expected", function(assert) {
-  var tree = {
-    "tag": "Expression",
-    "children": [
-      {
-        "tag": "Future",
-        "children": []
-      },
-      {
-        "tag": "Comparison",
-        "children": [
-          {
-            "tag": "Concentration",
-            "children": [
-              {
-                "tag": "Concentration_Op",
-                "children": []
-              },
-              {
-                "tag": "Species",
-                "children": [
-                  {
-                    "tag": "X",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tag": 'Comparison_Op',
-            "children": [{
-              "tag": ">",
-              "children": []
-            }]
-          },
-          {
-            "tag": "Real",
-            "children": [
-              {
-                "tag": "5",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  };
-
-  // increase max depth so the diff is visible in case of error
-  QUnit.dump.maxDepth = 20;
-  assert.deepEqual(parseExpression('Future Concentration X > 5'), tree, "Expression 'Future Concentration X > 5' parses correctly");
-});
-
-QUnit.test( "Less Than operator functions as expected", function(assert) {
-  var tree = {
-    "tag": "Expression",
-    "children": [
-      {
-        "tag": "Future",
-        "children": []
-      },
-      {
-        "tag": "Comparison",
-        "children": [
-          {
-            "tag": "Concentration",
-            "children": [
-              {
-                "tag": "Concentration_Op",
-                "children": []
-              },
-              {
-                "tag": "Species",
-                "children": [
-                  {
-                    "tag": "X",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tag": 'Comparison_Op',
-            "children": [{
-              "tag": "<",
-              "children": []
-            }]
-          },
-          {
-            "tag": "Real",
-            "children": [
-              {
-                "tag": "5",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  };
-
-  // increase max depth so the diff is visible in case of error
-  QUnit.dump.maxDepth = 20;
-  assert.deepEqual(parseExpression('Future Concentration X < 5'), tree, "Expression 'Future Concentration X < 5' parses correctly");
-});
-
-QUnit.test("Equality operator parses as expected", function(assert) {
-  var tree = {
-    "tag": "Expression",
-    "children": [
-      {
-        "tag": "Future",
-        "children": []
-      },
-      {
-        "tag": "Comparison",
-        "children": [
-          {
-            "tag": "Concentration",
-            "children": [
-              {
-                "tag": "Concentration_Op",
-                "children": []
-              },
-              {
-                "tag": "Species",
-                "children": [
-                  {
-                    "tag": "X",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tag": 'Comparison_Op',
-            "children": [{
-              "tag": "=",
-              "children": []
-            }]
-          },
-          {
-            "tag": "Real",
-            "children": [
-              {
-                "tag": "5",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  };
-
-  // increase max depth so the diff is visible in case of error
-  QUnit.dump.maxDepth = 20;
-  assert.deepEqual(parseExpression('Future Concentration X = 5'), tree, "Expression 'Future Concentration X = 5' parses correctly");
-});
-
-QUnit.test( "Not Equal operator parses as expected", function(assert) {
-  var tree = {
-    "tag": "Expression",
-    "children": [
-      {
-        "tag": "Future",
-        "children": []
-      },
-      {
-        "tag": "Comparison",
-        "children": [
-          {
-            "tag": "Concentration",
-            "children": [
-              {
-                "tag": "Concentration_Op",
-                "children": []
-              },
-              {
-                "tag": "Species",
-                "children": [
-                  {
-                    "tag": "X",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tag": 'Comparison_Op',
-            "children": [{
-              "tag": "!=",
-              "children": []
-            }]
-          },
-          {
-            "tag": "Real",
-            "children": [
-              {
-                "tag": "5",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  };
-
-  // increase max depth so the diff is visible in case of error
-  QUnit.dump.maxDepth = 20;
-  assert.deepEqual(parseExpression('Future Concentration X != 5'), tree, "Expression 'Future Concentration X != 5' parses correctly");
-});
-
-QUnit.test("Greater Than or Equal To operator functions as expected", function(assert) {
-  var tree = {
-    "tag": "Expression",
-    "children": [
-      {
-        "tag": "Future",
-        "children": []
-      },
-      {
-        "tag": "Comparison",
-        "children": [
-          {
-            "tag": "Concentration",
-            "children": [
-              {
-                "tag": "Concentration_Op",
-                "children": []
-              },
-              {
-                "tag": "Species",
-                "children": [
-                  {
-                    "tag": "X",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tag": 'Comparison_Op',
-            "children": [{
-              "tag": ">=",
-              "children": []
-            }]
-          },
-          {
-            "tag": "Real",
-            "children": [
-              {
-                "tag": "5",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  };
-
-  // increase max depth so the diff is visible in case of error
-  QUnit.dump.maxDepth = 20;
-  assert.deepEqual(parseExpression('Future Concentration X >= 5'), tree, "Expression 'Future Concentration X >= 5' parses correctly");
-});
-
-QUnit.test("Less Than Or Equal operator parses as expected", function(assert) {
-  var tree = {
-    "tag": "Expression",
-    "children": [
-      {
-        "tag": "Future",
-        "children": []
-      },
-      {
-        "tag": "Comparison",
-        "children": [
-          {
-            "tag": "Concentration",
-            "children": [
-              {
-                "tag": "Concentration_Op",
-                "children": []
-              },
-              {
-                "tag": "Species",
-                "children": [
-                  {
-                    "tag": "X",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "tag": 'Comparison_Op',
-            "children": [{
-              "tag": "<=",
-              "children": []
-            }]
-          },
-          {
-            "tag": "Real",
-            "children": [
-              {
-                "tag": "5",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  };
-
-  // increase max depth so the diff is visible in case of error
-  QUnit.dump.maxDepth = 20;
-  assert.deepEqual(parseExpression('Future Concentration X <= 5'), tree, "Expression 'Future Concentration X <= 5' parses correctly");
-});
-
 QUnit.module("Syntax tree to LBC translation tests");
 QUnit.test("Tree for 'Future Concentration A > 0' is translated correctly", function(assert) {
   var tree = {
-    "tag": "Expression",
+    "tag": "TempComp",
     "children": [
       {
         "tag": "Future",
@@ -353,37 +12,15 @@ QUnit.test("Tree for 'Future Concentration A > 0' is translated correctly", func
         "children": [
           {
             "tag": "Concentration",
-            "children": [
-              {
-                "tag": "Concentration_Op",
-                "children": []
-              },
-              {
-                "tag": "Species",
-                "children": [
-                  {
-                    "tag": "A",
-                    "children": []
-                  }
-                ]
-              }
-            ]
+            "value": "A"
           },
           {
             "tag": "Comparison_Op",
-            "children": [{
-              "tag": ">",
-              "children": []
-            }]
+            "value": ">"
           },
           {
             "tag": "Real",
-            "children": [
-              {
-                "tag": "0",
-                "children": []
-              }
-            ]
+            "value": "0"
           }
         ]
       }
@@ -396,12 +33,7 @@ QUnit.test("Tree for 'Future Concentration A > 0' is translated correctly", func
 QUnit.test("Real values are translated correctly", function(assert) {
   var tree = {
     "tag": "Real",
-    "children": [
-      {
-        "tag": "5",
-        "children": []
-      }
-    ]
+    "value": "5"
   };
 
   assert.equal(treeToLBC(tree), '5');
@@ -410,41 +42,13 @@ QUnit.test("Real values are translated correctly", function(assert) {
 QUnit.test("Concentrations are translated correctly", function(assert) {
   var tree = {
     "tag": "Concentration",
-    "children": [
-      {
-        "tag": "Concentration_Op",
-        "children": []
-      },
-      {
-        "tag": "Species",
-        "children": [
-          {
-            "tag": "A",
-            "children": []
-          }
-        ]
-      }
-    ]
+    "value": "A"
   };
   assert.equal(treeToLBC(tree), '[A]');
 
   tree = {
     "tag": "Concentration",
-    "children": [
-      {
-        "tag": "Concentration_Op",
-        "children": []
-      },
-      {
-        "tag": "Species",
-        "children": [
-          {
-            "tag": "phos",
-            "children": []
-          }
-        ]
-      }
-    ]
+    "value": "phos"
   };
   assert.equal(treeToLBC(tree), '[phos]');
 });
@@ -454,21 +58,7 @@ QUnit.test("Values are translated correctly", function(assert) {
     "tag": "Value",
     "children": [{
       "tag": "Concentration",
-      "children": [
-        {
-          "tag": "Concentration_Op",
-          "children": []
-        },
-        {
-          "tag": "Species",
-          "children": [
-            {
-              "tag": "A",
-              "children": []
-            }
-          ]
-        }
-      ]
+      "value": "A"
     }]
   };
   assert.equal(treeToLBC(tree), '[A]');
@@ -477,12 +67,7 @@ QUnit.test("Values are translated correctly", function(assert) {
     "tag": "Value",
     "children": [{
       "tag": "Real",
-      "children": [
-        {
-          "tag": "15",
-          "children": []
-        }
-      ]
+      "value": "15"
     }]
   };
   assert.equal(treeToLBC(tree), '15');
@@ -491,55 +76,37 @@ QUnit.test("Values are translated correctly", function(assert) {
 QUnit.test("Comparison operators are translated correctly", function(assert) {
   var tree = {
     "tag": "Comparison_Op",
-    "children": [{
-      "tag": ">",
-      "children": []
-    }]
+    "value": ">"
   };
   assert.equal(treeToLBC(tree), '>');
 
   tree = {
     "tag": "Comparison_Op",
-    "children": [{
-      "tag": "<",
-      "children": []
-    }]
+    "value": "<"
   };
   assert.equal(treeToLBC(tree), '<');
 
   tree = {
     "tag": "Comparison_Op",
-    "children": [{
-      "tag": "=",
-      "children": []
-    }]
+    "value": "="
   };
   assert.equal(treeToLBC(tree), '=');
 
   tree = {
     "tag": "Comparison_Op",
-    "children": [{
-      "tag": ">=",
-      "children": []
-    }]
+    "value": ">="
   };
   assert.equal(treeToLBC(tree), '>=');
 
   tree = {
     "tag": "Comparison_Op",
-    "children": [{
-      "tag": "<=",
-      "children": []
-    }]
+    "value": "<="
   };
   assert.equal(treeToLBC(tree), '<=');
 
   tree = {
     "tag": "Comparison_Op",
-    "children": [{
-      "tag": "!=",
-      "children": []
-    }]
+    "value": "!="
   };
   assert.equal(treeToLBC(tree), '!=');
 
@@ -547,8 +114,7 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
 
 QUnit.test("Global is translated correctly", function(assert) {
   var tree = {
-    "tag": "Global",
-    "children": []
+    "tag": "Global"
   };
 
   assert.equal(treeToLBC(tree), 'G');
@@ -556,8 +122,7 @@ QUnit.test("Global is translated correctly", function(assert) {
 
 QUnit.test("Future is translated correctly", function(assert) {
   var tree = {
-    "tag": "Future",
-    "children": []
+    "tag": "Future"
   };
 
   assert.equal(treeToLBC(tree), 'F');
@@ -567,8 +132,7 @@ QUnit.test("Temporal is translated correctly", function(assert) {
   var tree = {
     "tag": "Temporal",
     "children": [{
-      "tag": "Future",
-      "children": []
+      "tag": "Future"
     }]
   };
   assert.equal(treeToLBC(tree), 'F');
@@ -576,8 +140,7 @@ QUnit.test("Temporal is translated correctly", function(assert) {
   tree = {
     "tag": "Temporal",
     "children": [{
-      "tag": "Global",
-      "children": []
+      "tag": "Global"
     }]
   };
   assert.equal(treeToLBC(tree), 'G');
@@ -589,40 +152,53 @@ QUnit.test("Comparison is translated correctly", function(assert) {
     "children": [
       {
         "tag": "Concentration",
-        "children": [
-          {
-            "tag": "Concentration_Op",
-            "children": []
-          },
-          {
-            "tag": "Species",
-            "children": [
-              {
-                "tag": "X",
-                "children": []
-              }
-            ]
-          }
-        ]
+        "value": "X"
       },
       {
         "tag": 'Comparison_Op',
-        "children": [{
-          "tag": ">",
-          "children": []
-        }]
+        "value": ">"
       },
       {
         "tag": "Real",
-        "children": [
-          {
-            "tag": "5",
-            "children": []
-          }
-        ]
+        "value": "5"
       }
     ]
   };
 
   assert.equal(treeToLBC(tree), '[X] > 5');
+});
+
+QUnit.module("Block-to-tree tests");
+QUnit.test("Concentration block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+  // make a new Concentration block
+  var block = Blockly.Block.obtain(workspace, 'lbc_concentration');
+
+  // set the block's SPECIES input field value to 'A'
+  block.setFieldValue('A', 'SPECIES');
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(block)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  assert.deepEqual(tree, {tag: 'Concentration', value: 'A'});
+});
+
+QUnit.test("Real block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+  // make a new Real block
+  var block = Blockly.Block.obtain(workspace, 'lbc_real');
+
+  // set the block's NUM input field value to '15'
+  block.setFieldValue('15', 'NUM');
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(block)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  assert.deepEqual(tree, {tag: 'Real', value: '15'});
 });

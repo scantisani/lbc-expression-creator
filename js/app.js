@@ -1,22 +1,17 @@
-requirejs.config({
-  baseUrl: 'js/lib',
-  paths: {
-    parsing: '../parsing'
-  }
-});
-
-require(['parsing/lbc-parser']);
-
 var parseExpression = function(expression) {
   return parser.parse(expression);
 };
 
 var treeToLBC = function(tree) {
   switch (tree.tag) {
-    case 'Expression':
+    case 'TempComp':
       var temp = tree.children[0];
-      var cond = tree.children[1];
-      return treeToLBC(temp) + '(' + treeToLBC(cond) + ')';
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'TempMidComp':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
     case 'Temporal':
       return treeToLBC(tree.children[0]);
     case 'Global':
@@ -24,7 +19,7 @@ var treeToLBC = function(tree) {
     case 'Future':
       return 'F';
     case 'Comparison_Op':
-      return tree.children[0].tag;
+      return tree.value;
     case 'Comparison':
       var v1 = tree.children[0];
       var op = tree.children[1];
@@ -33,12 +28,9 @@ var treeToLBC = function(tree) {
     case 'Value':
       return treeToLBC(tree.children[0]);
     case 'Concentration':
-      var species = tree.children[1];
-      return '[' + treeToLBC(species) + ']';
-    case 'Species':
-      return tree.children[0].tag;
+      return '[' + tree.value + ']';
     case 'Real':
-      return tree.children[0].tag;
+      return tree.value;
     default:
       return '';
   }

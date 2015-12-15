@@ -10,7 +10,7 @@
 
   <script src="js/blockly/blocks/lbc.js"></script>
   <script src="js/blockly/generators/javascript/lbc.js"></script>
-  <script data-main='js/app.js' src='js/lib/require.js'></script>
+  <script src='js/app.js'></script>
   <style>
     html, body {
       height: 100%;
@@ -44,7 +44,6 @@
     <tr>
       <td id="buttonArea">
           <button onclick="showExpression()">Show Expression</button>
-          <button onclick="showParse()">Show Parse</button>
           <button onclick="showLBC()">Show LBC</button>
       </td>
     </td>
@@ -99,22 +98,14 @@
       document.getElementById("code").innerHTML = code;
     }
 
-    function showParse() {
-      var code = Blockly.JavaScript.workspaceToCode(workspace);
-      try {
-        var str = JSON.stringify(parseExpression(code));
-      } catch (e) {
-        var str = "These blocks don't form a complete expression yet.";
-      }
-      document.getElementById("code").innerHTML = str;
-    }
-
     function showLBC() {
       var expression = Blockly.JavaScript.workspaceToCode(workspace);
       try {
-        var str = expressionToLBC(expression);
+        var tree = JSON.parse(expression);
+        var str = treeToLBC(tree);
       } catch (e) {
         var str = "These blocks don't form a complete expression yet.";
+        console.log(e.message);
       }
       document.getElementById("code").innerHTML = str;
     }
