@@ -45,6 +45,7 @@
       <td id="buttonArea">
           <button onclick="showExpression()">Show Expression</button>
           <button onclick="showLBC()">Show LBC</button>
+          <button onclick="showEnglish()">Show English</button>
       </td>
     </td>
     <tr>
@@ -104,6 +105,18 @@
       try {
         var tree = JSON.parse(expression);
         var str = treeToLBC(tree);
+      } catch (e) {
+        var str = "These blocks don't form a complete expression yet.";
+        console.log(e.message);
+      }
+      document.getElementById("code").innerHTML = str;
+    }
+
+    function showEnglish() {
+      var expression = Blockly.JavaScript.workspaceToCode(workspace);
+      try {
+        var tree = JSON.parse(expression);
+        var str = treeToEnglish(tree);
       } catch (e) {
         var str = "These blocks don't form a complete expression yet.";
         console.log(e.message);
