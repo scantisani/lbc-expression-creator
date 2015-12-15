@@ -148,6 +148,36 @@ QUnit.test("Comparison is translated correctly", function(assert) {
   assert.equal(treeToLBC(tree), '[X] > 5');
 });
 
+QUnit.test("TempMidComp is translated correctly", function(assert) {
+  var tree = {
+    tag: 'TempMidComp',
+    children: [{
+      tag: 'Future'
+    },
+    {
+      tag: 'Comparison',
+      children: [
+        {
+          tag: 'Concentration',
+          value: 'A'
+        },
+        {
+          tag: 'Comparison_Op',
+          value: '>'
+        },
+        {
+          tag: 'Real',
+          value: '5'
+        }
+      ]
+    }]
+  };
+
+
+  assert.equal(treeToLBC(tree), 'F([A] > 5)');
+});
+
+
 QUnit.test("FGComp is translated correctly", function(assert) {
   var tree = {
     tag: 'FGComp',
@@ -247,6 +277,60 @@ QUnit.test("Comparison block generates correct tree", function(assert) {
         value: '5'
       }
     ]
+  };
+
+  assert.deepEqual(tree, expectedTree);
+});
+
+QUnit.test("TempMidComp block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+
+  // make a new TempMidComp block
+  var comp = Blockly.Block.obtain(workspace, 'lbc_temporal_compare');
+  // make a new Real block
+  var real = Blockly.Block.obtain(workspace, 'lbc_real');
+
+  // connect the two blocks
+  var comp_connection = comp.getInput('VALUE').connection;
+  var real_connection = real.outputConnection;
+  comp_connection.connect(real_connection);
+
+  // set the Comparison block's OP dropdown to 'GT' (greater than)
+  comp.setFieldValue('GT', 'OP');
+  // set the Comparison block's TEMP dropdown to 'F' (eventually/future)
+  comp.setFieldValue('F', 'TEMP');
+
+  // set the Real block's NUM input field value to '15'
+  real.setFieldValue('5', 'NUM');
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(comp)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  var expectedTree = {
+    tag: 'TempMidComp',
+    children: [{
+      tag: 'Future'
+    },
+    {
+      tag: 'Comparison',
+      children: [
+        {
+          tag: 'Concentration',
+          value: ''
+        },
+        {
+          tag: 'Comparison_Op',
+          value: '>'
+        },
+        {
+          tag: 'Real',
+          value: '5'
+        }
+      ]
+    }]
   };
 
   assert.deepEqual(tree, expectedTree);

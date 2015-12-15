@@ -101,12 +101,13 @@ Blockly.Blocks['lbc_temporal_compare'] = {
 
     this.setColour(60);
     this.setOutput(false);
-    this.appendValueInput('A')
-        .setCheck(['Concentration', 'Real']);
+    this.appendDummyInput()
+        .appendField('The concentration of')
+        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.appendDummyInput()
         .appendField('is')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
-    this.appendValueInput('B')
+    this.appendValueInput('VALUE')
         .setCheck(['Concentration', 'Real'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);

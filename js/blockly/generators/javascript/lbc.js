@@ -81,10 +81,10 @@ Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
     'G': 'Global'
   };
 
+  var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
   var temporal = block.getFieldValue('TEMP');
-  var argument0 = Blockly.JavaScript.valueToCode(block, 'A', Blockly.JavaScript.ORDER_NONE) || '';
-  var argument1 = Blockly.JavaScript.valueToCode(block, 'B', Blockly.JavaScript.ORDER_NONE) || '';
+  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
 
   operator = OPERATORS[operator];
   temporal = TEMP_MODALITIES[temporal];
@@ -95,9 +95,9 @@ Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
       '{"tag": "' + temporal + '"},' +
       '{"tag": "Comparison",' +
         '"children": [' +
-          argument0 + ',' +
+          '{"tag": "Concentration", "value": "' + species + '"},' +
           '{"tag": "Comparison_Op", "value": "' + operator + '"},' +
-          argument1 +
+          value +
       ']}' +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
