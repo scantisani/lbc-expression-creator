@@ -50,18 +50,18 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
     'GTE': '>='
   };
 
+  var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
-  var argument0 = Blockly.JavaScript.valueToCode(block, 'A', Blockly.JavaScript.ORDER_NONE) || '';
-  var argument1 = Blockly.JavaScript.valueToCode(block, 'B', Blockly.JavaScript.ORDER_NONE) || '';
+  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
 
   var comparison = OPERATORS[operator];
 
   var code = '{' +
     '"tag": "Comparison",' +
     '"children": [' +
-      argument0 + ',' +
+      '{"tag": "Concentration", "value": "' + species + '"},' +
       '{"tag": "Comparison_Op", "value": "' + comparison + '"},' +
-      argument1 +
+      value +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

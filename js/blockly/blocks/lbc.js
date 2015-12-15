@@ -69,9 +69,10 @@ Blockly.Blocks['lbc_compare'] = {
         ];
     this.setColour(60);
     this.setOutput(true, 'Boolean');
-    this.appendValueInput('A')
-        .setCheck(['Real', 'Concentration']);
-    this.appendValueInput('B')
+    this.appendDummyInput()
+        .appendField('the concentration of')
+        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
+    this.appendValueInput('VALUE')
         .setCheck(['Real', 'Concentration'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
