@@ -1,26 +1,26 @@
 QUnit.module("Syntax tree to LBC translation tests");
 QUnit.test("Tree for 'Future Concentration A > 0' is translated correctly", function(assert) {
   var tree = {
-    "tag": "TempComp",
-    "children": [
+    tag: 'TempComp',
+    children: [
       {
-        "tag": "Future",
-        "children": []
+        tag: 'Future',
+        children: []
       },
       {
-        "tag": "Comparison",
-        "children": [
+        tag: 'Comparison',
+        children: [
           {
-            "tag": "Concentration",
-            "value": "A"
+            tag: 'Concentration',
+            value: 'A'
           },
           {
-            "tag": "Comparison_Op",
-            "value": ">"
+            tag: 'Comparison_Op',
+            value: '>'
           },
           {
-            "tag": "Real",
-            "value": "0"
+            tag: 'Real',
+            value: '0'
           }
         ]
       }
@@ -32,8 +32,8 @@ QUnit.test("Tree for 'Future Concentration A > 0' is translated correctly", func
 
 QUnit.test("Real values are translated correctly", function(assert) {
   var tree = {
-    "tag": "Real",
-    "value": "5"
+    tag: 'Real',
+    value: '5'
   };
 
   assert.equal(treeToLBC(tree), '5');
@@ -41,33 +41,33 @@ QUnit.test("Real values are translated correctly", function(assert) {
 
 QUnit.test("Concentrations are translated correctly", function(assert) {
   var tree = {
-    "tag": "Concentration",
-    "value": "A"
+    tag: 'Concentration',
+    value: 'A'
   };
   assert.equal(treeToLBC(tree), '[A]');
 
   tree = {
-    "tag": "Concentration",
-    "value": "phos"
+    tag: 'Concentration',
+    value: 'phos'
   };
   assert.equal(treeToLBC(tree), '[phos]');
 });
 
 QUnit.test("Values are translated correctly", function(assert) {
   var tree = {
-    "tag": "Value",
-    "children": [{
-      "tag": "Concentration",
-      "value": "A"
+    tag: 'Value',
+    children: [{
+      tag: 'Concentration',
+      value: 'A'
     }]
   };
   assert.equal(treeToLBC(tree), '[A]');
 
   tree = {
-    "tag": "Value",
-    "children": [{
-      "tag": "Real",
-      "value": "15"
+    tag: 'Value',
+    children: [{
+      tag: 'Real',
+      value: '15'
     }]
   };
   assert.equal(treeToLBC(tree), '15');
@@ -75,38 +75,38 @@ QUnit.test("Values are translated correctly", function(assert) {
 
 QUnit.test("Comparison operators are translated correctly", function(assert) {
   var tree = {
-    "tag": "Comparison_Op",
-    "value": ">"
+    tag: 'Comparison_Op',
+    value: '>'
   };
   assert.equal(treeToLBC(tree), '>');
 
   tree = {
-    "tag": "Comparison_Op",
-    "value": "<"
+    tag: 'Comparison_Op',
+    value: '<'
   };
   assert.equal(treeToLBC(tree), '<');
 
   tree = {
-    "tag": "Comparison_Op",
-    "value": "="
+    tag: 'Comparison_Op',
+    value: '='
   };
   assert.equal(treeToLBC(tree), '=');
 
   tree = {
-    "tag": "Comparison_Op",
-    "value": ">="
+    tag: 'Comparison_Op',
+    value: '>='
   };
   assert.equal(treeToLBC(tree), '>=');
 
   tree = {
-    "tag": "Comparison_Op",
-    "value": "<="
+    tag: 'Comparison_Op',
+    value: '<='
   };
   assert.equal(treeToLBC(tree), '<=');
 
   tree = {
-    "tag": "Comparison_Op",
-    "value": "!="
+    tag: 'Comparison_Op',
+    value: '!='
   };
   assert.equal(treeToLBC(tree), '!=');
 
@@ -114,7 +114,7 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
 
 QUnit.test("Global is translated correctly", function(assert) {
   var tree = {
-    "tag": "Global"
+    tag: 'Global'
   };
 
   assert.equal(treeToLBC(tree), 'G');
@@ -122,7 +122,7 @@ QUnit.test("Global is translated correctly", function(assert) {
 
 QUnit.test("Future is translated correctly", function(assert) {
   var tree = {
-    "tag": "Future"
+    tag: 'Future'
   };
 
   assert.equal(treeToLBC(tree), 'F');
@@ -130,17 +130,17 @@ QUnit.test("Future is translated correctly", function(assert) {
 
 QUnit.test("Temporal is translated correctly", function(assert) {
   var tree = {
-    "tag": "Temporal",
-    "children": [{
-      "tag": "Future"
+    tag: 'Temporal',
+    children: [{
+      tag: 'Future'
     }]
   };
   assert.equal(treeToLBC(tree), 'F');
 
   tree = {
-    "tag": "Temporal",
-    "children": [{
-      "tag": "Global"
+    tag: 'Temporal',
+    children: [{
+      tag: 'Global'
     }]
   };
   assert.equal(treeToLBC(tree), 'G');
@@ -148,25 +148,48 @@ QUnit.test("Temporal is translated correctly", function(assert) {
 
 QUnit.test("Comparison is translated correctly", function(assert) {
   var tree = {
-    "tag": "Comparison",
-    "children": [
+    tag: 'Comparison',
+    children: [
       {
-        "tag": "Concentration",
-        "value": "X"
+        tag: 'Concentration',
+        value: 'X'
       },
       {
-        "tag": 'Comparison_Op',
-        "value": ">"
+        tag: 'Comparison_Op',
+        value: '>'
       },
       {
-        "tag": "Real",
-        "value": "5"
+        tag: 'Real',
+        value: '5'
       }
     ]
   };
 
   assert.equal(treeToLBC(tree), '[X] > 5');
 });
+
+QUnit.test("FGComp is translated correctly", function(assert) {
+  var tree = {
+    tag: 'FGComp',
+    children: [
+      {
+        tag: 'Species',
+        value: 'A'
+      },
+      {
+        tag: 'Comparison_Op',
+        value: '<'
+      },
+      {
+        tag: 'Real',
+        value: '5'
+      }
+    ]
+  };
+
+  assert.equal(treeToLBC(tree), 'F(G([A] < 5))');
+});
+
 
 QUnit.module("Block-to-tree tests");
 QUnit.test("Concentration block generates correct tree", function(assert) {
@@ -201,4 +224,44 @@ QUnit.test("Real block generates correct tree", function(assert) {
   var tree = JSON.parse(code);
 
   assert.deepEqual(tree, {tag: 'Real', value: '15'});
+});
+
+QUnit.test("FGComp block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+
+  // make a new FGComp block
+  var fgcomp = Blockly.Block.obtain(workspace, 'lbc_fg_compare');
+  // make a new Real block
+  var real = Blockly.Block.obtain(workspace, 'lbc_real');
+
+  // connect the two blocks
+  var fgcomp_connection = fgcomp.getInput('VALUE').connection;
+  var real_connection = real.outputConnection;
+  fgcomp_connection.connect(real_connection);
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(fgcomp)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  var expectedTree = {
+    tag: 'FGComp',
+    children: [
+      {
+        tag: 'Species',
+        value: ''
+      },
+      {
+        tag: 'Comparison_Op',
+        value: '>'
+      },
+      {
+        tag: 'Real',
+        value: '0'
+      }
+    ]
+  };
+
+  assert.deepEqual(tree, expectedTree);
 });
