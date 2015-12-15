@@ -19,8 +19,8 @@ Blockly.Blocks['lbc_concentration'] = {
     this.appendDummyInput()
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
-    this.setTooltip('The concentration of a species.');
-    this.setOutput(true, 'Value');
+    this.setTooltip('the concentration of a species.');
+    this.setOutput(true, 'Concentration');
   }
 };
 
@@ -69,10 +69,11 @@ Blockly.Blocks['lbc_compare'] = {
         ];
     this.setColour(60);
     this.setOutput(true, 'Boolean');
-    this.appendValueInput('A')
-        .setCheck('Value');
-    this.appendValueInput('B')
-        .setCheck('Value')
+    this.appendDummyInput()
+        .appendField('the concentration of')
+        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
+    this.appendValueInput('VALUE')
+        .setCheck(['Real', 'Concentration'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
   }
@@ -100,13 +101,14 @@ Blockly.Blocks['lbc_temporal_compare'] = {
 
     this.setColour(60);
     this.setOutput(false);
-    this.appendValueInput('A')
-        .setCheck('Value');
+    this.appendDummyInput()
+        .appendField('The concentration of')
+        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.appendDummyInput()
         .appendField('is')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
-    this.appendValueInput('B')
-        .setCheck('Value')
+    this.appendValueInput('VALUE')
+        .setCheck(['Concentration', 'Real'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
   }
@@ -122,7 +124,7 @@ Blockly.Blocks['lbc_real'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'NUM');
-    this.setOutput(true, 'Value');
+    this.setOutput(true, 'Real');
   }
 };
 
@@ -134,11 +136,7 @@ Blockly.Blocks['lbc_fg_compare'] = {
   init: function() {
     var OPERATORS = [
           ['rises to and stays above', 'GT'],
-          ['rises to and stays above or equal to', 'GTE'],
-          ['rises to and remains equal to', 'EQ'],
-          ['drops to and stays below', 'LT'],
-          ['drops to and stays below or equal to', 'LTE'],
-          ['drops to and remains equal to', 'EQ']
+          ['drops to and stays below', 'LT']
         ];
 
     this.setColour(60);
@@ -146,9 +144,10 @@ Blockly.Blocks['lbc_fg_compare'] = {
         .appendField('The concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.appendDummyInput()
+        .appendField('eventually')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.appendValueInput('VALUE')
-        .setCheck('Value');
+        .setCheck(['Concentration', 'Real']);
     // this.setInputsInline(true);
   }
 };

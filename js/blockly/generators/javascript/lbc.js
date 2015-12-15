@@ -32,7 +32,7 @@ Blockly.JavaScript['lbc_future'] = function(block) {
 Blockly.JavaScript['lbc_global'] = function(block) {
   var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
   var code = '{' +
-    '"tag": "Expression",' +
+    '"tag": "TempComp",' +
     '"children": [' +
       '{"tag": "Global"},' +
       expression +
@@ -50,18 +50,18 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
     'GTE': '>='
   };
 
+  var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
-  var argument0 = Blockly.JavaScript.valueToCode(block, 'A', Blockly.JavaScript.ORDER_NONE) || '';
-  var argument1 = Blockly.JavaScript.valueToCode(block, 'B', Blockly.JavaScript.ORDER_NONE) || '';
+  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
 
   var comparison = OPERATORS[operator];
 
   var code = '{' +
     '"tag": "Comparison",' +
     '"children": [' +
-      argument0 + ',' +
+      '{"tag": "Concentration", "value": "' + species + '"},' +
       '{"tag": "Comparison_Op", "value": "' + comparison + '"},' +
-      argument1 +
+      value +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -81,10 +81,10 @@ Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
     'G': 'Global'
   };
 
+  var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
   var temporal = block.getFieldValue('TEMP');
-  var argument0 = Blockly.JavaScript.valueToCode(block, 'A', Blockly.JavaScript.ORDER_NONE) || '';
-  var argument1 = Blockly.JavaScript.valueToCode(block, 'B', Blockly.JavaScript.ORDER_NONE) || '';
+  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
 
   operator = OPERATORS[operator];
   temporal = TEMP_MODALITIES[temporal];
@@ -95,9 +95,9 @@ Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
       '{"tag": "' + temporal + '"},' +
       '{"tag": "Comparison",' +
         '"children": [' +
-          argument0 + ',' +
+          '{"tag": "Concentration", "value": "' + species + '"},' +
           '{"tag": "Comparison_Op", "value": "' + operator + '"},' +
-          argument1 +
+          value +
       ']}' +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
@@ -111,11 +111,8 @@ Blockly.JavaScript['lbc_real'] = function(block) {
 
 Blockly.JavaScript['lbc_fg_compare'] = function(block) {
   var OPERATORS = {
-    'EQ': '=',
     'LT': '<',
-    'LTE': '<=',
     'GT': '>',
-    'GTE': '>='
   };
 
   var operator = block.getFieldValue('OP');
@@ -127,7 +124,7 @@ Blockly.JavaScript['lbc_fg_compare'] = function(block) {
   var code = '{' +
     '"tag": "FGComp",' +
     '"children": [' +
-      '{"tag": "Species",' +
+      '{"tag": "Concentration",' +
       '"value": "' + species + '"},' +
       '{"tag": "Comparison_Op",' +
       '"value": "' + operator + '"},' +
