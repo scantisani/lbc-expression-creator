@@ -106,7 +106,7 @@ Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
 Blockly.JavaScript['lbc_real'] = function(block) {
   var num = block.getFieldValue('NUM');
   var code = '{"tag": "Real", "value": "' + num + '"}';
-  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_fg_compare'] = function(block) {
