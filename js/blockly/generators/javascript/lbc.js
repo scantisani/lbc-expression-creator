@@ -124,7 +124,7 @@ Blockly.JavaScript['lbc_fg_compare'] = function(block) {
   var code = '{' +
     '"tag": "FGComp",' +
     '"children": [' +
-      '{"tag": "Species",' +
+      '{"tag": "Concentration",' +
       '"value": "' + species + '"},' +
       '{"tag": "Comparison_Op",' +
       '"value": "' + operator + '"},' +
