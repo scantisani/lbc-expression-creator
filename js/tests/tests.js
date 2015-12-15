@@ -359,7 +359,7 @@ QUnit.test("FGComp block generates correct tree", function(assert) {
     tag: 'FGComp',
     children: [
       {
-        tag: 'Species',
+        tag: 'Concentration',
         value: ''
       },
       {
