@@ -72,7 +72,7 @@ Blockly.Blocks['lbc_compare'] = {
     this.appendValueInput('A')
         .setCheck(['Real', 'Concentration']);
     this.appendValueInput('B')
-        .setCheck('Value')
+        .setCheck(['Real', 'Concentration'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
   }
