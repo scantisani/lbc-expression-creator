@@ -29,3 +29,153 @@ QUnit.test("Full tree for 'Future Concentration A > 0' is translated correctly",
 
   assert.equal(treeToEnglish(tree), 'The concentration of A is eventually greater than 0.');
 });
+
+QUnit.test("Real values are translated correctly", function(assert) {
+  var tree = {
+    tag: 'Real',
+    value: '5'
+  };
+
+  assert.equal(treeToEnglish(tree), '5');
+});
+
+QUnit.test("Concentrations are translated correctly", function(assert) {
+  var tree = {
+    tag: 'Concentration',
+    value: 'A'
+  };
+  assert.equal(treeToEnglish(tree), 'the concentration of A');
+
+  tree = {
+    tag: 'Concentration',
+    value: 'phos'
+  };
+  assert.equal(treeToEnglish(tree), 'the concentration of phos');
+});
+
+QUnit.test("Global is translated correctly", function(assert) {
+  var tree = {
+    tag: 'Global'
+  };
+
+  assert.equal(treeToEnglish(tree), 'always');
+});
+
+QUnit.test("Future is translated correctly", function(assert) {
+  var tree = {
+    tag: 'Future'
+  };
+
+  assert.equal(treeToEnglish(tree), 'eventually');
+});
+
+QUnit.test("Comparison is translated correctly", function(assert) {
+  var tree = {
+    tag: 'Comparison',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'X'
+      },
+      {
+        tag: 'Comparison_Op',
+        value: '>'
+      },
+      {
+        tag: 'Real',
+        value: '5'
+      }
+    ]
+  };
+
+  assert.equal(treeToEnglish(tree), 'the concentration of X is greater than 5');
+});
+
+QUnit.test("Comparison operators are translated correctly", function(assert) {
+  var tree = {
+    tag: 'Comparison_Op',
+    value: '>'
+  };
+  assert.equal(treeToEnglish(tree), 'greater than');
+
+  tree = {
+    tag: 'Comparison_Op',
+    value: '<'
+  };
+  assert.equal(treeToEnglish(tree), 'less than');
+
+  tree = {
+    tag: 'Comparison_Op',
+    value: '='
+  };
+  assert.equal(treeToEnglish(tree), 'equal to');
+
+  tree = {
+    tag: 'Comparison_Op',
+    value: '>='
+  };
+  assert.equal(treeToEnglish(tree), 'greater than or equal to');
+
+  tree = {
+    tag: 'Comparison_Op',
+    value: '<='
+  };
+  assert.equal(treeToEnglish(tree), 'less than or equal to');
+
+  tree = {
+    tag: 'Comparison_Op',
+    value: '!='
+  };
+  assert.equal(treeToEnglish(tree), 'not equal to');
+
+});
+
+QUnit.test("TempMidComp is translated correctly", function(assert) {
+  var tree = {
+    tag: 'TempMidComp',
+    children: [{
+      tag: 'Future'
+    },
+    {
+      tag: 'Comparison',
+      children: [
+        {
+          tag: 'Concentration',
+          value: 'A'
+        },
+        {
+          tag: 'Comparison_Op',
+          value: '>'
+        },
+        {
+          tag: 'Real',
+          value: '5'
+        }
+      ]
+    }]
+  };
+
+  assert.equal(treeToEnglish(tree), 'The concentration of A is eventually greater than 5.');
+});
+
+QUnit.test("FGComp is translated correctly", function(assert) {
+  var tree = {
+    tag: 'FGComp',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'A'
+      },
+      {
+        tag: 'Comparison_Op',
+        value: '<'
+      },
+      {
+        tag: 'Real',
+        value: '5'
+      }
+    ]
+  };
+
+  assert.equal(treeToEnglish(tree), 'The concentration of A eventually drops to and stays below 5.');
+});
