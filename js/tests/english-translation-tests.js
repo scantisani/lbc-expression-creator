@@ -178,4 +178,9 @@ QUnit.test("FGComp is translated correctly", function(assert) {
   };
 
   assert.equal(treeToEnglish(tree), 'The concentration of A eventually drops to and stays below 5.');
+
+  // set the operator in the tree to '>'
+  tree.children[1].value = '>';
+
+  assert.equal(treeToEnglish(tree), 'The concentration of A eventually rises to and stays above 5.');
 });
