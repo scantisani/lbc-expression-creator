@@ -46,9 +46,32 @@ var treeToEnglish = function(tree) {
       var operator = comp.children[1];
       var value = comp.children[2];
 
-      var sentence = treeToEnglish(concentration) +
-              ' is ' + treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
-              ' ' + treeToEnglish(value);
+      var sentence =  treeToEnglish(concentration) + ' is ' +
+                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
+                      ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'TempMidComp':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      var sentence =  treeToEnglish(concentration) + ' is ' +
+                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
+                      ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'FGComp':
+      var concentration = tree.children[0];
+      var op = tree.children[1];
+      var value = tree.children[2];
+
+      var opString = (op.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
+      var sentence =  treeToEnglish(concentration) + ' eventually ' +
+                      opString + ' ' + treeToEnglish(value);
 
       return format(sentence);
     case 'Future':
@@ -57,6 +80,13 @@ var treeToEnglish = function(tree) {
       return 'always';
     case 'Concentration':
       return 'the concentration of ' + tree.value;
+    case 'Comparison':
+      var concentration = tree.children[0];
+      var operator = tree.children[1];
+      var value = tree.children[2];
+
+      return  treeToEnglish(concentration) + ' is ' + treeToEnglish(operator) +
+              ' ' + treeToEnglish(value);
     case 'Comparison_Op':
       switch (tree.value) {
         case '>':
