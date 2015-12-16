@@ -1,4 +1,4 @@
-QUnit.module("Block-to-tree tests");
+QUnit.module("Block -> tree");
 QUnit.test("Concentration block generates correct tree", function(assert) {
   var workspace = new Blockly.Workspace();
   // make a new Concentration block
