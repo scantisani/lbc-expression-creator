@@ -389,4 +389,3 @@ QUnit.test("TemporalInterval block generates correct tree", function(assert) {
 
   assert.deepEqual(tree, expectedTree);
 });
-

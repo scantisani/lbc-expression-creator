@@ -94,6 +94,7 @@ Blockly.Blocks['lbc_compare'] = {
           ['is greater than', 'GT'],
           ['is greater than or equal to', 'GTE']
         ];
+
     this.setColour(60);
     this.setOutput(true, 'Comparison');
     this.appendDummyInput()
