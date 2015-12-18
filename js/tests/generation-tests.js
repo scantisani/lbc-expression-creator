@@ -80,7 +80,7 @@ QUnit.test("Global block generates correct tree", function(assert) {
           value: 'A'
         },
         {
-          tag: 'Comparison_Op',
+          tag: 'ComparisonOp',
           value: '>'
         },
         {
@@ -141,7 +141,7 @@ QUnit.test("Future block generates correct tree", function(assert) {
           value: 'A'
         },
         {
-          tag: 'Comparison_Op',
+          tag: 'ComparisonOp',
           value: '>'
         },
         {
@@ -191,7 +191,7 @@ QUnit.test("Comparison block generates correct tree", function(assert) {
         value: 'P'
       },
       {
-        tag: 'Comparison_Op',
+        tag: 'ComparisonOp',
         value: '>'
       },
       {
@@ -245,7 +245,7 @@ QUnit.test("TempMidComp block generates correct tree", function(assert) {
           value: 'A'
         },
         {
-          tag: 'Comparison_Op',
+          tag: 'ComparisonOp',
           value: '>'
         },
         {
@@ -293,7 +293,7 @@ QUnit.test("FGComp block generates correct tree", function(assert) {
         value: 'X'
       },
       {
-        tag: 'Comparison_Op',
+        tag: 'ComparisonOp',
         value: '<'
       },
       {

@@ -20,7 +20,7 @@ var treeToLBC = function(tree) {
       return 'G';
     case 'Future':
       return 'F';
-    case 'Comparison_Op':
+    case 'ComparisonOp':
       return tree.value;
     case 'Comparison':
       var v1 = tree.children[0];
@@ -87,7 +87,7 @@ var treeToEnglish = function(tree) {
 
       return  treeToEnglish(concentration) + ' is ' + treeToEnglish(operator) +
               ' ' + treeToEnglish(value);
-    case 'Comparison_Op':
+    case 'ComparisonOp':
       switch (tree.value) {
         case '>':
           return 'greater than';

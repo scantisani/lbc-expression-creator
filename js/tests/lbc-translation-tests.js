@@ -15,7 +15,7 @@ QUnit.test("Full tree for 'Future Concentration A > 0' is translated correctly",
             value: 'A'
           },
           {
-            tag: 'Comparison_Op',
+            tag: 'ComparisonOp',
             value: '>'
           },
           {
@@ -78,7 +78,7 @@ QUnit.test("Comparison is translated correctly", function(assert) {
         value: 'X'
       },
       {
-        tag: 'Comparison_Op',
+        tag: 'ComparisonOp',
         value: '>'
       },
       {
@@ -93,37 +93,37 @@ QUnit.test("Comparison is translated correctly", function(assert) {
 
 QUnit.test("Comparison operators are translated correctly", function(assert) {
   var tree = {
-    tag: 'Comparison_Op',
+    tag: 'ComparisonOp',
     value: '>'
   };
   assert.equal(treeToLBC(tree), '>');
 
   tree = {
-    tag: 'Comparison_Op',
+    tag: 'ComparisonOp',
     value: '<'
   };
   assert.equal(treeToLBC(tree), '<');
 
   tree = {
-    tag: 'Comparison_Op',
+    tag: 'ComparisonOp',
     value: '='
   };
   assert.equal(treeToLBC(tree), '=');
 
   tree = {
-    tag: 'Comparison_Op',
+    tag: 'ComparisonOp',
     value: '>='
   };
   assert.equal(treeToLBC(tree), '>=');
 
   tree = {
-    tag: 'Comparison_Op',
+    tag: 'ComparisonOp',
     value: '<='
   };
   assert.equal(treeToLBC(tree), '<=');
 
   tree = {
-    tag: 'Comparison_Op',
+    tag: 'ComparisonOp',
     value: '!='
   };
   assert.equal(treeToLBC(tree), '!=');
@@ -144,7 +144,7 @@ QUnit.test("TempMidComp is translated correctly", function(assert) {
           value: 'A'
         },
         {
-          tag: 'Comparison_Op',
+          tag: 'ComparisonOp',
           value: '>'
         },
         {
@@ -167,7 +167,7 @@ QUnit.test("FGComp is translated correctly", function(assert) {
         value: 'A'
       },
       {
-        tag: 'Comparison_Op',
+        tag: 'ComparisonOp',
         value: '<'
       },
       {

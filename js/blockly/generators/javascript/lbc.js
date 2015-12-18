@@ -60,7 +60,7 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
     '"tag": "Comparison",' +
     '"children": [' +
       '{"tag": "Concentration", "value": "' + species + '"},' +
-      '{"tag": "Comparison_Op", "value": "' + comparison + '"},' +
+      '{"tag": "ComparisonOp", "value": "' + comparison + '"},' +
       value +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
@@ -96,7 +96,7 @@ Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
       '{"tag": "Comparison",' +
         '"children": [' +
           '{"tag": "Concentration", "value": "' + species + '"},' +
-          '{"tag": "Comparison_Op", "value": "' + operator + '"},' +
+          '{"tag": "ComparisonOp", "value": "' + operator + '"},' +
           value +
       ']}' +
     ']}';
@@ -126,7 +126,7 @@ Blockly.JavaScript['lbc_fg_compare'] = function(block) {
     '"children": [' +
       '{"tag": "Concentration",' +
       '"value": "' + species + '"},' +
-      '{"tag": "Comparison_Op",' +
+      '{"tag": "ComparisonOp",' +
       '"value": "' + operator + '"},' +
       value +
     ']}';
