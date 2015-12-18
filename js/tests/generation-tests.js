@@ -315,10 +315,30 @@ QUnit.test("GlobalInterval block generates correct tree", function(assert) {
 
   // make a new GlobalInterval block
   var globalInterval = Blockly.Block.obtain(workspace, 'lbc_global_interval');
+  // make a new Comparison block
+  var comp = Blockly.Block.obtain(workspace, 'lbc_compare');
+  // make a new Real block
+  var real = Blockly.Block.obtain(workspace, 'lbc_real');
 
-  // set the block's fields to reasonable interval start and end values
+  // connect the GlobalInterval and Comparison blocks
+  var globalIntervalInput = globalInterval.getInput('COMPARISON').connection;
+  var compOutput = comp.outputConnection;
+  globalIntervalInput.connect(compOutput);
+
+  // connect the Comparison and Real blocks
+  var compInput = comp.getInput('VALUE').connection;
+  var realOutput = real.outputConnection;
+  compInput.connect(realOutput);
+
+  // set the GlobalInterval block's fields to reasonable interval start and end values
   globalInterval.setFieldValue('10', 'START');
   globalInterval.setFieldValue('15', 'END');
+  // set the Comparison block's fields to reasonable values
+  // A for Species, Greater Than for Operator
+  comp.setFieldValue('P', 'SPECIES');
+  comp.setFieldValue('GTE', 'OP');
+  // set the Real block's Num field to 5
+  real.setFieldValue('8', 'NUM');
 
   // the second element of the blockToCode array is operator precedence,
   // which we can safely ignore
@@ -327,19 +347,40 @@ QUnit.test("GlobalInterval block generates correct tree", function(assert) {
   var tree = JSON.parse(code);
 
   var expectedTree = {
-    tag: 'GlobalInterval',
+    tag: 'TempCompInterval',
     children: [
       {
-        tag: 'Temporal',
-        value: 'G'
+        tag: 'TemporalInterval',
+        children: [
+          {
+            tag: 'Global',
+          },
+          {
+            tag: 'IntervalStart',
+            value: '10'
+          },
+          {
+            tag: 'IntervalEnd',
+            value: '15'
+          }
+        ]
       },
       {
-        tag: 'IntervalStart',
-        value: '10'
-      },
-      {
-        tag: 'IntervalEnd',
-        value: '15'
+        tag: 'Comparison',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'P'
+          },
+          {
+            tag: 'ComparisonOp',
+            value: '>='
+          },
+          {
+            tag: 'Real',
+            value: '8'
+          }
+        ]
       }
     ]
   };
