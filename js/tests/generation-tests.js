@@ -44,14 +44,14 @@ QUnit.test("Global block generates correct tree", function(assert) {
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
 
   // connect the Global and Comparison blocks
-  var global_input = global.getInput('EXPRESSION').connection;
-  var comp_output = comp.outputConnection;
-  global_input.connect(comp_output);
+  var globalInput = global.getInput('EXPRESSION').connection;
+  var compOutput = comp.outputConnection;
+  globalInput.connect(compOutput);
 
   // connect the Comparison and Real blocks
-  var comp_input = comp.getInput('VALUE').connection;
-  var real_output = real.outputConnection;
-  comp_input.connect(real_output);
+  var compInput = comp.getInput('VALUE').connection;
+  var realOutput = real.outputConnection;
+  compInput.connect(realOutput);
 
   // set the Comparison block's fields to reasonable values
   // A for Species, Greater Than for Operator
@@ -106,14 +106,14 @@ QUnit.test("Future block generates correct tree", function(assert) {
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
 
   // connect the Future and Comparison blocks
-  var future_input = future.getInput('EXPRESSION').connection;
-  var comp_output = comp.outputConnection;
-  future_input.connect(comp_output);
+  var futureInput = future.getInput('EXPRESSION').connection;
+  var compOutput = comp.outputConnection;
+  futureInput.connect(compOutput);
 
   // connect the Comparison and Real blocks
-  var comp_input = comp.getInput('VALUE').connection;
-  var real_output = real.outputConnection;
-  comp_input.connect(real_output);
+  var compInput = comp.getInput('VALUE').connection;
+  var realOutput = real.outputConnection;
+  compInput.connect(realOutput);
 
   // set the Comparison block's fields to reasonable values
   // A for Species, Greater Than for Operator
@@ -167,9 +167,9 @@ QUnit.test("Comparison block generates correct tree", function(assert) {
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
 
   // connect the two blocks
-  var comp_connection = comp.getInput('VALUE').connection;
-  var real_connection = real.outputConnection;
-  comp_connection.connect(real_connection);
+  var compConnection = comp.getInput('VALUE').connection;
+  var realConnection = real.outputConnection;
+  compConnection.connect(realConnection);
 
   // set the Comparison block's fields to reasonable values
   // GreaterThan for operator, 'P' for species
@@ -215,9 +215,9 @@ QUnit.test("TempMidComp block generates correct tree", function(assert) {
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
 
   // connect the two blocks
-  var comp_connection = comp.getInput('VALUE').connection;
-  var real_connection = real.outputConnection;
-  comp_connection.connect(real_connection);
+  var compConnection = comp.getInput('VALUE').connection;
+  var realConnection = real.outputConnection;
+  compConnection.connect(realConnection);
 
   // set the Comparison block's fields to reasonable values
   // GreaterThan for Operator, Future for Temporal, 'A' for Species
@@ -279,9 +279,9 @@ QUnit.test("FGComp block generates correct tree", function(assert) {
   real.setFieldValue('16', 'NUM');
 
   // connect the two blocks
-  var fgcomp_connection = fgcomp.getInput('VALUE').connection;
-  var real_connection = real.outputConnection;
-  fgcomp_connection.connect(real_connection);
+  var fgcompConnection = fgcomp.getInput('VALUE').connection;
+  var realConnection = real.outputConnection;
+  fgcompConnection.connect(realConnection);
 
   // the second element of the blockToCode array is operator precedence,
   // which we can safely ignore
