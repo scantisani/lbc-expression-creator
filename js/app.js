@@ -4,6 +4,10 @@ var treeToLBC = function(tree) {
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'TempCompInterval':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
     case 'TempMidComp':
       var temp = tree.children[0];
       var comp = tree.children[1];
@@ -16,6 +20,12 @@ var treeToLBC = function(tree) {
               op.value + ' ' + treeToLBC(value) + '))';
     case 'Temporal':
       return treeToLBC(tree.children[0]);
+    case 'TemporalInterval':
+      var modality = tree.children[0];
+      var start = tree.children[1];
+      var end = tree.children[2];
+
+      return treeToLBC(modality) + '{' + start.value  + ', ' + end.value + '}';
     case 'Global':
       return 'G';
     case 'Future':

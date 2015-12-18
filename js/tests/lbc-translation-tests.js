@@ -180,5 +180,45 @@ QUnit.test("FGComp is translated correctly", function(assert) {
   assert.equal(treeToLBC(tree), 'F(G([A] < 5))');
 });
 
+QUnit.test("TempCompInterval is translated correctly", function(assert) {
+  var tree = {
+    tag: 'TempCompInterval',
+    children: [
+      {
+        tag: 'TemporalInterval',
+        children: [
+          {
+            tag: 'Global'
+          },
+          {
+            tag: 'IntervalStart',
+            value: '5'
+          },
+          {
+            tag: 'IntervalEnd',
+            value: '15'
+          }
+        ]
+      },
+      {
+        tag: 'Comparison',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'B'
+          },
+          {
+            tag: 'ComparisonOp',
+            value: '='
+          },
+          {
+            tag: 'Real',
+            value: '0.75'
+          }
+        ]
+      }
+    ]
+  };
 
-
+  assert.equal(treeToLBC(tree), 'G{5, 15}([B] = 0.75)');
+});
