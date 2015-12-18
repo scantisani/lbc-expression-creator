@@ -32,11 +32,19 @@ var treeToLBC = function(tree) {
       return 'F';
     case 'ComparisonOp':
       return tree.value;
+    case 'ArithOperator':
+      return tree.value;
     case 'Comparison':
       var v1 = tree.children[0];
       var op = tree.children[1];
       var v2 = tree.children[2];
       return treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2);
+    case 'Arithmetic':
+      var v1 = tree.children[0];
+      var op = tree.children[1];
+      var v2 = tree.children[2];
+
+      return '(' + treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2) + ')';
     case 'Concentration':
       return '[' + tree.value + ']';
     case 'Real':
