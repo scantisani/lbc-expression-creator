@@ -68,15 +68,19 @@ var treeToEnglish = function(tree) {
       var modality = temp.children[0];
       var start = temp.children[1];
       var end = temp.children[2];
-
       var concentration = comp.children[0];
       var operator = comp.children[1];
       var value = comp.children[2];
 
-      var sentence =  treeToEnglish(temp) + '(' + treeToEnglish(comp) + ')';
-      var sentence =  'Between times ' + start.value + ' and ' + end.value +
-                      ', ' + treeToEnglish(concentration) + ' is ' + treeToEnglish(modality) +
-                      ' ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      if (modality.tag === 'Future') {
+        var sentence =  'At some point between times ' + start.value + ' and ' + end.value +
+                        ', ' + treeToEnglish(concentration) + ' is ' +
+                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      } else {
+        var sentence =  'Between times ' + start.value + ' and ' + end.value +
+                        ', ' + treeToEnglish(concentration) + ' is always ' +
+                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      }
 
       return format(sentence);
     case 'TempMidComp':

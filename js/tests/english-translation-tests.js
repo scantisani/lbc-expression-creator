@@ -226,4 +226,7 @@ QUnit.test("TempCompInterval is translated correctly", function(assert) {
   };
 
   assert.equal(treeToEnglish(tree), 'Between times 5 and 15, the concentration of B is always equal to 0.75.');
+
+  tree.children[0].children[0].tag = 'Future';
+  assert.equal(treeToEnglish(tree), 'At some point between times 5 and 15, the concentration of B is equal to 0.75.');
 });
