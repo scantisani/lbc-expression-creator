@@ -310,29 +310,31 @@ QUnit.test("FGComp block generates correct tree", function(assert) {
   assert.deepEqual(tree, expectedTree);
 });
 
-QUnit.test("GlobalInterval block generates correct tree", function(assert) {
+QUnit.test("TemporalInterval block generates correct tree", function(assert) {
   var workspace = new Blockly.Workspace();
 
-  // make a new GlobalInterval block
-  var globalInterval = Blockly.Block.obtain(workspace, 'lbc_global_interval');
+  // make a new TemporalInterval block
+  var temporalInterval = Blockly.Block.obtain(workspace, 'lbc_temporal_interval');
   // make a new Comparison block
   var comp = Blockly.Block.obtain(workspace, 'lbc_compare');
   // make a new Real block
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
 
-  // connect the GlobalInterval and Comparison blocks
-  var globalIntervalInput = globalInterval.getInput('COMPARISON').connection;
+  // connect the TemporalInterval and Comparison blocks
+  var temporalIntervalInput = temporalInterval.getInput('COMPARISON').connection;
   var compOutput = comp.outputConnection;
-  globalIntervalInput.connect(compOutput);
+  temporalIntervalInput.connect(compOutput);
 
   // connect the Comparison and Real blocks
   var compInput = comp.getInput('VALUE').connection;
   var realOutput = real.outputConnection;
   compInput.connect(realOutput);
 
-  // set the GlobalInterval block's fields to reasonable interval start and end values
-  globalInterval.setFieldValue('10', 'START');
-  globalInterval.setFieldValue('15', 'END');
+  // set the TemporalInterval block's interval fields to reasonable start and end values
+  temporalInterval.setFieldValue('10', 'START');
+  temporalInterval.setFieldValue('15', 'END');
+  // set the TemporalInterval block's temporal modality field to 'Global'
+  temporalInterval.setFieldValue('G', 'TEMP');
   // set the Comparison block's fields to reasonable values
   // A for Species, Greater Than for Operator
   comp.setFieldValue('P', 'SPECIES');
@@ -342,7 +344,7 @@ QUnit.test("GlobalInterval block generates correct tree", function(assert) {
 
   // the second element of the blockToCode array is operator precedence,
   // which we can safely ignore
-  var code = Blockly.JavaScript.blockToCode(globalInterval)[0];
+  var code = Blockly.JavaScript.blockToCode(temporalInterval)[0];
   // the code comes as a string, which we convert to a tree
   var tree = JSON.parse(code);
 

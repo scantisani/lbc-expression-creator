@@ -40,16 +40,24 @@ Blockly.JavaScript['lbc_global'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['lbc_global_interval'] = function(block) {
+Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
+  var TEMP_MODALITIES = {
+    'F': 'Future',
+    'G': 'Global'
+  };
+
   var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE);
+  var temporal = block.getFieldValue('TEMP');
   var start = block.getFieldValue('START');
   var end = block.getFieldValue('END');
+
+  temporal = TEMP_MODALITIES[temporal];
 
   var code = '{' +
     '"tag": "TempCompInterval",' +
     '"children": [' +
       '{"tag": "TemporalInterval", "children": [' +
-        '{"tag": "Global"},' +
+        '{"tag": "' + temporal + '"},' +
         '{"tag": "IntervalStart", "value": "' + start + '"},' +
         '{"tag": "IntervalEnd", "value": "' + end + '"}' +
       ']},' +

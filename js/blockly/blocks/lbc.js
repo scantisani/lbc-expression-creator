@@ -52,15 +52,22 @@ Blockly.Blocks['lbc_global'] = {
   }
 };
 
-Blockly.Blocks['lbc_global_interval'] = {
+Blockly.Blocks['lbc_temporal_interval'] = {
   /**
-   * Block for global temporal modality with interval.
+   * Block for global or future temporal modality with interval.
    * @this Blockly.Block
    */
   init: function() {
+    var TEMP_MODALITIES = [
+          ['some point', 'F'],
+          ['all points', 'G']
+        ];
+
     this.setColour(10);
     this.appendDummyInput()
-        .appendField('At all points between');
+        .appendField('At')
+        .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP')
+        .appendField('between');
     this.appendValueInput('COMPARISON')
         .setCheck('Comparison')
 
