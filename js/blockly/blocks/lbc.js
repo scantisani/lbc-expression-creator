@@ -32,7 +32,7 @@ Blockly.Blocks['lbc_future'] = {
   init: function() {
     this.setColour(10);
     this.appendValueInput('EXPRESSION')
-        .setCheck('Boolean')
+        .setCheck('Comparison')
         .appendField('Eventually,');
     this.setTooltip('');
   }
@@ -46,7 +46,7 @@ Blockly.Blocks['lbc_global'] = {
   init: function() {
     this.setColour(10);
     this.appendValueInput('EXPRESSION')
-        .setCheck('Boolean')
+        .setCheck('Comparison')
         .appendField('It is always the case that');
     this.setTooltip('');
   }
@@ -68,7 +68,7 @@ Blockly.Blocks['lbc_compare'] = {
           ['is greater than or equal to', 'GTE']
         ];
     this.setColour(60);
-    this.setOutput(true, 'Boolean');
+    this.setOutput(true, 'Comparison');
     this.appendDummyInput()
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
