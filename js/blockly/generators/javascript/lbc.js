@@ -40,6 +40,25 @@ Blockly.JavaScript['lbc_global'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
+Blockly.JavaScript['lbc_global_interval'] = function(block) {
+  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE);
+  var start = block.getFieldValue('START');
+  var end = block.getFieldValue('END');
+
+  var code = '{' +
+    '"tag": "TempCompInterval",' +
+    '"children": [' +
+      '{"tag": "TemporalInterval", "children": [' +
+        '{"tag": "Global"},' +
+        '{"tag": "IntervalStart", "value": "' + start + '"},' +
+        '{"tag": "IntervalEnd", "value": "' + end + '"}' +
+      ']},' +
+      expression +
+    ']}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
 Blockly.JavaScript['lbc_compare'] = function(block) {
   var OPERATORS = {
     'EQ': '=',

@@ -52,6 +52,26 @@ Blockly.Blocks['lbc_global'] = {
   }
 };
 
+Blockly.Blocks['lbc_global_interval'] = {
+  /**
+   * Block for global temporal modality with interval.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(10);
+    this.appendDummyInput()
+        .appendField('At all points between');
+    this.appendValueInput('COMPARISON')
+        .setCheck('Comparison')
+
+        .appendField('times')
+        .appendField(new Blockly.FieldTextInput('0',
+        Blockly.FieldTextInput.numberValidator), 'START')
+        .appendField('and')
+        .appendField(new Blockly.FieldTextInput('0',
+        Blockly.FieldTextInput.numberValidator), 'END');
+  }
+};
 
 Blockly.Blocks['lbc_compare'] = {
   /**
