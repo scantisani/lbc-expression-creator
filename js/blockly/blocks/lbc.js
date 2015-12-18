@@ -143,11 +143,10 @@ Blockly.Blocks['lbc_fg_compare'] = {
     this.appendDummyInput()
         .appendField('The concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
-    this.appendDummyInput()
+    this.appendValueInput('VALUE')
+        .setCheck(['Concentration', 'Real'])
         .appendField('eventually')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
-    this.appendValueInput('VALUE')
-        .setCheck(['Concentration', 'Real']);
     // this.setInputsInline(true);
   }
 };
