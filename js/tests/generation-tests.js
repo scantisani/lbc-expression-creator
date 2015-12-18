@@ -306,3 +306,40 @@ QUnit.test("FGComp block generates correct tree", function(assert) {
   assert.deepEqual(tree, expectedTree);
 });
 
+QUnit.test("GlobalInterval block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+
+  // make a new GlobalInterval block
+  var globalInterval = Blockly.Block.obtain(workspace, 'lbc_global_interval');
+
+  // set the block's fields to reasonable interval start and end values
+  globalInterval.setFieldValue('10', 'START');
+  globalInterval.setFieldValue('15', 'END');
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(globalInterval)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  var expectedTree = {
+    tag: 'GlobalInterval',
+    children: [
+      {
+        tag: 'Temporal',
+        value: 'G'
+      },
+      {
+        tag: 'IntervalStart',
+        value: '10'
+      },
+      {
+        tag: 'IntervalEnd',
+        value: '15'
+      }
+    ]
+  };
+
+  assert.deepEqual(tree, expectedTree);
+});
+
