@@ -221,4 +221,7 @@ QUnit.test("TempCompInterval is translated correctly", function(assert) {
   };
 
   assert.equal(treeToLBC(tree), 'G{5, 15}([B] = 0.75)');
+
+  tree.children[0].children[0].tag = 'Future';
+  assert.equal(treeToLBC(tree), 'F{5, 15}([B] = 0.75)');
 });
