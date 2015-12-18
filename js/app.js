@@ -61,6 +61,24 @@ var treeToEnglish = function(tree) {
                       ' ' + treeToEnglish(value);
 
       return format(sentence);
+    case 'TempCompInterval':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var modality = temp.children[0];
+      var start = temp.children[1];
+      var end = temp.children[2];
+
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      var sentence =  treeToEnglish(temp) + '(' + treeToEnglish(comp) + ')';
+      var sentence =  'Between times ' + start.value + ' and ' + end.value +
+                      ', ' + treeToEnglish(concentration) + ' is ' + treeToEnglish(modality) +
+                      ' ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+
+      return format(sentence);
     case 'TempMidComp':
       var temp = tree.children[0];
       var comp = tree.children[1];

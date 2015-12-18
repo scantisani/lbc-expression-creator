@@ -184,3 +184,46 @@ QUnit.test("FGComp is translated correctly", function(assert) {
 
   assert.equal(treeToEnglish(tree), 'The concentration of A eventually rises to and stays above 5.');
 });
+
+QUnit.test("TempCompInterval is translated correctly", function(assert) {
+  var tree = {
+    tag: 'TempCompInterval',
+    children: [
+      {
+        tag: 'TemporalInterval',
+        children: [
+          {
+            tag: 'Global'
+          },
+          {
+            tag: 'IntervalStart',
+            value: '5'
+          },
+          {
+            tag: 'IntervalEnd',
+            value: '15'
+          }
+        ]
+      },
+      {
+        tag: 'Comparison',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'B'
+          },
+          {
+            tag: 'ComparisonOp',
+            value: '='
+          },
+          {
+            tag: 'Real',
+            value: '0.75'
+          }
+        ]
+      }
+    ]
+  };
+
+  assert.equal(treeToEnglish(tree), 'Between times 5 and 15, the concentration of B is always equal to 0.75.');
+});
