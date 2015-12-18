@@ -69,27 +69,28 @@ QUnit.test("Global block generates correct tree", function(assert) {
   var expectedTree = {
     tag: 'TempComp',
     children: [
-    {
-      tag: 'Global'
-    },
-    {
-      tag: 'Comparison',
-      children: [
-        {
-          tag: 'Concentration',
-          value: 'A'
-        },
-        {
-          tag: 'ComparisonOp',
-          value: '>'
-        },
-        {
-          tag: 'Real',
-          value: '5'
-        }
-      ]
-    }
-    ]};
+      {
+        tag: 'Global'
+      },
+      {
+        tag: 'Comparison',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'A'
+          },
+          {
+            tag: 'ComparisonOp',
+            value: '>'
+          },
+          {
+            tag: 'Real',
+            value: '5'
+          }
+        ]
+      }
+    ]
+  };
 
   assert.deepEqual(tree, expectedTree);
 });
@@ -130,27 +131,28 @@ QUnit.test("Future block generates correct tree", function(assert) {
   var expectedTree = {
     tag: 'TempComp',
     children: [
-    {
-      tag: 'Future'
-    },
-    {
-      tag: 'Comparison',
-      children: [
-        {
-          tag: 'Concentration',
-          value: 'A'
-        },
-        {
-          tag: 'ComparisonOp',
-          value: '>'
-        },
-        {
-          tag: 'Real',
-          value: '5'
-        }
-      ]
-    }
-    ]};
+      {
+        tag: 'Future'
+      },
+      {
+        tag: 'Comparison',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'A'
+          },
+          {
+            tag: 'ComparisonOp',
+            value: '>'
+          },
+          {
+            tag: 'Real',
+            value: '5'
+          }
+        ]
+      }
+    ]
+  };
 
   assert.deepEqual(tree, expectedTree);
 });
@@ -234,26 +236,28 @@ QUnit.test("TempMidComp block generates correct tree", function(assert) {
 
   var expectedTree = {
     tag: 'TempMidComp',
-    children: [{
-      tag: 'Future'
-    },
-    {
-      tag: 'Comparison',
-      children: [
-        {
-          tag: 'Concentration',
-          value: 'A'
-        },
-        {
-          tag: 'ComparisonOp',
-          value: '>'
-        },
-        {
-          tag: 'Real',
-          value: '5'
-        }
-      ]
-    }]
+    children: [
+      {
+        tag: 'Future'
+      },
+      {
+        tag: 'Comparison',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'A'
+          },
+          {
+            tag: 'ComparisonOp',
+            value: '>'
+          },
+          {
+            tag: 'Real',
+            value: '5'
+          }
+        ]
+      }
+    ]
   };
 
   assert.deepEqual(tree, expectedTree);
