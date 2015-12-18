@@ -389,3 +389,146 @@ QUnit.test("TemporalInterval block generates correct tree", function(assert) {
 
   assert.deepEqual(tree, expectedTree);
 });
+
+QUnit.test("Arithmetic block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+
+  // make a new Arithmetic block
+  var arith = Blockly.Block.obtain(workspace, 'lbc_arithmetic');
+  // make two new Real blocks
+  var real1 = Blockly.Block.obtain(workspace, 'lbc_real');
+  var real2 = Blockly.Block.obtain(workspace, 'lbc_real');
+
+  // connect the two Real blocks
+  var arithConnection1 = arith.getInput('ARGUMENT1').connection;
+  var real1Connection = real1.outputConnection;
+  arithConnection1.connect(real1Connection);
+
+  var arithConnection2 = arith.getInput('ARGUMENT2').connection;
+  var real2Connection = real2.outputConnection;
+  arithConnection2.connect(real2Connection);
+
+  // set the Arithmetic block's operator field to 'minus'
+  arith.setFieldValue('MINUS', 'OP');
+
+  // set the Real blocks' NUM inputs to 5 and 10 respectively
+  real1.setFieldValue('5', 'NUM');
+  real2.setFieldValue('10', 'NUM');
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(arith)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  var expectedTree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Real',
+        value: '5'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '-'
+      },
+      {
+        tag: 'Real',
+        value: '10'
+      }
+    ]
+  };
+
+  assert.deepEqual(tree, expectedTree);
+
+  // make a new Concentration block
+  var concentration1 = Blockly.Block.obtain(workspace, 'lbc_concentration');
+  concentration1.setFieldValue('A', 'SPECIES');
+
+  // unplug the second Real block and replace it with our new Concentration block
+  real2.unplug();
+  var concentration1Connection = concentration1.outputConnection;
+  arithConnection2.connect(concentration1Connection);
+
+  expectedTree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Real',
+        value: '5'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '-'
+      },
+      {
+        tag: 'Concentration',
+        value: 'A'
+      }
+    ]
+  };
+
+  code = Blockly.JavaScript.blockToCode(arith)[0];
+  tree = JSON.parse(code);
+
+  assert.deepEqual(tree, expectedTree);
+
+  // switch the positions of the Real and Concentration blocks
+  real1.unplug();
+  concentration1.unplug();
+  arithConnection1.connect(concentration1Connection);
+  arithConnection2.connect(real1Connection);
+
+  expectedTree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'A'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '-'
+      },
+      {
+        tag: 'Real',
+        value: '5'
+      }
+    ]
+  };
+
+  code = Blockly.JavaScript.blockToCode(arith)[0];
+  tree = JSON.parse(code);
+
+  assert.deepEqual(tree, expectedTree);
+
+  // exchange the Real block for another Concentration block
+  real1.unplug();
+  var concentration2 = Blockly.Block.obtain(workspace, 'lbc_concentration');
+  var concentration2Connection = concentration2.outputConnection;
+  concentration2.setFieldValue('B', 'SPECIES');
+  arithConnection2.connect(concentration2Connection);
+
+  expectedTree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'A'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '-'
+      },
+      {
+        tag: 'Concentration',
+        value: 'B'
+      }
+    ]
+  };
+
+  code = Blockly.JavaScript.blockToCode(arith)[0];
+  tree = JSON.parse(code);
+
+  assert.deepEqual(tree, expectedTree);
+});

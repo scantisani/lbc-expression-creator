@@ -101,7 +101,7 @@ Blockly.Blocks['lbc_compare'] = {
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.appendValueInput('VALUE')
-        .setCheck(['Real', 'Concentration'])
+        .setCheck(['Real', 'Concentration', 'Value'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
   }
@@ -136,7 +136,7 @@ Blockly.Blocks['lbc_temporal_compare'] = {
         .appendField('is')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
     this.appendValueInput('VALUE')
-        .setCheck(['Concentration', 'Real'])
+        .setCheck(['Concentration', 'Real', 'Value'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
   }
@@ -172,9 +172,33 @@ Blockly.Blocks['lbc_fg_compare'] = {
         .appendField('The concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.appendValueInput('VALUE')
-        .setCheck(['Concentration', 'Real'])
+        .setCheck(['Concentration', 'Real', 'Value'])
         .appendField('eventually')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     // this.setInputsInline(true);
   }
 };
+
+Blockly.Blocks['lbc_arithmetic'] = {
+  /**
+   * Block for arithmetic operations in LBC.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var OPERATORS =
+        [[Blockly.Msg.MATH_ADDITION_SYMBOL, 'ADD'],
+         [Blockly.Msg.MATH_SUBTRACTION_SYMBOL, 'MINUS'],
+         [Blockly.Msg.MATH_MULTIPLICATION_SYMBOL, 'MULTIPLY'],
+         [Blockly.Msg.MATH_DIVISION_SYMBOL, 'DIVIDE']];
+
+    this.setColour(80);
+    this.setOutput(true, 'Value');
+    this.appendValueInput('ARGUMENT1')
+        .setCheck(['Concentration', 'Real', 'Value']);
+    this.appendValueInput('ARGUMENT2')
+        .setCheck(['Concentration', 'Real', 'Value'])
+        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+    this.setInputsInline(true);
+  }
+};
+

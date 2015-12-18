@@ -159,3 +159,27 @@ Blockly.JavaScript['lbc_fg_compare'] = function(block) {
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
+
+Blockly.JavaScript['lbc_arithmetic'] = function(block) {
+  var OPERATORS = {
+    'ADD': '+',
+    'MINUS': '-',
+    'TIMES': '*',
+    'DIVIDE': '/'
+  };
+
+  var operator = block.getFieldValue('OP');
+  operator = OPERATORS[operator];
+
+  var argument1 = Blockly.JavaScript.valueToCode(block, 'ARGUMENT1', Blockly.JavaScript.ORDER_NONE) || '0';
+  var argument2 = Blockly.JavaScript.valueToCode(block, 'ARGUMENT2', Blockly.JavaScript.ORDER_NONE) || '0';
+
+  var code = '{' +
+    '"tag": "Arithmetic",' +
+    '"children": [' +
+      argument1 + ',' +
+      '{"tag": "ArithOperator", "value": "' + operator + '"},' +
+      argument2 +
+    ']}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
