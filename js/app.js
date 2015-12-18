@@ -4,6 +4,10 @@ var treeToLBC = function(tree) {
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'TempCompInterval':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
     case 'TempMidComp':
       var temp = tree.children[0];
       var comp = tree.children[1];
@@ -16,17 +20,31 @@ var treeToLBC = function(tree) {
               op.value + ' ' + treeToLBC(value) + '))';
     case 'Temporal':
       return treeToLBC(tree.children[0]);
+    case 'TemporalInterval':
+      var modality = tree.children[0];
+      var start = tree.children[1];
+      var end = tree.children[2];
+
+      return treeToLBC(modality) + '{' + start.value  + ', ' + end.value + '}';
     case 'Global':
       return 'G';
     case 'Future':
       return 'F';
-    case 'Comparison_Op':
+    case 'ComparisonOp':
+      return tree.value;
+    case 'ArithOperator':
       return tree.value;
     case 'Comparison':
       var v1 = tree.children[0];
       var op = tree.children[1];
       var v2 = tree.children[2];
       return treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2);
+    case 'Arithmetic':
+      var v1 = tree.children[0];
+      var op = tree.children[1];
+      var v2 = tree.children[2];
+
+      return '(' + treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2) + ')';
     case 'Concentration':
       return '[' + tree.value + ']';
     case 'Real':
@@ -46,9 +64,54 @@ var treeToEnglish = function(tree) {
       var operator = comp.children[1];
       var value = comp.children[2];
 
-      var sentence = treeToEnglish(concentration) +
-              ' is ' + treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
-              ' ' + treeToEnglish(value);
+      var sentence =  treeToEnglish(concentration) + ' is ' +
+                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
+                      ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'TempCompInterval':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var modality = temp.children[0];
+      var start = temp.children[1];
+      var end = temp.children[2];
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      if (modality.tag === 'Future') {
+        var sentence =  'At some point between times ' + start.value + ' and ' + end.value +
+                        ', ' + treeToEnglish(concentration) + ' is ' +
+                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      } else {
+        var sentence =  'Between times ' + start.value + ' and ' + end.value +
+                        ', ' + treeToEnglish(concentration) + ' is always ' +
+                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      }
+
+      return format(sentence);
+    case 'TempMidComp':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      var sentence =  treeToEnglish(concentration) + ' is ' +
+                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
+                      ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'FGComp':
+      var concentration = tree.children[0];
+      var op = tree.children[1];
+      var value = tree.children[2];
+
+      var opString = (op.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
+      var sentence =  treeToEnglish(concentration) + ' eventually ' +
+                      opString + ' ' + treeToEnglish(value);
 
       return format(sentence);
     case 'Future':
@@ -57,7 +120,14 @@ var treeToEnglish = function(tree) {
       return 'always';
     case 'Concentration':
       return 'the concentration of ' + tree.value;
-    case 'Comparison_Op':
+    case 'Comparison':
+      var concentration = tree.children[0];
+      var operator = tree.children[1];
+      var value = tree.children[2];
+
+      return  treeToEnglish(concentration) + ' is ' + treeToEnglish(operator) +
+              ' ' + treeToEnglish(value);
+    case 'ComparisonOp':
       switch (tree.value) {
         case '>':
           return 'greater than';

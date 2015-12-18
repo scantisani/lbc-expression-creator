@@ -40,6 +40,33 @@ Blockly.JavaScript['lbc_global'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
+Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
+  var TEMP_MODALITIES = {
+    'F': 'Future',
+    'G': 'Global'
+  };
+
+  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE);
+  var temporal = block.getFieldValue('TEMP');
+  var start = block.getFieldValue('START');
+  var end = block.getFieldValue('END');
+
+  temporal = TEMP_MODALITIES[temporal];
+
+  var code = '{' +
+    '"tag": "TempCompInterval",' +
+    '"children": [' +
+      '{"tag": "TemporalInterval", "children": [' +
+        '{"tag": "' + temporal + '"},' +
+        '{"tag": "IntervalStart", "value": "' + start + '"},' +
+        '{"tag": "IntervalEnd", "value": "' + end + '"}' +
+      ']},' +
+      expression +
+    ']}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
 Blockly.JavaScript['lbc_compare'] = function(block) {
   var OPERATORS = {
     'EQ': '=',
@@ -60,7 +87,7 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
     '"tag": "Comparison",' +
     '"children": [' +
       '{"tag": "Concentration", "value": "' + species + '"},' +
-      '{"tag": "Comparison_Op", "value": "' + comparison + '"},' +
+      '{"tag": "ComparisonOp", "value": "' + comparison + '"},' +
       value +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
@@ -96,7 +123,7 @@ Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
       '{"tag": "Comparison",' +
         '"children": [' +
           '{"tag": "Concentration", "value": "' + species + '"},' +
-          '{"tag": "Comparison_Op", "value": "' + operator + '"},' +
+          '{"tag": "ComparisonOp", "value": "' + operator + '"},' +
           value +
       ']}' +
     ']}';
@@ -126,9 +153,33 @@ Blockly.JavaScript['lbc_fg_compare'] = function(block) {
     '"children": [' +
       '{"tag": "Concentration",' +
       '"value": "' + species + '"},' +
-      '{"tag": "Comparison_Op",' +
+      '{"tag": "ComparisonOp",' +
       '"value": "' + operator + '"},' +
       value +
+    ']}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['lbc_arithmetic'] = function(block) {
+  var OPERATORS = {
+    'ADD': '+',
+    'MINUS': '-',
+    'TIMES': '*',
+    'DIVIDE': '/'
+  };
+
+  var operator = block.getFieldValue('OP');
+  operator = OPERATORS[operator];
+
+  var argument1 = Blockly.JavaScript.valueToCode(block, 'ARGUMENT1', Blockly.JavaScript.ORDER_NONE) || '0';
+  var argument2 = Blockly.JavaScript.valueToCode(block, 'ARGUMENT2', Blockly.JavaScript.ORDER_NONE) || '0';
+
+  var code = '{' +
+    '"tag": "Arithmetic",' +
+    '"children": [' +
+      argument1 + ',' +
+      '{"tag": "ArithOperator", "value": "' + operator + '"},' +
+      argument2 +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
