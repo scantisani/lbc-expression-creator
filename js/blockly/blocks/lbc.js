@@ -40,7 +40,7 @@ Blockly.Blocks['lbc_future'] = {
 
 Blockly.Blocks['lbc_global'] = {
   /**
-   * Block for future temporal modality.
+   * Block for global temporal modality.
    * @this Blockly.Block
    */
   init: function() {
