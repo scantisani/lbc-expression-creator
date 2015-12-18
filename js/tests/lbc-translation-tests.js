@@ -1,11 +1,10 @@
 QUnit.module("Tree -> LBC");
-QUnit.test("Full tree for 'Future Concentration A > 0' is translated correctly", function(assert) {
+QUnit.test("TempComp is translated correctly", function(assert) {
   var tree = {
     tag: 'TempComp',
     children: [
       {
         tag: 'Future',
-        children: []
       },
       {
         tag: 'Comparison',

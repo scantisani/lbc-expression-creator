@@ -157,7 +157,6 @@ QUnit.test("Future block generates correct tree", function(assert) {
   assert.deepEqual(tree, expectedTree);
 });
 
-
 QUnit.test("Comparison block generates correct tree", function(assert) {
   var workspace = new Blockly.Workspace();
 
