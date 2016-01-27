@@ -154,7 +154,7 @@ var treeToEnglish = function(tree) {
 
 var format = function(sentence) {
   // Capitalize the first letter of the sentence
-  formattedSentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+  var formattedSentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
   // Add a full stop at the end of the sentence
   formattedSentence = formattedSentence + '.';
 
