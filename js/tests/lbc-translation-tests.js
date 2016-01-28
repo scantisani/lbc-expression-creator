@@ -208,18 +208,6 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
 
   tree = {
     tag: 'ComparisonOp',
-    value: '>='
-  };
-  assert.equal(treeToLBC(tree), '>=');
-
-  tree = {
-    tag: 'ComparisonOp',
-    value: '<='
-  };
-  assert.equal(treeToLBC(tree), '<=');
-
-  tree = {
-    tag: 'ComparisonOp',
     value: '!='
   };
   assert.equal(treeToLBC(tree), '!=');

@@ -335,10 +335,10 @@ QUnit.test("TemporalInterval block generates correct tree", function(assert) {
   // set the TemporalInterval block's temporal modality field to 'Global'
   temporalInterval.setFieldValue('G', 'TEMP');
   // set the Comparison block's fields to reasonable values
-  // A for Species, Greater Than for Operator
+  // P for Species, Equal To for Operator
   comp.setFieldValue('P', 'SPECIES');
-  comp.setFieldValue('GTE', 'OP');
-  // set the Real block's Num field to 5
+  comp.setFieldValue('EQ', 'OP');
+  // set the Real block's Num field to 8
   real.setFieldValue('8', 'NUM');
 
   // the second element of the blockToCode array is operator precedence,
@@ -375,7 +375,7 @@ QUnit.test("TemporalInterval block generates correct tree", function(assert) {
           },
           {
             tag: 'ComparisonOp',
-            value: '>='
+            value: '='
           },
           {
             tag: 'Real',

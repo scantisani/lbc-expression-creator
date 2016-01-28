@@ -131,12 +131,8 @@ var treeToEnglish = function(tree) {
       switch (tree.value) {
         case '>':
           return 'greater than';
-        case '>=':
-          return 'greater than or equal to';
         case '<':
           return 'less than';
-        case '<=':
-          return 'less than or equal to';
         case '=':
           return 'equal to';
         case '!=':

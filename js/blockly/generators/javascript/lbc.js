@@ -72,9 +72,7 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
     'EQ': '=',
     'NEQ': '!=',
     'LT': '<',
-    'LTE': '<=',
-    'GT': '>',
-    'GTE': '>='
+    'GT': '>'
   };
 
   var species = block.getFieldValue('SPECIES');
@@ -98,9 +96,7 @@ Blockly.JavaScript['lbc_compare_inbuilt_temporal'] = function(block) {
     'EQ': '=',
     'NEQ': '!=',
     'LT': '<',
-    'LTE': '<=',
-    'GT': '>',
-    'GTE': '>='
+    'GT': '>'
   };
 
   var TEMP_MODALITIES = {

@@ -90,9 +90,7 @@ Blockly.Blocks['lbc_compare'] = {
           ['is equal to', 'EQ'],
           ['is not equal to', 'NEQ'],
           ['is less than', 'LT'],
-          ['is less than or equal to', 'LTE'],
-          ['is greater than', 'GT'],
-          ['is greater than or equal to', 'GTE']
+          ['is greater than', 'GT']
         ];
 
     this.setColour(60);
@@ -117,9 +115,7 @@ Blockly.Blocks['lbc_compare_inbuilt_temporal'] = {
           ['equal to', 'EQ'],
           ['not equal to', 'NEQ'],
           ['less than', 'LT'],
-          ['less than or equal to', 'LTE'],
-          ['greater than', 'GT'],
-          ['greater than or equal to', 'GTE']
+          ['greater than', 'GT']
         ];
 
     var TEMP_MODALITIES = [
