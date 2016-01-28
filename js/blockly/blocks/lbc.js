@@ -107,7 +107,7 @@ Blockly.Blocks['lbc_compare'] = {
   }
 };
 
-Blockly.Blocks['lbc_temporal_compare'] = {
+Blockly.Blocks['lbc_compare_inbuilt_temporal'] = {
   /**
    * Block for comparison with temporal drop-down menu.
    * @this Blockly.Block
@@ -156,7 +156,7 @@ Blockly.Blocks['lbc_real'] = {
   }
 };
 
-Blockly.Blocks['lbc_fg_compare'] = {
+Blockly.Blocks['lbc_compare_inbuilt_stays'] = {
   /**
    * Block for F(G())-style expressions.
    * @this Blockly.Block

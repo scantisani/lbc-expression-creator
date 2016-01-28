@@ -205,11 +205,11 @@ QUnit.test("Comparison block generates correct tree", function(assert) {
   assert.deepEqual(tree, expectedTree);
 });
 
-QUnit.test("Expr2 block generates correct tree", function(assert) {
+QUnit.test("Comparison block with inbuilt 'always/eventually' menu generates correct tree", function(assert) {
   var workspace = new Blockly.Workspace();
 
-  // make a new Expr2 block
-  var comp = Blockly.Block.obtain(workspace, 'lbc_temporal_compare');
+  // make a new Comparison with Inbuilt Temporal block
+  var comp = Blockly.Block.obtain(workspace, 'lbc_compare_inbuilt_temporal');
   // make a new Real block
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
 
@@ -262,11 +262,11 @@ QUnit.test("Expr2 block generates correct tree", function(assert) {
   assert.deepEqual(tree, expectedTree);
 });
 
-QUnit.test("Expr3 block generates correct tree", function(assert) {
+QUnit.test("Comparison block with inbuilt 'drops/rises to and stays below/above' menu generates correct tree", function(assert) {
   var workspace = new Blockly.Workspace();
 
   // make a new Expr3 block
-  var fgcomp = Blockly.Block.obtain(workspace, 'lbc_fg_compare');
+  var fgcomp = Blockly.Block.obtain(workspace, 'lbc_compare_inbuilt_stays');
   // make a new Real block
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
 

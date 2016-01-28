@@ -93,7 +93,7 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
+Blockly.JavaScript['lbc_compare_inbuilt_temporal'] = function(block) {
   var OPERATORS = {
     'EQ': '=',
     'NEQ': '!=',
@@ -136,7 +136,7 @@ Blockly.JavaScript['lbc_real'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['lbc_fg_compare'] = function(block) {
+Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
   var OPERATORS = {
     'LT': '<',
     'GT': '>',
