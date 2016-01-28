@@ -214,32 +214,6 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
 
 });
 QUnit.test("Arithmetic is translated correctly", function(assert) {
-  var tree = {
-    tag: 'Arithmetic',
-    children: [
-      {
-        tag: 'Real',
-        value: '6'
-      },
-      {
-        tag: 'ArithOperator',
-        value: '+'
-      },
-      {
-        tag: 'Real',
-        value: '15'
-      }
-    ]
-  };
-  assert.equal(treeToLBC(tree), '(6 + 15)');
-
-  tree.children[1].value = '-';
-  assert.equal(treeToLBC(tree), '(6 - 15)');
-  tree.children[1].value = '*';
-  assert.equal(treeToLBC(tree), '(6 * 15)');
-  tree.children[1].value = '/';
-  assert.equal(treeToLBC(tree), '(6 / 15)');
-
   tree = {
     tag: 'Arithmetic',
     children: [
@@ -265,32 +239,6 @@ QUnit.test("Arithmetic is translated correctly", function(assert) {
   assert.equal(treeToLBC(tree), '([A] * 15)');
   tree.children[1].value = '/';
   assert.equal(treeToLBC(tree), '([A] / 15)');
-
-  tree = {
-    tag: 'Arithmetic',
-    children: [
-      {
-        tag: 'Real',
-        value: '4'
-      },
-      {
-        tag: 'ArithOperator',
-        value: '+'
-      },
-      {
-        tag: 'Concentration',
-        value: 'T'
-      }
-    ]
-  };
-  assert.equal(treeToLBC(tree), '(4 + [T])');
-
-  tree.children[1].value = '-';
-  assert.equal(treeToLBC(tree), '(4 - [T])');
-  tree.children[1].value = '*';
-  assert.equal(treeToLBC(tree), '(4 * [T])');
-  tree.children[1].value = '/';
-  assert.equal(treeToLBC(tree), '(4 / [T])');
 
   tree = {
     tag: 'Arithmetic',

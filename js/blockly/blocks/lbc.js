@@ -183,17 +183,18 @@ Blockly.Blocks['lbc_arithmetic'] = {
   init: function() {
     var OPERATORS =
         [[Blockly.Msg.MATH_ADDITION_SYMBOL, 'ADD'],
-         [Blockly.Msg.MATH_SUBTRACTION_SYMBOL, 'MINUS'],
+         [Blockly.Msg.MATH_SUBTRACTION_SYMBOL, 'SUBTRACT'],
          [Blockly.Msg.MATH_MULTIPLICATION_SYMBOL, 'MULTIPLY'],
          [Blockly.Msg.MATH_DIVISION_SYMBOL, 'DIVIDE']];
 
     this.setColour(80);
     this.setOutput(true, 'Value');
-    this.appendValueInput('ARGUMENT1')
-        .setCheck(['Concentration', 'Real', 'Value']);
-    this.appendValueInput('ARGUMENT2')
-        .setCheck(['Concentration', 'Real', 'Value'])
+    this.appendDummyInput()
+        .appendField('the concentration of')
+        .appendField(new Blockly.FieldTextInput(''), 'SPECIES')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+    this.appendValueInput('ARGUMENT')
+        .setCheck(['Concentration', 'Real', 'Value']);
     this.setInputsInline(true);
   }
 };

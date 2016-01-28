@@ -147,10 +147,8 @@ Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
   var code = '{' +
     '"tag": "Expr3",' +
     '"children": [' +
-      '{"tag": "Concentration",' +
-      '"value": "' + species + '"},' +
-      '{"tag": "ComparisonOp",' +
-      '"value": "' + operator + '"},' +
+      '{"tag": "Concentration", "value": "' + species + '"},' +
+      '{"tag": "ComparisonOp", "value": "' + operator + '"},' +
       value +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
@@ -159,23 +157,23 @@ Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
 Blockly.JavaScript['lbc_arithmetic'] = function(block) {
   var OPERATORS = {
     'ADD': '+',
-    'MINUS': '-',
-    'TIMES': '*',
+    'SUBTRACT': '-',
+    'MULTIPLY': '*',
     'DIVIDE': '/'
   };
 
   var operator = block.getFieldValue('OP');
   operator = OPERATORS[operator];
 
-  var argument1 = Blockly.JavaScript.valueToCode(block, 'ARGUMENT1', Blockly.JavaScript.ORDER_NONE) || '0';
-  var argument2 = Blockly.JavaScript.valueToCode(block, 'ARGUMENT2', Blockly.JavaScript.ORDER_NONE) || '0';
+  var species = block.getFieldValue('SPECIES');
+  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '0';
 
   var code = '{' +
     '"tag": "Arithmetic",' +
     '"children": [' +
-      argument1 + ',' +
+      '{"tag": "Concentration", "value": "' + species + '"},' +
       '{"tag": "ArithOperator", "value": "' + operator + '"},' +
-      argument2 +
+      argument +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
