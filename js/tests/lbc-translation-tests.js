@@ -346,3 +346,12 @@ QUnit.test("Recursive arithmetic is translated correctly", function(assert) {
   tree.children[1].value = '/';
   assert.equal(treeToLBC(tree), '([V] / ([S] + [T]))');
 });
+
+QUnit.test("Comments are translated correctly", function(assert) {
+  var tree = {
+    tag: 'Comment',
+    value: 'a placeholder for other blocks'
+  };
+
+  assert.equal(treeToLBC(tree), '"a placeholder for other blocks"');
+});

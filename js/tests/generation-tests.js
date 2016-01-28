@@ -540,3 +540,20 @@ QUnit.test("Arithmetic block generates correct tree", function(assert) {
 
   assert.deepEqual(tree, expectedTree);
 });
+
+QUnit.test("Comment block generates correct tree", function(assert) {
+  var workspace = new Blockly.Workspace();
+  // make a new Comment block
+  var block = Blockly.Block.obtain(workspace, 'lbc_comment');
+
+  // set the block's TEXT input field value to 'some arbitrary words'
+  block.setFieldValue('some arbitrary words', 'TEXT');
+
+  // the second element of the blockToCode array is operator precedence,
+  // which we can safely ignore
+  var code = Blockly.JavaScript.blockToCode(block)[0];
+  // the code comes as a string, which we convert to a tree
+  var tree = JSON.parse(code);
+
+  assert.deepEqual(tree, {tag: 'Comment', value: 'some arbitrary words'});
+});

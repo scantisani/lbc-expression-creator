@@ -351,3 +351,12 @@ assert.equal(treeToEnglish(tree), 'the concentration of A, minus the concentrati
   tree.children[1].value = '/';
   assert.equal(treeToEnglish(tree), 'the concentration of X, divided by the concentration of Y plus the concentration of Z');
 });
+
+QUnit.test("Comments are translated correctly", function(assert) {
+  var tree = {
+    tag: 'Comment',
+    value: 'a placeholder for other blocks'
+  };
+
+  assert.equal(treeToEnglish(tree), 'a placeholder for other blocks');
+});
