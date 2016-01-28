@@ -10,10 +10,10 @@ var treeToLBC = function(tree) {
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
     case 'Expr3':
       var concentration = tree.children[0];
-      var op = tree.children[1];
+      var operator = tree.children[1];
       var value = tree.children[2];
       return  'F(G(' + treeToLBC(concentration) + ' ' +
-              op.value + ' ' + treeToLBC(value) + '))';
+              operator.value + ' ' + treeToLBC(value) + '))';
     case 'Expr4':
       var temp = tree.children[0];
       var comp = tree.children[1];
@@ -35,16 +35,16 @@ var treeToLBC = function(tree) {
     case 'ArithOperator':
       return tree.value;
     case 'Comparison':
-      var v1 = tree.children[0];
-      var op = tree.children[1];
-      var v2 = tree.children[2];
-      return treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2);
+      var value1 = tree.children[0];
+      var operator = tree.children[1];
+      var value2 = tree.children[2];
+      return treeToLBC(value1) + ' ' + treeToLBC(operator) + ' ' + treeToLBC(value2);
     case 'Arithmetic':
-      var v1 = tree.children[0];
-      var op = tree.children[1];
-      var v2 = tree.children[2];
+      var value1 = tree.children[0];
+      var operator = tree.children[1];
+      var value2 = tree.children[2];
 
-      return '(' + treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2) + ')';
+      return '(' + treeToLBC(value1) + ' ' + treeToLBC(operator) + ' ' + treeToLBC(value2) + ')';
     case 'Concentration':
       return '[' + tree.value + ']';
     case 'Real':
@@ -84,10 +84,10 @@ var treeToEnglish = function(tree) {
       return format(sentence);
     case 'Expr3':
       var concentration = tree.children[0];
-      var op = tree.children[1];
+      var operator = tree.children[1];
       var value = tree.children[2];
 
-      var opString = (op.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
+      var opString = (operator.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
       var sentence =  treeToEnglish(concentration) + ' eventually ' +
                       opString + ' ' + treeToEnglish(value);
 
