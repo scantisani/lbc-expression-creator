@@ -1,23 +1,23 @@
 var treeToLBC = function(tree) {
   switch (tree.tag) {
-    case 'TempComp':
+    case 'Expr1':
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
-    case 'TempCompInterval':
+    case 'Expr2':
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
-    case 'TempMidComp':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
-    case 'FGComp':
+    case 'Expr3':
       var concentration = tree.children[0];
-      var op = tree.children[1];
+      var operator = tree.children[1];
       var value = tree.children[2];
       return  'F(G(' + treeToLBC(concentration) + ' ' +
-              op.value + ' ' + treeToLBC(value) + '))';
+              operator.value + ' ' + treeToLBC(value) + '))';
+    case 'Expr4':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
     case 'Temporal':
       return treeToLBC(tree.children[0]);
     case 'TemporalInterval':
@@ -35,20 +35,22 @@ var treeToLBC = function(tree) {
     case 'ArithOperator':
       return tree.value;
     case 'Comparison':
-      var v1 = tree.children[0];
-      var op = tree.children[1];
-      var v2 = tree.children[2];
-      return treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2);
+      var value1 = tree.children[0];
+      var operator = tree.children[1];
+      var value2 = tree.children[2];
+      return treeToLBC(value1) + ' ' + treeToLBC(operator) + ' ' + treeToLBC(value2);
     case 'Arithmetic':
-      var v1 = tree.children[0];
-      var op = tree.children[1];
-      var v2 = tree.children[2];
+      var value1 = tree.children[0];
+      var operator = tree.children[1];
+      var value2 = tree.children[2];
 
-      return '(' + treeToLBC(v1) + ' ' + treeToLBC(op) + ' ' + treeToLBC(v2) + ')';
+      return '(' + treeToLBC(value1) + ' ' + treeToLBC(operator) + ' ' + treeToLBC(value2) + ')';
     case 'Concentration':
       return '[' + tree.value + ']';
     case 'Real':
       return tree.value;
+    case 'Comment':
+      return '"' + tree.value + '"';
     default:
       return '';
   }
@@ -56,7 +58,7 @@ var treeToLBC = function(tree) {
 
 var treeToEnglish = function(tree) {
   switch (tree.tag) {
-    case 'TempComp':
+    case 'Expr1':
       var temp = tree.children[0];
       var comp = tree.children[1];
 
@@ -69,7 +71,30 @@ var treeToEnglish = function(tree) {
                       ' ' + treeToEnglish(value);
 
       return format(sentence);
-    case 'TempCompInterval':
+    case 'Expr2':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      var sentence =  treeToEnglish(concentration) + ' is ' +
+                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
+                      ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'Expr3':
+      var concentration = tree.children[0];
+      var operator = tree.children[1];
+      var value = tree.children[2];
+
+      var opString = (operator.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
+      var sentence =  treeToEnglish(concentration) + ' eventually ' +
+                      opString + ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'Expr4':
       var temp = tree.children[0];
       var comp = tree.children[1];
 
@@ -91,29 +116,6 @@ var treeToEnglish = function(tree) {
       }
 
       return format(sentence);
-    case 'TempMidComp':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-
-      var concentration = comp.children[0];
-      var operator = comp.children[1];
-      var value = comp.children[2];
-
-      var sentence =  treeToEnglish(concentration) + ' is ' +
-                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
-                      ' ' + treeToEnglish(value);
-
-      return format(sentence);
-    case 'FGComp':
-      var concentration = tree.children[0];
-      var op = tree.children[1];
-      var value = tree.children[2];
-
-      var opString = (op.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
-      var sentence =  treeToEnglish(concentration) + ' eventually ' +
-                      opString + ' ' + treeToEnglish(value);
-
-      return format(sentence);
     case 'Future':
       return 'eventually';
     case 'Global':
@@ -131,12 +133,8 @@ var treeToEnglish = function(tree) {
       switch (tree.value) {
         case '>':
           return 'greater than';
-        case '>=':
-          return 'greater than or equal to';
         case '<':
           return 'less than';
-        case '<=':
-          return 'less than or equal to';
         case '=':
           return 'equal to';
         case '!=':
@@ -145,7 +143,34 @@ var treeToEnglish = function(tree) {
           return '';
       }
       break;
+    case 'Arithmetic':
+      var concentration = tree.children[0];
+      var operator = tree.children[1];
+      var value = tree.children[2];
+
+      if (value.tag === 'Arithmetic') {
+        return treeToEnglish(concentration) + ', ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      } else {
+        return treeToEnglish(concentration) + ' ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      }
+      break;
+    case 'ArithOperator':
+      switch (tree.value) {
+        case '+':
+          return 'plus';
+        case '-':
+          return 'minus';
+        case '*':
+          return 'multiplied by';
+        case '/':
+          return 'divided by';
+        default:
+          return '';
+      }
+      break;
     case 'Real':
+      return tree.value;
+    case 'Comment':
       return tree.value;
     default:
       return '';
@@ -154,7 +179,7 @@ var treeToEnglish = function(tree) {
 
 var format = function(sentence) {
   // Capitalize the first letter of the sentence
-  formattedSentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+  var formattedSentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
   // Add a full stop at the end of the sentence
   formattedSentence = formattedSentence + '.';
 
