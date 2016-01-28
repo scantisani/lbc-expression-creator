@@ -141,6 +141,26 @@ var treeToEnglish = function(tree) {
           return '';
       }
       break;
+    case 'Arithmetic':
+      var concentration = tree.children[0];
+      var operator = tree.children[1];
+      var value = tree.children[2];
+
+      return treeToEnglish(concentration) + ', ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+    case 'ArithOperator':
+      switch (tree.value) {
+        case '+':
+          return 'plus';
+        case '-':
+          return 'minus';
+        case '*':
+          return 'multiplied by';
+        case '/':
+          return 'divided by';
+        default:
+          return '';
+      }
+      break;
     case 'Real':
       return tree.value;
     default:
