@@ -21,7 +21,7 @@ Blockly.JavaScript['lbc_concentration'] = function(block) {
 Blockly.JavaScript['lbc_future'] = function(block) {
   var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
   var code = '{' +
-    '"tag": "TempComp",' +
+    '"tag": "Expr1",' +
     '"children": [' +
       '{"tag": "Future"},' +
       expression +
@@ -32,7 +32,7 @@ Blockly.JavaScript['lbc_future'] = function(block) {
 Blockly.JavaScript['lbc_global'] = function(block) {
   var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
   var code = '{' +
-    '"tag": "TempComp",' +
+    '"tag": "Expr1",' +
     '"children": [' +
       '{"tag": "Global"},' +
       expression +
@@ -54,7 +54,7 @@ Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
   temporal = TEMP_MODALITIES[temporal];
 
   var code = '{' +
-    '"tag": "TempCompInterval",' +
+    '"tag": "Expr4",' +
     '"children": [' +
       '{"tag": "TemporalInterval", "children": [' +
         '{"tag": "' + temporal + '"},' +
@@ -117,7 +117,7 @@ Blockly.JavaScript['lbc_temporal_compare'] = function(block) {
   temporal = TEMP_MODALITIES[temporal];
 
   var code = '{' +
-    '"tag": "TempMidComp",' +
+    '"tag": "Expr2",' +
     '"children": [' +
       '{"tag": "' + temporal + '"},' +
       '{"tag": "Comparison",' +
@@ -149,7 +149,7 @@ Blockly.JavaScript['lbc_fg_compare'] = function(block) {
   var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
 
   var code = '{' +
-    '"tag": "FGComp",' +
+    '"tag": "Expr3",' +
     '"children": [' +
       '{"tag": "Concentration",' +
       '"value": "' + species + '"},' +

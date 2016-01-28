@@ -67,7 +67,7 @@ QUnit.test("Global block generates correct tree", function(assert) {
   var tree = JSON.parse(code);
 
   var expectedTree = {
-    tag: 'TempComp',
+    tag: 'Expr1',
     children: [
       {
         tag: 'Global'
@@ -129,7 +129,7 @@ QUnit.test("Future block generates correct tree", function(assert) {
   var tree = JSON.parse(code);
 
   var expectedTree = {
-    tag: 'TempComp',
+    tag: 'Expr1',
     children: [
       {
         tag: 'Future'
@@ -205,10 +205,10 @@ QUnit.test("Comparison block generates correct tree", function(assert) {
   assert.deepEqual(tree, expectedTree);
 });
 
-QUnit.test("TempMidComp block generates correct tree", function(assert) {
+QUnit.test("Expr2 block generates correct tree", function(assert) {
   var workspace = new Blockly.Workspace();
 
-  // make a new TempMidComp block
+  // make a new Expr2 block
   var comp = Blockly.Block.obtain(workspace, 'lbc_temporal_compare');
   // make a new Real block
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
@@ -234,7 +234,7 @@ QUnit.test("TempMidComp block generates correct tree", function(assert) {
   var tree = JSON.parse(code);
 
   var expectedTree = {
-    tag: 'TempMidComp',
+    tag: 'Expr2',
     children: [
       {
         tag: 'Future'
@@ -262,15 +262,15 @@ QUnit.test("TempMidComp block generates correct tree", function(assert) {
   assert.deepEqual(tree, expectedTree);
 });
 
-QUnit.test("FGComp block generates correct tree", function(assert) {
+QUnit.test("Expr3 block generates correct tree", function(assert) {
   var workspace = new Blockly.Workspace();
 
-  // make a new FGComp block
+  // make a new Expr3 block
   var fgcomp = Blockly.Block.obtain(workspace, 'lbc_fg_compare');
   // make a new Real block
   var real = Blockly.Block.obtain(workspace, 'lbc_real');
 
-  // set FGComp block's fields to reasonable values
+  // set Expr3 block's fields to reasonable values
   // 'X' for species, LessThan for operator
   fgcomp.setFieldValue('X', 'SPECIES');
   fgcomp.setFieldValue('LT', 'OP');
@@ -289,7 +289,7 @@ QUnit.test("FGComp block generates correct tree", function(assert) {
   var tree = JSON.parse(code);
 
   var expectedTree = {
-    tag: 'FGComp',
+    tag: 'Expr3',
     children: [
       {
         tag: 'Concentration',
@@ -348,7 +348,7 @@ QUnit.test("TemporalInterval block generates correct tree", function(assert) {
   var tree = JSON.parse(code);
 
   var expectedTree = {
-    tag: 'TempCompInterval',
+    tag: 'Expr4',
     children: [
       {
         tag: 'TemporalInterval',

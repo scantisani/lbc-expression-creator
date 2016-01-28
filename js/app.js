@@ -1,23 +1,23 @@
 var treeToLBC = function(tree) {
   switch (tree.tag) {
-    case 'TempComp':
+    case 'Expr1':
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
-    case 'TempCompInterval':
+    case 'Expr2':
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
-    case 'TempMidComp':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
-    case 'FGComp':
+    case 'Expr3':
       var concentration = tree.children[0];
       var op = tree.children[1];
       var value = tree.children[2];
       return  'F(G(' + treeToLBC(concentration) + ' ' +
               op.value + ' ' + treeToLBC(value) + '))';
+    case 'Expr4':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
     case 'Temporal':
       return treeToLBC(tree.children[0]);
     case 'TemporalInterval':
@@ -56,7 +56,7 @@ var treeToLBC = function(tree) {
 
 var treeToEnglish = function(tree) {
   switch (tree.tag) {
-    case 'TempComp':
+    case 'Expr1':
       var temp = tree.children[0];
       var comp = tree.children[1];
 
@@ -69,7 +69,30 @@ var treeToEnglish = function(tree) {
                       ' ' + treeToEnglish(value);
 
       return format(sentence);
-    case 'TempCompInterval':
+    case 'Expr2':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      var sentence =  treeToEnglish(concentration) + ' is ' +
+                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
+                      ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'Expr3':
+      var concentration = tree.children[0];
+      var op = tree.children[1];
+      var value = tree.children[2];
+
+      var opString = (op.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
+      var sentence =  treeToEnglish(concentration) + ' eventually ' +
+                      opString + ' ' + treeToEnglish(value);
+
+      return format(sentence);
+    case 'Expr4':
       var temp = tree.children[0];
       var comp = tree.children[1];
 
@@ -89,29 +112,6 @@ var treeToEnglish = function(tree) {
                         ', ' + treeToEnglish(concentration) + ' is always ' +
                         treeToEnglish(operator) + ' ' + treeToEnglish(value);
       }
-
-      return format(sentence);
-    case 'TempMidComp':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-
-      var concentration = comp.children[0];
-      var operator = comp.children[1];
-      var value = comp.children[2];
-
-      var sentence =  treeToEnglish(concentration) + ' is ' +
-                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
-                      ' ' + treeToEnglish(value);
-
-      return format(sentence);
-    case 'FGComp':
-      var concentration = tree.children[0];
-      var op = tree.children[1];
-      var value = tree.children[2];
-
-      var opString = (op.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
-      var sentence =  treeToEnglish(concentration) + ' eventually ' +
-                      opString + ' ' + treeToEnglish(value);
 
       return format(sentence);
     case 'Future':

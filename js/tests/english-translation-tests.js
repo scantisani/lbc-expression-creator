@@ -1,7 +1,7 @@
 QUnit.module("Tree -> English");
-QUnit.test("TempComp is translated correctly", function(assert) {
+QUnit.test("Expr1 is translated correctly", function(assert) {
   var tree = {
-    tag: 'TempComp',
+    tag: 'Expr1',
     children: [
       {
         tag: 'Future',
@@ -28,6 +28,107 @@ QUnit.test("TempComp is translated correctly", function(assert) {
   };
 
   assert.equal(treeToEnglish(tree), 'The concentration of A is eventually greater than 0.');
+});
+
+QUnit.test("Expr2 is translated correctly", function(assert) {
+  var tree = {
+    tag: 'Expr2',
+    children: [{
+      tag: 'Future'
+    },
+    {
+      tag: 'Comparison',
+      children: [
+        {
+          tag: 'Concentration',
+          value: 'A'
+        },
+        {
+          tag: 'ComparisonOp',
+          value: '>'
+        },
+        {
+          tag: 'Real',
+          value: '5'
+        }
+      ]
+    }]
+  };
+
+  assert.equal(treeToEnglish(tree), 'The concentration of A is eventually greater than 5.');
+});
+
+QUnit.test("Expr3 is translated correctly", function(assert) {
+  var tree = {
+    tag: 'Expr3',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'A'
+      },
+      {
+        tag: 'ComparisonOp',
+        value: '<'
+      },
+      {
+        tag: 'Real',
+        value: '5'
+      }
+    ]
+  };
+
+  assert.equal(treeToEnglish(tree), 'The concentration of A eventually drops to and stays below 5.');
+
+  // set the operator in the tree to '>'
+  tree.children[1].value = '>';
+
+  assert.equal(treeToEnglish(tree), 'The concentration of A eventually rises to and stays above 5.');
+});
+
+QUnit.test("Expr4 is translated correctly", function(assert) {
+  var tree = {
+    tag: 'Expr4',
+    children: [
+      {
+        tag: 'TemporalInterval',
+        children: [
+          {
+            tag: 'Global'
+          },
+          {
+            tag: 'IntervalStart',
+            value: '5'
+          },
+          {
+            tag: 'IntervalEnd',
+            value: '15'
+          }
+        ]
+      },
+      {
+        tag: 'Comparison',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'B'
+          },
+          {
+            tag: 'ComparisonOp',
+            value: '='
+          },
+          {
+            tag: 'Real',
+            value: '0.75'
+          }
+        ]
+      }
+    ]
+  };
+
+  assert.equal(treeToEnglish(tree), 'Between times 5 and 15, the concentration of B is always equal to 0.75.');
+
+  tree.children[0].children[0].tag = 'Future';
+  assert.equal(treeToEnglish(tree), 'At some point between times 5 and 15, the concentration of B is equal to 0.75.');
 });
 
 QUnit.test("Real values are translated correctly", function(assert) {
@@ -128,105 +229,4 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
   };
   assert.equal(treeToEnglish(tree), 'not equal to');
 
-});
-
-QUnit.test("TempMidComp is translated correctly", function(assert) {
-  var tree = {
-    tag: 'TempMidComp',
-    children: [{
-      tag: 'Future'
-    },
-    {
-      tag: 'Comparison',
-      children: [
-        {
-          tag: 'Concentration',
-          value: 'A'
-        },
-        {
-          tag: 'ComparisonOp',
-          value: '>'
-        },
-        {
-          tag: 'Real',
-          value: '5'
-        }
-      ]
-    }]
-  };
-
-  assert.equal(treeToEnglish(tree), 'The concentration of A is eventually greater than 5.');
-});
-
-QUnit.test("FGComp is translated correctly", function(assert) {
-  var tree = {
-    tag: 'FGComp',
-    children: [
-      {
-        tag: 'Concentration',
-        value: 'A'
-      },
-      {
-        tag: 'ComparisonOp',
-        value: '<'
-      },
-      {
-        tag: 'Real',
-        value: '5'
-      }
-    ]
-  };
-
-  assert.equal(treeToEnglish(tree), 'The concentration of A eventually drops to and stays below 5.');
-
-  // set the operator in the tree to '>'
-  tree.children[1].value = '>';
-
-  assert.equal(treeToEnglish(tree), 'The concentration of A eventually rises to and stays above 5.');
-});
-
-QUnit.test("TempCompInterval is translated correctly", function(assert) {
-  var tree = {
-    tag: 'TempCompInterval',
-    children: [
-      {
-        tag: 'TemporalInterval',
-        children: [
-          {
-            tag: 'Global'
-          },
-          {
-            tag: 'IntervalStart',
-            value: '5'
-          },
-          {
-            tag: 'IntervalEnd',
-            value: '15'
-          }
-        ]
-      },
-      {
-        tag: 'Comparison',
-        children: [
-          {
-            tag: 'Concentration',
-            value: 'B'
-          },
-          {
-            tag: 'ComparisonOp',
-            value: '='
-          },
-          {
-            tag: 'Real',
-            value: '0.75'
-          }
-        ]
-      }
-    ]
-  };
-
-  assert.equal(treeToEnglish(tree), 'Between times 5 and 15, the concentration of B is always equal to 0.75.');
-
-  tree.children[0].children[0].tag = 'Future';
-  assert.equal(treeToEnglish(tree), 'At some point between times 5 and 15, the concentration of B is equal to 0.75.');
 });
