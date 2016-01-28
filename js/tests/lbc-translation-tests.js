@@ -213,7 +213,7 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
 
 });
 
-QUnit.test("Arithmetic is translated correctly", function(assert) {
+QUnit.test("Non-recursive arithmetic is translated correctly", function(assert) {
   tree = {
     tag: 'Arithmetic',
     children: [
@@ -265,4 +265,84 @@ QUnit.test("Arithmetic is translated correctly", function(assert) {
   assert.equal(treeToLBC(tree), '([V] * [T])');
   tree.children[1].value = '/';
   assert.equal(treeToLBC(tree), '([V] / [T])');
+});
+
+QUnit.test("Recursive arithmetic is translated correctly", function(assert) {
+  tree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'A'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '+'
+      },
+      {
+        tag: 'Arithmetic',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'B'
+          },
+          {
+            tag: 'ArithOperator',
+            value: '+'
+          },
+          {
+            tag: 'Real',
+            value: '15'
+          }
+        ]
+      }
+    ]
+  };
+  assert.equal(treeToLBC(tree), '([A] + ([B] + 15))');
+
+  tree.children[1].value = '-';
+  assert.equal(treeToLBC(tree), '([A] - ([B] + 15))');
+  tree.children[1].value = '*';
+  assert.equal(treeToLBC(tree), '([A] * ([B] + 15))');
+  tree.children[1].value = '/';
+  assert.equal(treeToLBC(tree), '([A] / ([B] + 15))');
+
+  tree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'V'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '+'
+      },
+      {
+        tag: 'Arithmetic',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'S'
+          },
+          {
+            tag: 'ArithOperator',
+            value: '+'
+          },
+          {
+            tag: 'Concentration',
+            value: 'T'
+          }
+        ]
+      }
+    ]
+  };
+  assert.equal(treeToLBC(tree), '([V] + ([S] + [T]))');
+
+  tree.children[1].value = '-';
+  assert.equal(treeToLBC(tree), '([V] - ([S] + [T]))');
+  tree.children[1].value = '*';
+  assert.equal(treeToLBC(tree), '([V] * ([S] + [T]))');
+  tree.children[1].value = '/';
+  assert.equal(treeToLBC(tree), '([V] / ([S] + [T]))');
 });
