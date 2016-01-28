@@ -4,8 +4,7 @@ QUnit.test("Expr1 is translated correctly", function(assert) {
     tag: 'Expr1',
     children: [
       {
-        tag: 'Future',
-        children: []
+        tag: 'Future'
       },
       {
         tag: 'Comparison',
