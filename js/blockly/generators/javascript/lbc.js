@@ -11,10 +11,10 @@ goog.require('Blockly.JavaScript');
 
 Blockly.JavaScript['lbc_concentration'] = function(block) {
   var species = block.getFieldValue('SPECIES');
-  var code = JSON.stringify({
-    tag: 'Concentration',
-    value: species
-  });
+  var code = '{' +
+    '"tag": "Concentration",' +
+    '"value": "' + species + '"' +
+  '}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
