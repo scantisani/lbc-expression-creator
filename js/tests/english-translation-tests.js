@@ -217,3 +217,57 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
   assert.equal(treeToEnglish(tree), 'not equal to');
 
 });
+
+QUnit.test("Arithmetic is translated correctly", function(assert) {
+  tree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'A'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '+'
+      },
+      {
+        tag: 'Real',
+        value: '15'
+      }
+    ]
+  };
+  assert.equal(treeToEnglish(tree), 'the concentration of A, plus 15');
+
+  tree.children[1].value = '-';
+  assert.equal(treeToEnglish(tree), 'the concentration of A, minus 15');
+  tree.children[1].value = '*';
+  assert.equal(treeToEnglish(tree), 'the concentration of A, multiplied by 15');
+  tree.children[1].value = '/';
+  assert.equal(treeToEnglish(tree), 'the concentration of A, divided by 15');
+
+  tree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'V'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '+'
+      },
+      {
+        tag: 'Concentration',
+        value: 'T'
+      }
+    ]
+  };
+  assert.equal(treeToEnglish(tree), 'the concentration of V, plus the concentration of T');
+
+  tree.children[1].value = '-';
+  assert.equal(treeToEnglish(tree), 'the concentration of V, minus the concentration of T');
+  tree.children[1].value = '*';
+  assert.equal(treeToEnglish(tree), 'the concentration of V, multiplied by the concentration of T');
+  tree.children[1].value = '/';
+  assert.equal(treeToEnglish(tree), 'the concentration of V, divided by the concentration of T');
+});
