@@ -125,7 +125,6 @@ QUnit.test("Expr4 is translated correctly", function(assert) {
   assert.equal(treeToLBC(tree), 'F{5, 15}([B] = 0.75)');
 });
 
-
 QUnit.test("Real values are translated correctly", function(assert) {
   var tree = {
     tag: 'Real',
@@ -213,6 +212,7 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
   assert.equal(treeToLBC(tree), '!=');
 
 });
+
 QUnit.test("Arithmetic is translated correctly", function(assert) {
   tree = {
     tag: 'Arithmetic',
