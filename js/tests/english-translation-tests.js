@@ -218,7 +218,7 @@ QUnit.test("Comparison operators are translated correctly", function(assert) {
 
 });
 
-QUnit.test("Arithmetic is translated correctly", function(assert) {
+QUnit.test("Non-recursive arithmetic is translated correctly", function(assert) {
   tree = {
     tag: 'Arithmetic',
     children: [
@@ -236,14 +236,14 @@ QUnit.test("Arithmetic is translated correctly", function(assert) {
       }
     ]
   };
-  assert.equal(treeToEnglish(tree), 'the concentration of A, plus 15');
+  assert.equal(treeToEnglish(tree), 'the concentration of A plus 15');
 
   tree.children[1].value = '-';
-  assert.equal(treeToEnglish(tree), 'the concentration of A, minus 15');
+  assert.equal(treeToEnglish(tree), 'the concentration of A minus 15');
   tree.children[1].value = '*';
-  assert.equal(treeToEnglish(tree), 'the concentration of A, multiplied by 15');
+  assert.equal(treeToEnglish(tree), 'the concentration of A multiplied by 15');
   tree.children[1].value = '/';
-  assert.equal(treeToEnglish(tree), 'the concentration of A, divided by 15');
+  assert.equal(treeToEnglish(tree), 'the concentration of A divided by 15');
 
   tree = {
     tag: 'Arithmetic',
@@ -262,12 +262,92 @@ QUnit.test("Arithmetic is translated correctly", function(assert) {
       }
     ]
   };
-  assert.equal(treeToEnglish(tree), 'the concentration of V, plus the concentration of T');
+  assert.equal(treeToEnglish(tree), 'the concentration of V plus the concentration of T');
 
   tree.children[1].value = '-';
-  assert.equal(treeToEnglish(tree), 'the concentration of V, minus the concentration of T');
+  assert.equal(treeToEnglish(tree), 'the concentration of V minus the concentration of T');
   tree.children[1].value = '*';
-  assert.equal(treeToEnglish(tree), 'the concentration of V, multiplied by the concentration of T');
+  assert.equal(treeToEnglish(tree), 'the concentration of V multiplied by the concentration of T');
   tree.children[1].value = '/';
-  assert.equal(treeToEnglish(tree), 'the concentration of V, divided by the concentration of T');
+  assert.equal(treeToEnglish(tree), 'the concentration of V divided by the concentration of T');
+});
+
+QUnit.test("Recursive arithmetic is translated correctly", function(assert) {
+  tree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'A'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '+'
+      },
+      {
+        tag: 'Arithmetic',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'B'
+          },
+          {
+            tag: 'ArithOperator',
+            value: '+'
+          },
+          {
+            tag: 'Real',
+            value: '15'
+          }
+        ]
+      }
+    ]
+  };
+assert.equal(treeToEnglish(tree), 'the concentration of A, plus the concentration of B plus 15');
+
+tree.children[1].value = '-';
+assert.equal(treeToEnglish(tree), 'the concentration of A, minus the concentration of B plus 15');
+  tree.children[1].value = '*';
+  assert.equal(treeToEnglish(tree), 'the concentration of A, multiplied by the concentration of B plus 15');
+  tree.children[1].value = '/';
+  assert.equal(treeToEnglish(tree), 'the concentration of A, divided by the concentration of B plus 15');
+
+  tree = {
+    tag: 'Arithmetic',
+    children: [
+      {
+        tag: 'Concentration',
+        value: 'X'
+      },
+      {
+        tag: 'ArithOperator',
+        value: '+'
+      },
+      {
+        tag: 'Arithmetic',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'Y'
+          },
+          {
+            tag: 'ArithOperator',
+            value: '+'
+          },
+          {
+            tag: 'Concentration',
+            value: 'Z'
+          }
+        ]
+      }
+    ]
+  };
+  assert.equal(treeToEnglish(tree), 'the concentration of X, plus the concentration of Y plus the concentration of Z');
+
+  tree.children[1].value = '-';
+  assert.equal(treeToEnglish(tree), 'the concentration of X, minus the concentration of Y plus the concentration of Z');
+  tree.children[1].value = '*';
+  assert.equal(treeToEnglish(tree), 'the concentration of X, multiplied by the concentration of Y plus the concentration of Z');
+  tree.children[1].value = '/';
+  assert.equal(treeToEnglish(tree), 'the concentration of X, divided by the concentration of Y plus the concentration of Z');
 });
