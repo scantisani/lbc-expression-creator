@@ -146,7 +146,12 @@ var treeToEnglish = function(tree) {
       var operator = tree.children[1];
       var value = tree.children[2];
 
-      return treeToEnglish(concentration) + ', ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      if (value.tag === 'Arithmetic') {
+        return treeToEnglish(concentration) + ', ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      } else {
+        return treeToEnglish(concentration) + ' ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      }
+      break;
     case 'ArithOperator':
       switch (tree.value) {
         case '+':
