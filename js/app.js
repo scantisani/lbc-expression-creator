@@ -49,6 +49,8 @@ var treeToLBC = function(tree) {
       return '[' + tree.value + ']';
     case 'Real':
       return tree.value;
+    case 'Comment':
+      return '"' + tree.value + '"';
     default:
       return '';
   }
@@ -167,6 +169,8 @@ var treeToEnglish = function(tree) {
       }
       break;
     case 'Real':
+      return tree.value;
+    case 'Comment':
       return tree.value;
     default:
       return '';

@@ -32,7 +32,7 @@ Blockly.Blocks['lbc_future'] = {
   init: function() {
     this.setColour(10);
     this.appendValueInput('EXPRESSION')
-        .setCheck('Comparison')
+        .setCheck(['Comparison', 'Comment'])
         .appendField('Eventually,');
     this.setTooltip('');
   }
@@ -46,7 +46,7 @@ Blockly.Blocks['lbc_global'] = {
   init: function() {
     this.setColour(10);
     this.appendValueInput('EXPRESSION')
-        .setCheck('Comparison')
+        .setCheck(['Comparison', 'Comment'])
         .appendField('It is always the case that');
     this.setTooltip('');
   }
@@ -63,14 +63,13 @@ Blockly.Blocks['lbc_temporal_interval'] = {
           ['all points', 'G']
         ];
 
-    this.setColour(10);
+    this.setColour(0);
     this.appendDummyInput()
         .appendField('At')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP')
         .appendField('between');
     this.appendValueInput('COMPARISON')
-        .setCheck('Comparison')
-
+        .setCheck(['Comparison', 'Comment'])
         .appendField('times')
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'START')
@@ -99,7 +98,7 @@ Blockly.Blocks['lbc_compare'] = {
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.appendValueInput('VALUE')
-        .setCheck(['Real', 'Concentration', 'Value'])
+        .setCheck(['Real', 'Concentration', 'Value', 'Comment'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
   }
@@ -132,7 +131,7 @@ Blockly.Blocks['lbc_compare_inbuilt_temporal'] = {
         .appendField('is')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
     this.appendValueInput('VALUE')
-        .setCheck(['Concentration', 'Real', 'Value'])
+        .setCheck(['Concentration', 'Real', 'Value', 'Comment'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
   }
@@ -168,7 +167,7 @@ Blockly.Blocks['lbc_compare_inbuilt_stays'] = {
         .appendField('The concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
     this.appendValueInput('VALUE')
-        .setCheck(['Concentration', 'Real', 'Value'])
+        .setCheck(['Concentration', 'Real', 'Value', 'Comment'])
         .appendField('eventually')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     // this.setInputsInline(true);
@@ -187,15 +186,27 @@ Blockly.Blocks['lbc_arithmetic'] = {
          [Blockly.Msg.MATH_MULTIPLICATION_SYMBOL, 'MULTIPLY'],
          [Blockly.Msg.MATH_DIVISION_SYMBOL, 'DIVIDE']];
 
-    this.setColour(80);
+    this.setColour(110);
     this.setOutput(true, 'Value');
     this.appendDummyInput()
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.appendValueInput('ARGUMENT')
-        .setCheck(['Concentration', 'Real', 'Value']);
+        .setCheck(['Concentration', 'Real', 'Value', 'Comment']);
     this.setInputsInline(true);
   }
 };
 
+Blockly.Blocks['lbc_comment'] = {
+  /**
+   * Block for writing comments within an LBC formula.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(200);
+    this.setOutput(true, 'Comment');
+    this.appendValueInput('ARGUMENT')
+        .appendField(new Blockly.FieldTextInput('Put a comment here!'), 'TEXT');
+  }
+};

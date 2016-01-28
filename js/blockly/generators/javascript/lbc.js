@@ -177,3 +177,12 @@ Blockly.JavaScript['lbc_arithmetic'] = function(block) {
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
+
+Blockly.JavaScript['lbc_comment'] = function(block) {
+  var text = block.getFieldValue('TEXT');
+  var code = '{' +
+    '"tag": "Comment",' +
+    '"value": "' + text + '"' +
+  '}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
