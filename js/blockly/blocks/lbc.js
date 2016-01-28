@@ -15,7 +15,7 @@ Blockly.Blocks['lbc_concentration'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(80);
+    this.setColour(110);
     this.appendDummyInput()
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
@@ -30,7 +30,7 @@ Blockly.Blocks['lbc_future'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(10);
+    this.setColour(0);
     this.appendValueInput('EXPRESSION')
         .setCheck(['Comparison', 'Comment'])
         .appendField('Eventually,');
@@ -44,7 +44,7 @@ Blockly.Blocks['lbc_global'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(10);
+    this.setColour(0);
     this.appendValueInput('EXPRESSION')
         .setCheck(['Comparison', 'Comment'])
         .appendField('It is always the case that');
@@ -143,7 +143,7 @@ Blockly.Blocks['lbc_real'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(80);
+    this.setColour(110);
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'NUM');
