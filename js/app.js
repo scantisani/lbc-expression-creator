@@ -18,6 +18,14 @@ var treeToLBC = function(tree) {
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'Expr5':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'Expr6':
+      var comment = tree.children[0];
+      var subExpression = tree.children[1];
+      return treeToLBC(comment) + ' ' + treeToLBC(subExpression);
     case 'Temporal':
       return treeToLBC(tree.children[0]);
     case 'TemporalInterval':
@@ -116,6 +124,34 @@ var treeToEnglish = function(tree) {
       }
 
       return format(sentence);
+    case 'Expr5':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var modality = temp.children[0];
+      var end = temp.children[2];
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      if (modality.tag === 'Future') {
+        var sentence =  'At some point before time ' + end.value +
+                        ', ' + treeToEnglish(concentration) + ' is ' +
+                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      } else {
+        var sentence =  'Before time ' + end.value +
+                        ', ' + treeToEnglish(concentration) + ' is always ' +
+                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      }
+
+      return format(sentence);
+    case 'Expr6':
+      var comment = tree.children[0];
+      var subExpression = tree.children[1];
+
+      var sentence = treeToEnglish(comment) + ' ' + treeToEnglish(subExpression);
+
+      return format(sentence);
     case 'Future':
       return 'eventually';
     case 'Global':
@@ -171,7 +207,7 @@ var treeToEnglish = function(tree) {
     case 'Real':
       return tree.value;
     case 'Comment':
-      return tree.value;
+      return '"' + tree.value + '"';
     default:
       return '';
   }
@@ -184,4 +220,20 @@ var format = function(sentence) {
   formattedSentence = formattedSentence + '.';
 
   return formattedSentence;
+};
+
+// takes the Blockly workspace, extracts the code string it generates from the blocks,
+// removes trailing semicolon (if present), and returns it as a JSON object
+var workspaceToObject = function(workspace) {
+  var code = Blockly.JavaScript.workspaceToCode(workspace);
+
+  // remove any trailing whitespace
+  code = code.trim();
+  // if the code string has a semicolon appended, we need to remove it
+  // before we parse it as JSON
+  if (code.endsWith(';')) {
+    code = code.slice(0, code.length - 1);
+  }
+
+  return JSON.parse(code);
 };

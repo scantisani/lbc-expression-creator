@@ -60,13 +60,15 @@
     <block type="lbc_future"></block>
     <block type="lbc_global"></block>
     <block type="lbc_temporal_interval"></block>
+    <block type="lbc_temporal_interval_upto"></block>
     <block type="lbc_compare"></block>
     <block type="lbc_compare_inbuilt_temporal"></block>
     <block type="lbc_compare_inbuilt_stays"></block>
     <block type="lbc_real"></block>
     <block type="lbc_concentration"></block>
     <block type="lbc_arithmetic"></block>
-    <block type="lbc_comment"></block>
+    <block type="lbc_comment_with_output"></block>
+    <block type="lbc_comment_with_input"></block>
   </xml>
 
   <p>
@@ -104,9 +106,8 @@
     }
 
     function showLBC() {
-      var expression = Blockly.JavaScript.workspaceToCode(workspace);
       try {
-        var tree = JSON.parse(expression);
+        var tree = workspaceToObject(workspace);
         var str = treeToLBC(tree);
       } catch (e) {
         var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
@@ -116,9 +117,8 @@
     }
 
     function showEnglish() {
-      var expression = Blockly.JavaScript.workspaceToCode(workspace);
       try {
-        var tree = JSON.parse(expression);
+        var tree = workspaceToObject(workspace);
         var str = treeToEnglish(tree);
       } catch (e) {
         var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
