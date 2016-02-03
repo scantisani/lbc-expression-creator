@@ -19,7 +19,6 @@ Blockly.Blocks['lbc_concentration'] = {
     this.appendDummyInput()
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
-    this.setTooltip('the concentration of a species.');
     this.setOutput(true, 'Concentration');
   }
 };
@@ -34,7 +33,6 @@ Blockly.Blocks['lbc_future'] = {
     this.appendValueInput('EXPRESSION')
         .setCheck(['Comparison', 'Comment'])
         .appendField('Eventually,');
-    this.setTooltip('');
   }
 };
 
@@ -48,7 +46,6 @@ Blockly.Blocks['lbc_global'] = {
     this.appendValueInput('EXPRESSION')
         .setCheck(['Comparison', 'Comment'])
         .appendField('It is always the case that');
-    this.setTooltip('');
   }
 };
 
