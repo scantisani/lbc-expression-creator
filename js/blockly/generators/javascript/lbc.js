@@ -159,7 +159,7 @@ Blockly.JavaScript['lbc_real'] = function(block) {
 Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
   var OPERATORS = {
     'LT': '<',
-    'GT': '>',
+    'GT': '>'
   };
 
   var operator = block.getFieldValue('OP');
