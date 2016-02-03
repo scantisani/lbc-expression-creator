@@ -219,7 +219,7 @@ Blockly.Blocks['lbc_arithmetic'] = {
   }
 };
 
-Blockly.Blocks['lbc_comment'] = {
+Blockly.Blocks['lbc_comment_with_output'] = {
   /**
    * Block for writing comments within an LBC formula.
    * @this Blockly.Block
@@ -227,6 +227,18 @@ Blockly.Blocks['lbc_comment'] = {
   init: function() {
     this.setColour(200);
     this.setOutput(true, 'Comment');
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput('Put a comment here!'), 'TEXT');
+  }
+};
+
+Blockly.Blocks['lbc_comment_with_input'] = {
+  /**
+   * Block for writing comments within an LBC formula.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(200);
     this.appendValueInput('ARGUMENT')
         .appendField(new Blockly.FieldTextInput('Put a comment here!'), 'TEXT');
   }

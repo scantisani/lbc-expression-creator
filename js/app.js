@@ -22,6 +22,10 @@ var treeToLBC = function(tree) {
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'Expr6':
+      var comment = tree.children[0];
+      var subExpression = tree.children[1];
+      return treeToLBC(comment) + ' ' + treeToLBC(subExpression);
     case 'Temporal':
       return treeToLBC(tree.children[0]);
     case 'TemporalInterval':
@@ -141,6 +145,13 @@ var treeToEnglish = function(tree) {
       }
 
       return format(sentence);
+    case 'Expr6':
+      var comment = tree.children[0];
+      var subExpression = tree.children[1];
+
+      var sentence = treeToEnglish(comment) + ' ' + treeToEnglish(subExpression);
+
+      return format(sentence);
     case 'Future':
       return 'eventually';
     case 'Global':
@@ -196,7 +207,7 @@ var treeToEnglish = function(tree) {
     case 'Real':
       return tree.value;
     case 'Comment':
-      return tree.value;
+      return '"' + tree.value + '"';
     default:
       return '';
   }
