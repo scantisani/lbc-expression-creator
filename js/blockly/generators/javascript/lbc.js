@@ -66,6 +66,30 @@ Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
+Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
+  var TEMP_MODALITIES = {
+    'F': 'Future',
+    'G': 'Global'
+  };
+
+  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE);
+  var temporal = block.getFieldValue('TEMP');
+  var end = block.getFieldValue('END');
+
+  temporal = TEMP_MODALITIES[temporal];
+
+  var code = '{' +
+    '"tag": "Expr5",' +
+    '"children": [' +
+      '{"tag": "TemporalInterval", "children": [' +
+        '{"tag": "' + temporal + '"},' +
+        '{"tag": "IntervalStart", "value": "0"},' +
+        '{"tag": "IntervalEnd", "value": "' + end + '"}' +
+      ']},' +
+      expression +
+    ']}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
 
 Blockly.JavaScript['lbc_compare'] = function(block) {
   var OPERATORS = {

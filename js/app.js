@@ -18,6 +18,10 @@ var treeToLBC = function(tree) {
       var temp = tree.children[0];
       var comp = tree.children[1];
       return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+    case 'Expr5':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
     case 'Temporal':
       return treeToLBC(tree.children[0]);
     case 'TemporalInterval':
@@ -111,6 +115,27 @@ var treeToEnglish = function(tree) {
                         treeToEnglish(operator) + ' ' + treeToEnglish(value);
       } else {
         var sentence =  'Between times ' + start.value + ' and ' + end.value +
+                        ', ' + treeToEnglish(concentration) + ' is always ' +
+                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      }
+
+      return format(sentence);
+    case 'Expr5':
+      var temp = tree.children[0];
+      var comp = tree.children[1];
+
+      var modality = temp.children[0];
+      var end = temp.children[2];
+      var concentration = comp.children[0];
+      var operator = comp.children[1];
+      var value = comp.children[2];
+
+      if (modality.tag === 'Future') {
+        var sentence =  'At some point before time ' + end.value +
+                        ', ' + treeToEnglish(concentration) + ' is ' +
+                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      } else {
+        var sentence =  'Before time ' + end.value +
                         ', ' + treeToEnglish(concentration) + ' is always ' +
                         treeToEnglish(operator) + ' ' + treeToEnglish(value);
       }

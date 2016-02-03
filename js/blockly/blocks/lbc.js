@@ -76,6 +76,30 @@ Blockly.Blocks['lbc_temporal_interval'] = {
   }
 };
 
+Blockly.Blocks['lbc_temporal_interval_upto'] = {
+  /**
+   * Block for global or future temporal modality with interval.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var TEMP_MODALITIES = [
+          ['some point', 'F'],
+          ['all points', 'G']
+        ];
+
+    this.setColour(0);
+    this.appendDummyInput()
+        .appendField('At')
+        .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP')
+        .appendField('before');
+    this.appendValueInput('COMPARISON')
+        .setCheck(['Comparison', 'Comment'])
+        .appendField('time')
+        .appendField(new Blockly.FieldTextInput('0',
+        Blockly.FieldTextInput.numberValidator), 'END');
+  }
+};
+
 Blockly.Blocks['lbc_compare'] = {
   /**
    * Block for comparison operator.

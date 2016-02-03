@@ -130,6 +130,55 @@ QUnit.test("Expr4 is translated correctly", function(assert) {
   assert.equal(treeToEnglish(tree), 'At some point between times 5 and 15, the concentration of B is equal to 0.75.');
 });
 
+QUnit.test("Expr5 is translated correctly", function(assert) {
+  var tree = {
+    tag: 'Expr5',
+    children: [
+      {
+        tag: 'TemporalInterval',
+        children: [
+          {
+            tag: 'Global'
+          },
+          {
+            tag: 'IntervalStart',
+            value: '0'
+          },
+          {
+            tag: 'IntervalEnd',
+            value: '15'
+          }
+        ]
+      },
+      {
+        tag: 'Comparison',
+        children: [
+          {
+            tag: 'Concentration',
+            value: 'B'
+          },
+          {
+            tag: 'ComparisonOp',
+            value: '>'
+          },
+          {
+            tag: 'Real',
+            value: '75'
+          }
+        ]
+      }
+    ]
+  };
+
+  assert.equal(treeToLBC(tree), 'G{0, 15}([B] > 75)');
+  assert.equal(treeToEnglish(tree), 'Before time 15, the concentration of B is always greater than 75.');
+
+  tree.children[0].children[0].tag = 'Future';
+  assert.equal(treeToLBC(tree), 'F{0, 15}([B] > 75)');
+  assert.equal(treeToEnglish(tree), 'At some point before time 15, the concentration of B is greater than 75.');
+});
+
+
 QUnit.test("Real values are translated correctly", function(assert) {
   var tree = {
     tag: 'Real',
