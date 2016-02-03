@@ -221,3 +221,19 @@ var format = function(sentence) {
 
   return formattedSentence;
 };
+
+// takes the Blockly workspace, extracts the code string it generates from the blocks,
+// removes trailing semicolon (if present), and returns it as a JSON object
+var workspaceToObject = function(workspace) {
+  var code = Blockly.JavaScript.workspaceToCode(workspace);
+
+  // remove any trailing whitespace
+  code = code.trim();
+  // if the code string has a semicolon appended, we need to remove it
+  // before we parse it as JSON
+  if (code.endsWith(';')) {
+    code = code.slice(0, code.length - 1);
+  }
+
+  return JSON.parse(code);
+};
