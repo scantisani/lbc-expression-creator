@@ -18,7 +18,7 @@ Blockly.Blocks['lbc_concentration'] = {
     this.setColour(110);
     this.appendDummyInput()
         .appendField('the concentration of')
-        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
+        .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
     this.setTooltip('the concentration of a species.');
     this.setOutput(true, 'Concentration');
   }
@@ -96,7 +96,7 @@ Blockly.Blocks['lbc_compare'] = {
     this.setOutput(true, 'Comparison');
     this.appendDummyInput()
         .appendField('the concentration of')
-        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
+        .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
     this.appendValueInput('VALUE')
         .setCheck(['Real', 'Concentration', 'Value', 'Comment'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
@@ -126,7 +126,7 @@ Blockly.Blocks['lbc_compare_inbuilt_temporal'] = {
     this.setOutput(false);
     this.appendDummyInput()
         .appendField('The concentration of')
-        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
+        .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
     this.appendDummyInput()
         .appendField('is')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
@@ -165,7 +165,7 @@ Blockly.Blocks['lbc_compare_inbuilt_stays'] = {
     this.setColour(60);
     this.appendDummyInput()
         .appendField('The concentration of')
-        .appendField(new Blockly.FieldTextInput(''), 'SPECIES');
+        .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
     this.appendValueInput('VALUE')
         .setCheck(['Concentration', 'Real', 'Value', 'Comment'])
         .appendField('eventually')
@@ -190,7 +190,7 @@ Blockly.Blocks['lbc_arithmetic'] = {
     this.setOutput(true, 'Value');
     this.appendDummyInput()
         .appendField('the concentration of')
-        .appendField(new Blockly.FieldTextInput(''), 'SPECIES')
+        .appendField(new Blockly.FieldTextInput('P'), 'SPECIES')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.appendValueInput('ARGUMENT')
         .setCheck(['Concentration', 'Real', 'Value', 'Comment']);
