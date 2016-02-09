@@ -19,7 +19,7 @@ Blockly.JavaScript['lbc_concentration'] = function(block) {
 };
 
 Blockly.JavaScript['lbc_future'] = function(block) {
-  var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
+  var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE) || '{}';
   var code = '{' +
     '"tag": "Expr1",' +
     '"children": [' +
@@ -30,7 +30,7 @@ Blockly.JavaScript['lbc_future'] = function(block) {
 };
 
 Blockly.JavaScript['lbc_global'] = function(block) {
-  var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE);
+  var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE) || '{}';
   var code = '{' +
     '"tag": "Expr1",' +
     '"children": [' +
@@ -46,7 +46,7 @@ Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
     'G': 'Global'
   };
 
-  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE);
+  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
   var temporal = block.getFieldValue('TEMP');
   var start = block.getFieldValue('START');
   var end = block.getFieldValue('END');
@@ -72,7 +72,7 @@ Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
     'G': 'Global'
   };
 
-  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE);
+  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
   var temporal = block.getFieldValue('TEMP');
   var end = block.getFieldValue('END');
 
@@ -101,7 +101,7 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
 
   var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
+  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '{}';
 
   var comparison = OPERATORS[operator];
 
@@ -131,7 +131,7 @@ Blockly.JavaScript['lbc_compare_inbuilt_temporal'] = function(block) {
   var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
   var temporal = block.getFieldValue('TEMP');
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
+  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '{}';
 
   operator = OPERATORS[operator];
   temporal = TEMP_MODALITIES[temporal];
@@ -166,7 +166,7 @@ Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
   operator = OPERATORS[operator];
   var species = block.getFieldValue('SPECIES');
 
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '';
+  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '{}';
 
   var code = '{' +
     '"tag": "Expr3",' +
@@ -190,7 +190,7 @@ Blockly.JavaScript['lbc_arithmetic'] = function(block) {
   operator = OPERATORS[operator];
 
   var species = block.getFieldValue('SPECIES');
-  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '0';
+  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
 
   var code = '{' +
     '"tag": "Arithmetic",' +
@@ -213,7 +213,7 @@ Blockly.JavaScript['lbc_comment_with_output'] = function(block) {
 
 Blockly.JavaScript['lbc_comment_with_input'] = function(block) {
   var text = block.getFieldValue('TEXT');
-  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE);
+  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
 
   var code = '{' +
     '"tag": "Expr6",' +
