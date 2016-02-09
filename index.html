@@ -43,13 +43,23 @@
     </tr>
     <tr>
       <td id="buttonArea">
-          <button onclick="showExpression()">Show Expression</button>
-          <button onclick="showLBC()">Show LBC</button>
-          <button onclick="showEnglish()">Show English</button>
+          <button onclick="debug()">Debug</button>
+          <button onclick="showTranslation()">Show Translation</button>
       </td>
     </td>
     <tr>
-      <td id="code">
+      <td>
+        <span id="debug"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>LBC: </b><span id="lbc"></span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>English: </b><span id="english"></span>
       </td>
     </tr>
   </table>
@@ -70,10 +80,6 @@
     <block type="lbc_comment_with_output"></block>
     <block type="lbc_comment_with_input"></block>
   </xml>
-
-  <p>
-    <div id='code'></div>
-  </p>
 
   <script>
     var blocklyArea = document.getElementById('blocklyArea');
@@ -100,9 +106,14 @@
     window.addEventListener('resize', onresize, false);
     onresize();
 
-    function showExpression() {
+    function debug() {
       var code = Blockly.JavaScript.workspaceToCode(workspace);
-      document.getElementById("code").innerHTML = code;
+      document.getElementById("debug").innerHTML = code;
+    }
+
+    function showTranslation() {
+      showLBC();
+      showEnglish();
     }
 
     function showLBC() {
@@ -113,7 +124,7 @@
         var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
         console.log(e.message);
       }
-      document.getElementById("code").innerHTML = str;
+      document.getElementById("lbc").innerHTML = str;
     }
 
     function showEnglish() {
@@ -124,7 +135,7 @@
         var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
         console.log(e.message);
       }
-      document.getElementById("code").innerHTML = str;
+      document.getElementById("english").innerHTML = str;
     }
   </script>
 </body>
