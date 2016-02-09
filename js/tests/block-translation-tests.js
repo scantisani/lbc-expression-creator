@@ -82,3 +82,29 @@ QUnit.test("Arithmetic block generates correct translations", function(assert) {
   assert.equal(treeToLBC(tree), '([A] / )', 'Arithmetic block with / operator translates to "([A] / )" in LBC');
   assert.equal(treeToEnglish(tree), 'the concentration of A divided by ', 'Arithmetic block with / operator translates to "the concentration of A divided by " in English');
 });
+
+QUnit.test("Comment block with input generates correct translations", function(assert) {
+  // make a new Comment block with input
+  var block = Blockly.Block.obtain(this.workspace, 'lbc_comment_with_input');
+
+  // set the block's TEXT input field value to 'this is a comment'
+  block.setFieldValue('this is a comment', 'TEXT');
+
+  var tree = workspaceToObject(this.workspace);
+
+  assert.equal(treeToLBC(tree), '"this is a comment" ', 'Comment block containing "this is a comment" translates to  "this is a comment" with trailing space in LBC');
+  assert.equal(treeToEnglish(tree), '"this is a comment" .', 'Comment block containing "this is a comment" translates to "this is a comment" with trailing space in English');
+});
+
+QUnit.test("Comment block with output generates correct translations", function(assert) {
+  // make a new Comment block with output
+  var block = Blockly.Block.obtain(this.workspace, 'lbc_comment_with_output');
+
+  // set the block's TEXT input field value to 'this is a comment'
+  block.setFieldValue('this is a comment', 'TEXT');
+
+  var tree = workspaceToObject(this.workspace);
+
+  assert.equal(treeToLBC(tree), '"this is a comment"', 'Comment block containing "this is a comment" translates to  "this is a comment" in LBC');
+  assert.equal(treeToEnglish(tree), '"this is a comment"', 'Comment block containing "this is a comment" translates to  "this is a comment" in English');
+});
