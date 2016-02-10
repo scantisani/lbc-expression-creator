@@ -237,3 +237,11 @@ var workspaceToObject = function(workspace) {
 
   return JSON.parse(code);
 };
+
+// takes a Blockly block, extracts the code string it generates,
+// and returns it as a JSON object
+var blockToObject = function(block) {
+  var code = Blockly.JavaScript.blockToCode(block)[0];
+
+  return JSON.parse(code);
+};
