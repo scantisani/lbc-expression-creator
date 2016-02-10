@@ -570,6 +570,82 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       };
     });
   });
+
+  QUnit.module("Multiple-block comment block tests", function(assert) {
+    QUnit.test("Comment block with input generates correct translations", function(assert) {
+      block = Blockly.Block.obtain(this.workspace, 'lbc_comment_with_input');
+      block.setFieldValue('For some reason', 'TEXT');
+
+      compare = Blockly.Block.obtain(this.workspace, 'lbc_compare');
+      compare.setFieldValue('A', 'SPECIES');
+      compare.setFieldValue('GT', 'OP');
+      connectBlocks(block, compare, 'ARGUMENT');
+
+      real = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      real.setFieldValue('15', 'NUM');
+      connectBlocks(compare, real, 'VALUE');
+
+      var tree = blockToObject(block);
+      assert.equal(treeToLBC(tree), '"For some reason" [A] > 15');
+      assert.equal(treeToEnglish(tree), '"For some reason" the concentration of A is greater than 15.');
+      real.unplug();
+
+      concentration = Blockly.Block.obtain(this.workspace, 'lbc_concentration');
+      concentration.setFieldValue('B', 'SPECIES');
+      connectBlocks(compare, concentration, 'VALUE');
+
+      tree = blockToObject(block);
+      assert.equal(treeToLBC(tree), '"For some reason" [A] > [B]');
+      assert.equal(treeToEnglish(tree), '"For some reason" the concentration of A is greater than the concentration of B.');
+      concentration.unplug();
+
+      arith = Blockly.Block.obtain(this.workspace, 'lbc_arithmetic');
+      arith.setFieldValue('C', 'SPECIES');
+      arith.setFieldValue('ADD', 'OP');
+      arith_real = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      arith_real.setFieldValue('15', 'NUM');
+      connectBlocks(arith, arith_real, 'ARGUMENT');
+      connectBlocks(compare, arith, 'VALUE');
+
+      tree = blockToObject(block);
+      assert.equal(treeToLBC(tree), '"For some reason" [A] > ([C] + 15)');
+      assert.equal(treeToEnglish(tree), '"For some reason" the concentration of A is greater than the concentration of C plus 15.');
+      arith.unplug();
+
+      comment = Blockly.Block.obtain(this.workspace, 'lbc_comment_with_output');
+      comment.setFieldValue('some arbitrary words', 'TEXT');
+      connectBlocks(compare, comment, 'VALUE');
+
+      tree = blockToObject(block);
+      assert.equal(treeToLBC(tree), '"For some reason" [A] > "some arbitrary words"');
+      assert.equal(treeToEnglish(tree), '"For some reason" the concentration of A is greater than "some arbitrary words".');
+      compare.unplug();
+      comment.unplug();
+
+      connectBlocks(block, real, 'ARGUMENT');
+      tree = blockToObject(block);
+      assert.equal(treeToLBC(tree), '"For some reason" 15');
+      assert.equal(treeToEnglish(tree), '"For some reason" 15.');
+      real.unplug();
+
+      connectBlocks(block, concentration, 'ARGUMENT');
+      tree = blockToObject(block);
+      assert.equal(treeToLBC(tree), '"For some reason" [B]');
+      assert.equal(treeToEnglish(tree), '"For some reason" the concentration of B.');
+      concentration.unplug();
+
+      connectBlocks(block, arith, 'ARGUMENT');
+      tree = blockToObject(block);
+      assert.equal(treeToLBC(tree), '"For some reason" ([C] + 15)');
+      assert.equal(treeToEnglish(tree), '"For some reason" the concentration of C plus 15.');
+      arith.unplug();
+
+      connectBlocks(block, comment, 'ARGUMENT');
+      tree = blockToObject(block);
+      assert.equal(treeToLBC(tree), '"For some reason" "some arbitrary words"');
+      assert.equal(treeToEnglish(tree), '"For some reason" "some arbitrary words".');
+    });
+  });
 });
 
 var connectBlocks = function(block1, block2, input) {
