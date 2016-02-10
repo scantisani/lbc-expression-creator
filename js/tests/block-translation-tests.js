@@ -647,10 +647,3 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     });
   });
 });
-
-var connectBlocks = function(block1, block2, input) {
-  var connection1 = block1.getInput(input).connection;
-  var connection2 = block2.outputConnection;
-
-  connection1.connect(connection2);
-};
