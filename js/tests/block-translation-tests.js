@@ -267,4 +267,314 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     assert.equal(treeToLBC(tree), 'G{0, 15}()', 'Temporal interval "up to" block, end at 15, and "all points" selected, translates to "G{0, 15}()" in LBC');
     assert.equal(treeToEnglish(tree), 'Before time 15, always .', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "Before time 15, always ." in English');
   });
+
+  QUnit.module("Multiple-block tests for comparison blocks", function(hooks) {
+    // set up all the blocks that can be connected to a Comparison-class block
+    hooks.beforeEach(function() {
+      this.real = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      this.real.setFieldValue('15', 'NUM');
+
+      this.concentration = Blockly.Block.obtain(this.workspace, 'lbc_concentration');
+      this.concentration.setFieldValue('B', 'SPECIES');
+
+      this.arith = Blockly.Block.obtain(this.workspace, 'lbc_arithmetic');
+      this.arith.setFieldValue('C', 'SPECIES');
+      this.arith.setFieldValue('ADD', 'OP');
+      this.arith_real = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      this.arith_real.setFieldValue('15', 'NUM');
+      connectBlocks(this.arith, this.arith_real, 'ARGUMENT');
+
+      this.comment = Blockly.Block.obtain(this.workspace, 'lbc_comment_with_output');
+      this.comment.setFieldValue('some arbitrary words', 'TEXT');
+    });
+
+    // connect each block to the Comparison-class block in turn, testing the translation
+    // against the (test-specific) expected values for that particular Comparison block
+    hooks.afterEach(function(assert) {
+      connectBlocks(this.block, this.real, 'VALUE');
+      var tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.real);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.real);
+
+      this.real.unplug();
+      connectBlocks(this.block, this.concentration, 'VALUE');
+      tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.concentration);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.concentration);
+
+      this.concentration.unplug();
+      connectBlocks(this.block, this.arith, 'VALUE');
+      tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.arith);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.arith);
+
+      this.arith.unplug();
+      connectBlocks(this.block, this.comment, 'VALUE');
+      tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.comment);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.comment);
+    });
+
+    QUnit.test("Comparison block generates correct translations", function() {
+      // make a new Comparison block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_compare');
+
+      // set the block's SPECIES input field value to 'A'
+      this.block.setFieldValue('A', 'SPECIES');
+      // set the block's OPERATOR input field value to 'greater than'
+      this.block.setFieldValue('GT', 'OP');
+
+      this.expectedLBC = {
+        real: '[A] > 15',
+        concentration: '[A] > [B]',
+        arith: '[A] > ([C] + 15)',
+        comment: '[A] > "some arbitrary words"'
+      };
+
+      // lowercase and missing full stop because this is an incomplete set of blocks
+      this.expectedEnglish = {
+        real: 'the concentration of A is greater than 15',
+        concentration: 'the concentration of A is greater than the concentration of B',
+        arith: 'the concentration of A is greater than the concentration of C plus 15',
+        comment: 'the concentration of A is greater than "some arbitrary words"'
+      };
+    });
+
+    QUnit.test("Comparison block with inbuilt 'always/eventually' generates correct translations", function() {
+      // make a new Comparison block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_compare_inbuilt_temporal');
+
+      // set the block's SPECIES input field value to 'A'
+      this.block.setFieldValue('A', 'SPECIES');
+      // set the block's TEMPORAL input field value to 'Future'/'Eventually'
+      this.block.setFieldValue('F', 'TEMP');
+      // set the block's OPERATOR input field value to 'greater than'
+      this.block.setFieldValue('GT', 'OP');
+
+      this.expectedLBC = {
+        real: 'F([A] > 15)',
+        concentration: 'F([A] > [B])',
+        arith: 'F([A] > ([C] + 15))',
+        comment: 'F([A] > "some arbitrary words")'
+      };
+
+      this.expectedEnglish = {
+        real: 'The concentration of A is eventually greater than 15.',
+        concentration: 'The concentration of A is eventually greater than the concentration of B.',
+        arith: 'The concentration of A is eventually greater than the concentration of C plus 15.',
+        comment: 'The concentration of A is eventually greater than "some arbitrary words".'
+      };
+    });
+
+    QUnit.test("Comparison block with inbuilt 'drops/rises to and stays below/above' generates correct translations", function() {
+      // make a new Comparison block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_compare_inbuilt_stays');
+
+      // set the block's SPECIES input field value to 'A'
+      this.block.setFieldValue('A', 'SPECIES');
+      // set the block's OPERATOR input field value to 'greater than' ('rises to and stays above')
+      this.block.setFieldValue('GT', 'OP');
+
+      this.expectedLBC = {
+        real: 'F(G([A] > 15))',
+        concentration: 'F(G([A] > [B]))',
+        arith: 'F(G([A] > ([C] + 15)))',
+        comment: 'F(G([A] > "some arbitrary words"))'
+      };
+
+      this.expectedEnglish = {
+        real: 'The concentration of A eventually rises to and stays above 15.',
+        concentration: 'The concentration of A eventually rises to and stays above the concentration of B.',
+        arith: 'The concentration of A eventually rises to and stays above the concentration of C plus 15.',
+        comment: 'The concentration of A eventually rises to and stays above "some arbitrary words".'
+      };
+    });
+  });
+
+  QUnit.module("Multiple-block tests for temporal blocks", function(hooks) {
+    // set up all the blocks that can be connected to a Temporal-class (red) block
+    hooks.beforeEach(function() {
+      this.compare = Blockly.Block.obtain(this.workspace, 'lbc_compare');
+      this.compare.setFieldValue('A', 'SPECIES');
+      this.compare.setFieldValue('GT', 'OP');
+
+      this.real = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      this.real.setFieldValue('15', 'NUM');
+
+      this.concentration = Blockly.Block.obtain(this.workspace, 'lbc_concentration');
+      this.concentration.setFieldValue('B', 'SPECIES');
+
+      this.arith = Blockly.Block.obtain(this.workspace, 'lbc_arithmetic');
+      this.arith.setFieldValue('C', 'SPECIES');
+      this.arith.setFieldValue('ADD', 'OP');
+      this.arith_real = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      this.arith_real.setFieldValue('15', 'NUM');
+      connectBlocks(this.arith, this.arith_real, 'ARGUMENT');
+
+      this.comment = Blockly.Block.obtain(this.workspace, 'lbc_comment_with_output');
+      this.comment.setFieldValue('some arbitrary words', 'TEXT');
+    });
+
+    // connect the comparison block to our temporal block, then attach different blocks
+    // to our comparison block; test the translation
+    // against the (test-specific) expected values for that particular Temporal block
+    hooks.afterEach(function(assert) {
+      connectBlocks(this.block, this.compare, 'COMPARISON');
+
+      connectBlocks(this.compare, this.real, 'VALUE');
+      var tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.real);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.real);
+
+      this.real.unplug();
+      connectBlocks(this.compare, this.concentration, 'VALUE');
+      tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.concentration);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.concentration);
+
+      this.concentration.unplug();
+      connectBlocks(this.compare, this.arith, 'VALUE');
+      tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.arith);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.arith);
+
+      this.arith.unplug();
+      connectBlocks(this.compare, this.comment, 'VALUE');
+      tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.comment);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.comment);
+    });
+
+    QUnit.test("Future block generates correct translations", function() {
+      // make a new Global block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_future');
+
+      this.expectedLBC = {
+        real: 'F([A] > 15)',
+        concentration: 'F([A] > [B])',
+        arith: 'F([A] > ([C] + 15))',
+        comment: 'F([A] > "some arbitrary words")'
+      };
+
+      // lowercase and missing full stop because this is an incomplete set of blocks
+      this.expectedEnglish = {
+        real: 'The concentration of A is eventually greater than 15.',
+        concentration: 'The concentration of A is eventually greater than the concentration of B.',
+        arith: 'The concentration of A is eventually greater than the concentration of C plus 15.',
+        comment: 'The concentration of A is eventually greater than "some arbitrary words".'
+      };
+    });
+
+    QUnit.test("Global block generates correct translations", function() {
+      // make a new Global block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_global');
+
+      this.expectedLBC = {
+        real: 'G([A] > 15)',
+        concentration: 'G([A] > [B])',
+        arith: 'G([A] > ([C] + 15))',
+        comment: 'G([A] > "some arbitrary words")'
+      };
+
+      this.expectedEnglish = {
+        real: 'The concentration of A is always greater than 15.',
+        concentration: 'The concentration of A is always greater than the concentration of B.',
+        arith: 'The concentration of A is always greater than the concentration of C plus 15.',
+        comment: 'The concentration of A is always greater than "some arbitrary words".'
+      };
+    });
+
+    QUnit.test("Temporal interval block with 'all points' selected generates correct translations", function() {
+      // make a new Temporal Interval block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval');
+      this.block.setFieldValue('G', 'TEMP');
+      this.block.setFieldValue('5', 'START');
+      this.block.setFieldValue('15', 'END');
+
+      this.expectedLBC = {
+        real: 'G{5, 15}([A] > 15)',
+        concentration: 'G{5, 15}([A] > [B])',
+        arith: 'G{5, 15}([A] > ([C] + 15))',
+        comment: 'G{5, 15}([A] > "some arbitrary words")'
+      };
+
+      this.expectedEnglish = {
+        real: 'Between times 5 and 15, the concentration of A is always greater than 15.',
+        concentration: 'Between times 5 and 15, the concentration of A is always greater than the concentration of B.',
+        arith: 'Between times 5 and 15, the concentration of A is always greater than the concentration of C plus 15.',
+        comment: 'Between times 5 and 15, the concentration of A is always greater than "some arbitrary words".'
+      };
+    });
+
+    QUnit.test("Temporal interval block with 'some point' selected generates correct translations", function() {
+      // make a new Temporal Interval block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval');
+      this.block.setFieldValue('F', 'TEMP');
+      this.block.setFieldValue('5', 'START');
+      this.block.setFieldValue('15', 'END');
+
+      this.expectedLBC = {
+        real: 'F{5, 15}([A] > 15)',
+        concentration: 'F{5, 15}([A] > [B])',
+        arith: 'F{5, 15}([A] > ([C] + 15))',
+        comment: 'F{5, 15}([A] > "some arbitrary words")'
+      };
+
+      this.expectedEnglish = {
+        real: 'At some point between times 5 and 15, the concentration of A is greater than 15.',
+        concentration: 'At some point between times 5 and 15, the concentration of A is greater than the concentration of B.',
+        arith: 'At some point between times 5 and 15, the concentration of A is greater than the concentration of C plus 15.',
+        comment: 'At some point between times 5 and 15, the concentration of A is greater than "some arbitrary words".'
+      };
+    });
+
+    QUnit.test("Temporal interval block with only end modifiable, with 'all points' selected, generates correct translations", function() {
+      // make a new Temporal Interval block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval_upto');
+      this.block.setFieldValue('G', 'TEMP');
+      this.block.setFieldValue('20', 'END');
+
+      this.expectedLBC = {
+        real: 'G{0, 20}([A] > 15)',
+        concentration: 'G{0, 20}([A] > [B])',
+        arith: 'G{0, 20}([A] > ([C] + 15))',
+        comment: 'G{0, 20}([A] > "some arbitrary words")'
+      };
+
+      this.expectedEnglish = {
+        real: 'Before time 20, the concentration of A is always greater than 15.',
+        concentration: 'Before time 20, the concentration of A is always greater than the concentration of B.',
+        arith: 'Before time 20, the concentration of A is always greater than the concentration of C plus 15.',
+        comment: 'Before time 20, the concentration of A is always greater than "some arbitrary words".'
+      };
+    });
+
+    QUnit.test("Temporal interval block with only end modifiable, with 'some point' selected, generates correct translations", function() {
+      // make a new Temporal Interval block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval_upto');
+      this.block.setFieldValue('F', 'TEMP');
+      this.block.setFieldValue('20', 'END');
+
+      this.expectedLBC = {
+        real: 'F{0, 20}([A] > 15)',
+        concentration: 'F{0, 20}([A] > [B])',
+        arith: 'F{0, 20}([A] > ([C] + 15))',
+        comment: 'F{0, 20}([A] > "some arbitrary words")'
+      };
+
+      this.expectedEnglish = {
+        real: 'At some point before time 20, the concentration of A is greater than 15.',
+        concentration: 'At some point before time 20, the concentration of A is greater than the concentration of B.',
+        arith: 'At some point before time 20, the concentration of A is greater than the concentration of C plus 15.',
+        comment: 'At some point before time 20, the concentration of A is greater than "some arbitrary words".'
+      };
+    });
+  });
 });
+
+var connectBlocks = function(block1, block2, input) {
+  var connection1 = block1.getInput(input).connection;
+  var connection2 = block2.outputConnection;
+
+  connection1.connect(connection2);
+};
