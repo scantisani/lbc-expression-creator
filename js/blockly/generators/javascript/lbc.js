@@ -19,23 +19,23 @@ Blockly.JavaScript['lbc_concentration'] = function(block) {
 };
 
 Blockly.JavaScript['lbc_future'] = function(block) {
-  var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE) || '{}';
+  var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
   var code = '{' +
     '"tag": "Expr1",' +
     '"children": [' +
       '{"tag": "Future"},' +
-      expression +
+      comparison +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_global'] = function(block) {
-  var expression = Blockly.JavaScript.valueToCode(block, 'EXPRESSION', Blockly.JavaScript.ORDER_NONE) || '{}';
+  var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
   var code = '{' +
     '"tag": "Expr1",' +
     '"children": [' +
       '{"tag": "Global"},' +
-      expression +
+      comparison +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -46,7 +46,7 @@ Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
     'G': 'Global'
   };
 
-  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
+  var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
   var temporal = block.getFieldValue('TEMP');
   var start = block.getFieldValue('START');
   var end = block.getFieldValue('END');
@@ -61,7 +61,7 @@ Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
         '{"tag": "IntervalStart", "value": "' + start + '"},' +
         '{"tag": "IntervalEnd", "value": "' + end + '"}' +
       ']},' +
-      expression +
+      comparison +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -72,7 +72,7 @@ Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
     'G': 'Global'
   };
 
-  var expression = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
+  var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
   var temporal = block.getFieldValue('TEMP');
   var end = block.getFieldValue('END');
 
@@ -86,7 +86,7 @@ Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
         '{"tag": "IntervalStart", "value": "0"},' +
         '{"tag": "IntervalEnd", "value": "' + end + '"}' +
       ']},' +
-      expression +
+      comparison +
     ']}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

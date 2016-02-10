@@ -30,7 +30,7 @@ Blockly.Blocks['lbc_future'] = {
    */
   init: function() {
     this.setColour(0);
-    this.appendValueInput('EXPRESSION')
+    this.appendValueInput('COMPARISON')
         .setCheck(['Comparison', 'Comment'])
         .appendField('Eventually,');
   }
@@ -43,7 +43,7 @@ Blockly.Blocks['lbc_global'] = {
    */
   init: function() {
     this.setColour(0);
-    this.appendValueInput('EXPRESSION')
+    this.appendValueInput('COMPARISON')
         .setCheck(['Comparison', 'Comment'])
         .appendField('It is always the case that');
   }
