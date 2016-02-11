@@ -237,3 +237,19 @@ var workspaceToObject = function(workspace) {
 
   return JSON.parse(code);
 };
+
+// takes a Blockly block, extracts the code string it generates,
+// and returns it as a JSON object
+var blockToObject = function(block) {
+  var code = Blockly.JavaScript.blockToCode(block)[0];
+
+  return JSON.parse(code);
+};
+
+// takes two Blockly blocks and connects them via the connection specified in 'input'
+var connectBlocks = function(block1, block2, input) {
+  var connection1 = block1.getInput(input).connection;
+  var connection2 = block2.outputConnection;
+
+  connection1.connect(connection2);
+};
