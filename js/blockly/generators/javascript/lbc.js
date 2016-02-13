@@ -76,6 +76,7 @@ Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
 Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
   var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
   comparison = JSON.parse(comparison);
+
   var modality = block.getFieldValue('TEMP');
   var end = block.getFieldValue('END');
 
@@ -97,6 +98,7 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
   var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
   var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
+  argument = JSON.parse(argument);
 
   var code = {
     tag: 'Comparison',
@@ -116,6 +118,7 @@ Blockly.JavaScript['lbc_compare_inbuilt_temporal'] = function(block) {
   var operator = block.getFieldValue('OP');
   var modality = block.getFieldValue('TEMP');
   var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
+  argument = JSON.parse(argument);
 
   var code = {
     tag: 'Expr2',
@@ -152,6 +155,7 @@ Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
   var operator = block.getFieldValue('OP');
   var species = block.getFieldValue('SPECIES');
   var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
+  argument = JSON.parse(argument);
 
   var code = {
     tag: 'Expr3',
@@ -170,6 +174,7 @@ Blockly.JavaScript['lbc_arithmetic'] = function(block) {
   var operator = block.getFieldValue('OP');
   var species = block.getFieldValue('SPECIES');
   var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
+  argument = JSON.parse(argument);
 
   var code = {
     tag: 'Arithmetic',
@@ -198,6 +203,7 @@ Blockly.JavaScript['lbc_comment_with_output'] = function(block) {
 Blockly.JavaScript['lbc_comment_with_input'] = function(block) {
   var text = block.getFieldValue('TEXT');
   var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
+  argument = JSON.parse(argument);
 
   var code = {
     tag: 'Expr5',
