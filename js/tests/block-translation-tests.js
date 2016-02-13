@@ -38,7 +38,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     var tree = workspaceToObject(this.workspace);
 
     assert.equal(treeToLBC(tree), 'G()', '"It is always the case that" block translates to "G()" in LBC');
-    assert.equal(treeToEnglish(tree), 'always', '"It is always the case that" block translates to "always" in English');
+    assert.equal(treeToEnglish(tree), 'It is always the case that', '"It is always the case that" block translates to "It is always the case that" in English');
   });
 
   QUnit.test("Future block generates correct translations", function(assert) {
@@ -48,7 +48,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     var tree = workspaceToObject(this.workspace);
 
     assert.equal(treeToLBC(tree), 'F()', '"Eventually" block translates to "F()" in LBC');
-    assert.equal(treeToEnglish(tree), 'eventually', '"Eventually" block translates to "eventually" in English');
+    assert.equal(treeToEnglish(tree), 'Eventually,', '"Eventually" block translates to "Eventually," in English');
   });
 
   QUnit.test("Arithmetic block generates correct translations", function(assert) {
@@ -151,6 +151,8 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     block.setFieldValue('A', 'SPECIES');
     // set the block's OPERATOR input field value to 'greater than'
     block.setFieldValue('GT', 'OP');
+    // set the block's TEMP input field value to 'Future'
+    block.setFieldValue('Future', 'TEMP');
 
     var tree = workspaceToObject(this.workspace);
 
@@ -229,7 +231,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     var block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval');
 
     // set the block's TEMP input field value to 'F' ('some point')
-    block.setFieldValue('F', 'TEMP');
+    block.setFieldValue('Future', 'TEMP');
     // set the block's START input field value to '5'
     block.setFieldValue('5', 'START');
     // set the block's END input field value to '15'
@@ -238,13 +240,13 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     var tree = workspaceToObject(this.workspace);
 
     assert.equal(treeToLBC(tree), 'F{5, 15}()', 'Temporal interval block, with start at 5, end at 15, and "some point" selected, translates to "F{5, 15}()" in LBC');
-    assert.equal(treeToEnglish(tree), 'At some point between times 5 and 15, .', 'Temporal interval block, with start at 5, end at 15, and "some point" selected, translates to "At some point between times 5 and 15, ." in English');
+    assert.equal(treeToEnglish(tree), 'At some point between times 5 and 15,', 'Temporal interval block, with start at 5, end at 15, and "some point" selected, translates to "At some point between times 5 and 15," in English');
 
     block.setFieldValue('G', 'TEMP'); // 'all points'
     tree = workspaceToObject(this.workspace);
 
     assert.equal(treeToLBC(tree), 'G{5, 15}()', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "G{5, 15}()" in LBC');
-    assert.equal(treeToEnglish(tree), 'Between times 5 and 15, always .', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "Between times 5 and 15, always ." in English');
+    assert.equal(treeToEnglish(tree), 'At all points between times 5 and 15,', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "At all points between times 5 and 15," in English');
   });
 
   QUnit.test("Temporal interval block with only end modifiable generates correct translations", function(assert) {
@@ -252,20 +254,20 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     var block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval_upto');
 
     // set the block's TEMP input field value to 'F' ('some point')
-    block.setFieldValue('F', 'TEMP');
+    block.setFieldValue('Future', 'TEMP');
     // set the block's END input field value to '15'
     block.setFieldValue('15', 'END');
 
     var tree = workspaceToObject(this.workspace);
 
     assert.equal(treeToLBC(tree), 'F{0, 15}()', 'Temporal interval "up to" block, with end at 15, and "some point" selected, translates to "F{0, 15}()" in LBC');
-    assert.equal(treeToEnglish(tree), 'At some point up to time 15, .', 'Temporal interval "up to" block, with end at 15, and "some point" selected, translates to "At some point up to time 15, ." in English');
+    assert.equal(treeToEnglish(tree), 'At some point before time 15,', 'Temporal interval "up to" block, with end at 15, and "some point" selected, translates to "At some point before time 15," in English');
 
     block.setFieldValue('G', 'TEMP'); // 'all points'
     tree = workspaceToObject(this.workspace);
 
     assert.equal(treeToLBC(tree), 'G{0, 15}()', 'Temporal interval "up to" block, end at 15, and "all points" selected, translates to "G{0, 15}()" in LBC');
-    assert.equal(treeToEnglish(tree), 'Before time 15, always .', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "Before time 15, always ." in English');
+    assert.equal(treeToEnglish(tree), 'At all points before time 15,', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "At all points before time 15," in English');
   });
 
   QUnit.module("Multiple-block tests for comparison blocks", function(hooks) {
@@ -291,25 +293,25 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     // connect each block to the Comparison-class block in turn, testing the translation
     // against the (test-specific) expected values for that particular Comparison block
     hooks.afterEach(function(assert) {
-      connectBlocks(this.block, this.real, 'VALUE');
+      connectBlocks(this.block, this.real, 'ARGUMENT');
       var tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.real);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.real);
 
       this.real.unplug();
-      connectBlocks(this.block, this.concentration, 'VALUE');
+      connectBlocks(this.block, this.concentration, 'ARGUMENT');
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.concentration);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.concentration);
 
       this.concentration.unplug();
-      connectBlocks(this.block, this.arith, 'VALUE');
+      connectBlocks(this.block, this.arith, 'ARGUMENT');
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.arith);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.arith);
 
       this.arith.unplug();
-      connectBlocks(this.block, this.comment, 'VALUE');
+      connectBlocks(this.block, this.comment, 'ARGUMENT');
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.comment);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.comment);
@@ -421,25 +423,25 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     hooks.afterEach(function(assert) {
       connectBlocks(this.block, this.compare, 'COMPARISON');
 
-      connectBlocks(this.compare, this.real, 'VALUE');
+      connectBlocks(this.compare, this.real, 'ARGUMENT');
       var tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.real);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.real);
 
       this.real.unplug();
-      connectBlocks(this.compare, this.concentration, 'VALUE');
+      connectBlocks(this.compare, this.concentration, 'ARGUMENT');
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.concentration);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.concentration);
 
       this.concentration.unplug();
-      connectBlocks(this.compare, this.arith, 'VALUE');
+      connectBlocks(this.compare, this.arith, 'ARGUMENT');
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.arith);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.arith);
 
       this.arith.unplug();
-      connectBlocks(this.compare, this.comment, 'VALUE');
+      connectBlocks(this.compare, this.comment, 'ARGUMENT');
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.comment);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.comment);
@@ -583,7 +585,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
 
       real = Blockly.Block.obtain(this.workspace, 'lbc_real');
       real.setFieldValue('15', 'NUM');
-      connectBlocks(compare, real, 'VALUE');
+      connectBlocks(compare, real, 'ARGUMENT');
 
       var tree = blockToObject(block);
       assert.equal(treeToLBC(tree), '"For some reason" [A] > 15');
@@ -592,7 +594,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
 
       concentration = Blockly.Block.obtain(this.workspace, 'lbc_concentration');
       concentration.setFieldValue('B', 'SPECIES');
-      connectBlocks(compare, concentration, 'VALUE');
+      connectBlocks(compare, concentration, 'ARGUMENT');
 
       tree = blockToObject(block);
       assert.equal(treeToLBC(tree), '"For some reason" [A] > [B]');
@@ -605,7 +607,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       arith_real = Blockly.Block.obtain(this.workspace, 'lbc_real');
       arith_real.setFieldValue('15', 'NUM');
       connectBlocks(arith, arith_real, 'ARGUMENT');
-      connectBlocks(compare, arith, 'VALUE');
+      connectBlocks(compare, arith, 'ARGUMENT');
 
       tree = blockToObject(block);
       assert.equal(treeToLBC(tree), '"For some reason" [A] > ([C] + 15)');
@@ -614,7 +616,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
 
       comment = Blockly.Block.obtain(this.workspace, 'lbc_comment_with_output');
       comment.setFieldValue('some arbitrary words', 'TEXT');
-      connectBlocks(compare, comment, 'VALUE');
+      connectBlocks(compare, comment, 'ARGUMENT');
 
       tree = blockToObject(block);
       assert.equal(treeToLBC(tree), '"For some reason" [A] > "some arbitrary words"');
