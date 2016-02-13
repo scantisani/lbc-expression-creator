@@ -60,8 +60,8 @@ Blockly.Blocks['lbc_temporal_interval'] = {
    */
   init: function() {
     var TEMP_MODALITIES = [
-          ['some point', 'F'],
-          ['all points', 'G']
+          ['some point', 'Future'],
+          ['all points', 'Global']
         ];
 
     this.setColour(56);
@@ -87,8 +87,8 @@ Blockly.Blocks['lbc_temporal_interval_upto'] = {
    */
   init: function() {
     var TEMP_MODALITIES = [
-          ['some point', 'F'],
-          ['all points', 'G']
+          ['some point', 'Future'],
+          ['all points', 'Global']
         ];
 
     this.setColour(56);
@@ -143,8 +143,8 @@ Blockly.Blocks['lbc_compare_inbuilt_temporal'] = {
         ];
 
     var TEMP_MODALITIES = [
-          ['eventually', 'F'],
-          ['always', 'G']
+          ['eventually', 'Future'],
+          ['always', 'Global']
         ];
 
     this.setColour(202);
