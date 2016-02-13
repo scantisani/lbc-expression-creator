@@ -11,215 +11,199 @@ goog.require('Blockly.JavaScript');
 
 Blockly.JavaScript['lbc_concentration'] = function(block) {
   var species = block.getFieldValue('SPECIES');
-  var code = '{' +
-    '"tag": "Concentration",' +
-    '"value": "' + species + '"' +
-  '}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  var code = {
+    tag: 'Concentration',
+    species: species
+  };
+
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_future'] = function(block) {
   var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
-  var code = '{' +
-    '"tag": "Expr1",' +
-    '"children": [' +
-      '{"tag": "Future"},' +
-      comparison +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  comparison = JSON.parse(comparison);
+
+  var code = {
+    tag: 'Expr1',
+    temporal: {
+      tag: 'Temporal',
+      modality: 'Future'
+    },
+    comparison: comparison
+  };
+
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_global'] = function(block) {
   var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
-  var code = '{' +
-    '"tag": "Expr1",' +
-    '"children": [' +
-      '{"tag": "Global"},' +
-      comparison +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  comparison = JSON.parse(comparison);
+
+  var code = {
+    tag: 'Expr1',
+    temporal: {
+      tag: 'Temporal',
+      modality: 'Global'
+    },
+    comparison: comparison
+  };
+
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
-  var TEMP_MODALITIES = {
-    'F': 'Future',
-    'G': 'Global'
-  };
-
   var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
-  var temporal = block.getFieldValue('TEMP');
+  comparison = JSON.parse(comparison);
+
+  var modality = block.getFieldValue('TEMP');
   var start = block.getFieldValue('START');
   var end = block.getFieldValue('END');
 
-  temporal = TEMP_MODALITIES[temporal];
+  var code = {
+    tag: 'Expr4',
+    temporal: {
+      tag: 'TemporalInterval',
+      modality: modality,
+      start: start,
+      end: end
+    },
+    comparison: comparison
+  };
 
-  var code = '{' +
-    '"tag": "Expr4",' +
-    '"children": [' +
-      '{"tag": "TemporalInterval", "children": [' +
-        '{"tag": "' + temporal + '"},' +
-        '{"tag": "IntervalStart", "value": "' + start + '"},' +
-        '{"tag": "IntervalEnd", "value": "' + end + '"}' +
-      ']},' +
-      comparison +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
-  var TEMP_MODALITIES = {
-    'F': 'Future',
-    'G': 'Global'
-  };
-
   var comparison = Blockly.JavaScript.valueToCode(block, 'COMPARISON', Blockly.JavaScript.ORDER_NONE) || '{}';
-  var temporal = block.getFieldValue('TEMP');
+  comparison = JSON.parse(comparison);
+  var modality = block.getFieldValue('TEMP');
   var end = block.getFieldValue('END');
 
-  temporal = TEMP_MODALITIES[temporal];
+  var code = {
+    tag: 'Expr4',
+    temporal: {
+      tag: 'TemporalInterval',
+      modality: modality,
+      start: 0,
+      end: end
+    },
+    comparison: comparison
+  };
 
-  var code = '{' +
-    '"tag": "Expr5",' +
-    '"children": [' +
-      '{"tag": "TemporalInterval", "children": [' +
-        '{"tag": "' + temporal + '"},' +
-        '{"tag": "IntervalStart", "value": "0"},' +
-        '{"tag": "IntervalEnd", "value": "' + end + '"}' +
-      ']},' +
-      comparison +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_compare'] = function(block) {
-  var OPERATORS = {
-    'EQ': '=',
-    'NEQ': '!=',
-    'LT': '<',
-    'GT': '>'
-  };
-
   var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '{}';
+  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
 
-  var comparison = OPERATORS[operator];
+  var code = {
+    tag: 'Comparison',
+    species: species,
+    operator: {
+      tag: 'ComparisonOp',
+      symbol: operator
+    },
+    argument: argument
+  };
 
-  var code = '{' +
-    '"tag": "Comparison",' +
-    '"children": [' +
-      '{"tag": "Concentration", "value": "' + species + '"},' +
-      '{"tag": "ComparisonOp", "value": "' + comparison + '"},' +
-      value +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_compare_inbuilt_temporal'] = function(block) {
-  var OPERATORS = {
-    'EQ': '=',
-    'NEQ': '!=',
-    'LT': '<',
-    'GT': '>'
-  };
-
-  var TEMP_MODALITIES = {
-    'F': 'Future',
-    'G': 'Global'
-  };
-
   var species = block.getFieldValue('SPECIES');
   var operator = block.getFieldValue('OP');
-  var temporal = block.getFieldValue('TEMP');
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '{}';
+  var modality = block.getFieldValue('TEMP');
+  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
 
-  operator = OPERATORS[operator];
-  temporal = TEMP_MODALITIES[temporal];
+  var code = {
+    tag: 'Expr2',
+    temporal: {
+      tag: 'Temporal',
+      modality: modality
+    },
+    comparison: {
+      tag: 'Comparison',
+      species: species,
+      operator: {
+        tag: 'ComparisonOp',
+        symbol: operator
+      },
+      argument: argument
+    }
+  };
 
-  var code = '{' +
-    '"tag": "Expr2",' +
-    '"children": [' +
-      '{"tag": "' + temporal + '"},' +
-      '{"tag": "Comparison",' +
-        '"children": [' +
-          '{"tag": "Concentration", "value": "' + species + '"},' +
-          '{"tag": "ComparisonOp", "value": "' + operator + '"},' +
-          value +
-      ']}' +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_real'] = function(block) {
-  var num = block.getFieldValue('NUM');
-  var code = '{"tag": "Real", "value": "' + num + '"}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  var number = block.getFieldValue('NUM');
+
+  var code = {
+    tag: 'Real',
+    number: number
+  };
+
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
-  var OPERATORS = {
-    'LT': '<',
-    'GT': '>'
-  };
-
   var operator = block.getFieldValue('OP');
-  operator = OPERATORS[operator];
-  var species = block.getFieldValue('SPECIES');
-
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '{}';
-
-  var code = '{' +
-    '"tag": "Expr3",' +
-    '"children": [' +
-      '{"tag": "Concentration", "value": "' + species + '"},' +
-      '{"tag": "ComparisonOp", "value": "' + operator + '"},' +
-      value +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
-};
-
-Blockly.JavaScript['lbc_arithmetic'] = function(block) {
-  var OPERATORS = {
-    'ADD': '+',
-    'SUBTRACT': '-',
-    'MULTIPLY': '*',
-    'DIVIDE': '/'
-  };
-
-  var operator = block.getFieldValue('OP');
-  operator = OPERATORS[operator];
-
   var species = block.getFieldValue('SPECIES');
   var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
 
-  var code = '{' +
-    '"tag": "Arithmetic",' +
-    '"children": [' +
-      '{"tag": "Concentration", "value": "' + species + '"},' +
-      '{"tag": "ArithOperator", "value": "' + operator + '"},' +
-      argument +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  var code = {
+    tag: 'Expr3',
+    species: species,
+    operator: {
+      tag: 'ComparisonOp',
+      symbol: operator
+    },
+    argument: argument
+  };
+
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['lbc_arithmetic'] = function(block) {
+  var operator = block.getFieldValue('OP');
+  var species = block.getFieldValue('SPECIES');
+  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
+
+  var code = {
+    tag: 'Arithmetic',
+    species: species,
+    operator: {
+      tag: 'ArithOp',
+      symbol: operator
+    },
+    argument: argument
+  };
+
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_comment_with_output'] = function(block) {
   var text = block.getFieldValue('TEXT');
-  var code = '{' +
-    '"tag": "Comment",' +
-    '"value": "' + text + '"' +
-  '}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+
+  var code = {
+    tag: 'Comment',
+    text: text
+  };
+   
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['lbc_comment_with_input'] = function(block) {
   var text = block.getFieldValue('TEXT');
   var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
 
-  var code = '{' +
-    '"tag": "Expr6",' +
-    '"children": [' +
-      '{"tag": "Comment", "value": "' + text + '"},' +
-      argument +
-    ']}';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  var code = {
+    tag: 'Expr5',
+    text: text,
+    argument: argument
+  };
+   
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };

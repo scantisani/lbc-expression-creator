@@ -122,7 +122,7 @@ Blockly.Blocks['lbc_compare'] = {
     this.appendDummyInput()
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
-    this.appendValueInput('VALUE')
+    this.appendValueInput('ARGUMENT')
         .setCheck(['Real', 'Concentration', 'Value', 'Comment'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
@@ -155,7 +155,7 @@ Blockly.Blocks['lbc_compare_inbuilt_temporal'] = {
     this.appendDummyInput()
         .appendField('is')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
-    this.appendValueInput('VALUE')
+    this.appendValueInput('ARGUMENT')
         .setCheck(['Concentration', 'Real', 'Value', 'Comment'])
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
@@ -191,7 +191,7 @@ Blockly.Blocks['lbc_compare_inbuilt_stays'] = {
     this.appendDummyInput()
         .appendField('The concentration of')
         .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
-    this.appendValueInput('VALUE')
+    this.appendValueInput('ARGUMENT')
         .setCheck(['Concentration', 'Real', 'Value', 'Comment'])
         .appendField('eventually')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
