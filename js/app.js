@@ -1,64 +1,70 @@
 var treeToLBC = function(tree) {
   switch (tree.tag) {
     case 'Expr1':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+      return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
+
     case 'Expr2':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+      return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
+
     case 'Expr3':
-      var concentration = tree.children[0];
-      var operator = tree.children[1];
-      var value = tree.children[2];
-      return  'F(G(' + treeToLBC(concentration) + ' ' +
-              operator.value + ' ' + treeToLBC(value) + '))';
+      return  'F(G([' + tree.species + '] ' +
+              treeToLBC(tree.operator) + ' ' + treeToLBC(tree.argument) + '))';
+
     case 'Expr4':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
+      return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
+
     case 'Expr5':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-      return treeToLBC(temp) + '(' + treeToLBC(comp) + ')';
-    case 'Expr6':
-      var comment = tree.children[0];
-      var subExpression = tree.children[1];
-      return treeToLBC(comment) + ' ' + treeToLBC(subExpression);
+      return '"' + tree.text + '" ' + treeToLBC(tree.argument);
+
     case 'Temporal':
-      return treeToLBC(tree.children[0]);
+      return (tree.modality === 'Future') ? 'F' : 'G';
+
     case 'TemporalInterval':
-      var modality = tree.children[0];
-      var start = tree.children[1];
-      var end = tree.children[2];
+      var modality = (tree.modality === 'Future') ? 'F' : 'G';
 
-      return treeToLBC(modality) + '{' + start.value  + ', ' + end.value + '}';
-    case 'Global':
-      return 'G';
-    case 'Future':
-      return 'F';
-    case 'ComparisonOp':
-      return tree.value;
-    case 'ArithOperator':
-      return tree.value;
+      return modality + '{' + tree.start  + ', ' + tree.end + '}';
+
     case 'Comparison':
-      var value1 = tree.children[0];
-      var operator = tree.children[1];
-      var value2 = tree.children[2];
-      return treeToLBC(value1) + ' ' + treeToLBC(operator) + ' ' + treeToLBC(value2);
-    case 'Arithmetic':
-      var value1 = tree.children[0];
-      var operator = tree.children[1];
-      var value2 = tree.children[2];
+      return '[' + tree.species + ']' + ' ' + treeToLBC(tree.operator) + ' ' + treeToLBC(tree.argument);
 
-      return '(' + treeToLBC(value1) + ' ' + treeToLBC(operator) + ' ' + treeToLBC(value2) + ')';
-    case 'Concentration':
-      return '[' + tree.value + ']';
-    case 'Real':
-      return tree.value;
+    case 'Arithmetic':
+      return '([' + tree.species + ']' + ' ' + treeToLBC(tree.operator) + ' ' + treeToLBC(tree.argument) + ')';
+
     case 'Comment':
-      return '"' + tree.value + '"';
+      return '"' + tree.text + '"';
+
+    case 'Real':
+      return tree.number;
+
+    case 'Concentration':
+      return '[' + tree.species + ']';
+
+    case 'ComparisonOp':
+      switch(tree.symbol) {
+        case 'GT':
+          return '>';
+        case 'LT':
+          return '<';
+        case 'EQ':
+          return '=';
+        case 'NEQ':
+          return '!=';
+      }
+      break;
+
+    case 'ArithOp':
+      switch(tree.symbol) {
+        case 'ADD':
+          return '+';
+        case 'SUBTRACT':
+          return '-';
+        case 'MULTIPLY':
+          return '*';
+        case 'DIVIDE':
+          return '/';
+      }
+      break;
+
     default:
       return '';
   }
@@ -67,147 +73,128 @@ var treeToLBC = function(tree) {
 var treeToEnglish = function(tree) {
   switch (tree.tag) {
     case 'Expr1':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
+      if (isEmpty(tree.comparison)) {
+        return (tree.temporal.modality === 'Future') ? 'Eventually,' : 'It is always the case that';
+      } else {
+        var species = tree.comparison.species;
+        var operator = tree.comparison.operator;
+        var argument = tree.comparison.argument;
 
-      var concentration = comp.children[0];
-      var operator = comp.children[1];
-      var value = comp.children[2];
+        var sentence =  'the concentration of ' + species + ' is ' +
+                        treeToEnglish(tree.temporal) + ' ' + treeToEnglish(operator) +
+                        ' ' + treeToEnglish(argument);
 
-      var sentence =  treeToEnglish(concentration) + ' is ' +
-                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
-                      ' ' + treeToEnglish(value);
-
-      return format(sentence);
+        return format(sentence);
+      }
+      break;
+      
     case 'Expr2':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
+      var species = tree.comparison.species;
+      var operator = tree.comparison.operator;
+      var argument = tree.comparison.argument;
 
-      var concentration = comp.children[0];
-      var operator = comp.children[1];
-      var value = comp.children[2];
-
-      var sentence =  treeToEnglish(concentration) + ' is ' +
-                      treeToEnglish(temp) + ' ' + treeToEnglish(operator) +
-                      ' ' + treeToEnglish(value);
+      var sentence =  'the concentration of ' + species + ' is ' +
+                      treeToEnglish(tree.temporal) + ' ' + treeToEnglish(operator) +
+                      ' ' + treeToEnglish(argument);
 
       return format(sentence);
+
     case 'Expr3':
-      var concentration = tree.children[0];
-      var operator = tree.children[1];
-      var value = tree.children[2];
-
-      var opString = (operator.value === '>') ? 'rises to and stays above' : 'drops to and stays below';
-      var sentence =  treeToEnglish(concentration) + ' eventually ' +
-                      opString + ' ' + treeToEnglish(value);
+      var opString = (tree.operator.symbol === 'GT') ? 'rises to and stays above' : 'drops to and stays below';
+      var sentence =  'the concentration of ' + tree.species + ' eventually ' +
+                      opString + ' ' + treeToEnglish(tree.argument);
 
       return format(sentence);
+
     case 'Expr4':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
+      var start = tree.temporal.start;
+      var end = tree.temporal.end;
 
-      var modality = temp.children[0];
-      var start = temp.children[1];
-      var end = temp.children[2];
-      var concentration = comp.children[0];
-      var operator = comp.children[1];
-      var value = comp.children[2];
+      if (isEmpty(tree.comparison)) {
+        var point = (tree.temporal.modality === 'Future') ? 'some point' : 'all points';
+        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
-      if (modality.tag === 'Future') {
-        var sentence =  'At some point between times ' + start.value + ' and ' + end.value +
-                        ', ' + treeToEnglish(concentration) + ' is ' +
-                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
+        return 'At ' + point + ' ' + inTime + ',';
+
       } else {
-        var sentence =  'Between times ' + start.value + ' and ' + end.value +
-                        ', ' + treeToEnglish(concentration) + ' is always ' +
-                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
-      }
+        var species = tree.comparison.species;
+        var operator = treeToEnglish(tree.comparison.operator);
+        var argument = treeToEnglish(tree.comparison.argument);
 
-      return format(sentence);
+        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+
+        if (tree.temporal.modality === 'Future') {
+          var sentence =  'at some point ' + inTime +
+                          ', the concentration of ' + species + ' is ' +
+                          operator + ' ' + argument;
+        } else {
+          var sentence =  inTime +
+                          ', the concentration of ' + species + ' is always ' +
+                          operator + ' ' + argument;
+        }
+
+        return format(sentence);
+      }
+      break;
+      
     case 'Expr5':
-      var temp = tree.children[0];
-      var comp = tree.children[1];
-
-      var modality = temp.children[0];
-      var end = temp.children[2];
-      var concentration = comp.children[0];
-      var operator = comp.children[1];
-      var value = comp.children[2];
-
-      if (modality.tag === 'Future') {
-        var sentence =  'At some point before time ' + end.value +
-                        ', ' + treeToEnglish(concentration) + ' is ' +
-                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
-      } else {
-        var sentence =  'Before time ' + end.value +
-                        ', ' + treeToEnglish(concentration) + ' is always ' +
-                        treeToEnglish(operator) + ' ' + treeToEnglish(value);
-      }
+      var sentence = '"' + tree.text + '" ' + treeToEnglish(tree.argument);
 
       return format(sentence);
-    case 'Expr6':
-      var comment = tree.children[0];
-      var subExpression = tree.children[1];
 
-      var sentence = treeToEnglish(comment) + ' ' + treeToEnglish(subExpression);
+    case 'Temporal':
+      return (tree.modality === 'Future') ? 'eventually' : 'always';
 
-      return format(sentence);
-    case 'Future':
-      return 'eventually';
-    case 'Global':
-      return 'always';
     case 'Concentration':
-      return 'the concentration of ' + tree.value;
+      return 'the concentration of ' + tree.species;
+
     case 'Comparison':
-      var concentration = tree.children[0];
-      var operator = tree.children[1];
-      var value = tree.children[2];
+      return  'the concentration of ' + tree.species + ' is ' + treeToEnglish(tree.operator) +
+              ' ' + treeToEnglish(tree.argument);
 
-      return  treeToEnglish(concentration) + ' is ' + treeToEnglish(operator) +
-              ' ' + treeToEnglish(value);
-    case 'ComparisonOp':
-      switch (tree.value) {
-        case '>':
-          return 'greater than';
-        case '<':
-          return 'less than';
-        case '=':
-          return 'equal to';
-        case '!=':
-          return 'not equal to';
-        default:
-          return '';
-      }
-      break;
     case 'Arithmetic':
-      var concentration = tree.children[0];
-      var operator = tree.children[1];
-      var value = tree.children[2];
-
-      if (value.tag === 'Arithmetic') {
-        return treeToEnglish(concentration) + ', ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+      // if we're chaining arithmetic blocks, add a comma in the translation
+      if (tree.argument.tag === 'Arithmetic') {
+        return  'the concentration of ' + tree.species + ', ' + treeToEnglish(tree.operator) +
+                ' ' + treeToEnglish(tree.argument);
       } else {
-        return treeToEnglish(concentration) + ' ' + treeToEnglish(operator) + ' ' + treeToEnglish(value);
+        return  'the concentration of ' + tree.species + ' ' + treeToEnglish(tree.operator) +
+                ' ' + treeToEnglish(tree.argument);
       }
       break;
-    case 'ArithOperator':
-      switch (tree.value) {
-        case '+':
-          return 'plus';
-        case '-':
-          return 'minus';
-        case '*':
-          return 'multiplied by';
-        case '/':
-          return 'divided by';
-        default:
-          return '';
-      }
-      break;
+
     case 'Real':
-      return tree.value;
+      return tree.number;
+
     case 'Comment':
-      return '"' + tree.value + '"';
+      return '"' + tree.text + '"';
+
+    case 'ComparisonOp':
+      switch(tree.symbol) {
+        case 'GT':
+          return 'greater than';
+        case 'LT':
+          return 'less than';
+        case 'EQ':
+          return 'equal to';
+        case 'NEQ':
+          return 'not equal to';
+      }
+      break;
+
+    case 'ArithOp':
+      switch(tree.symbol) {
+        case 'ADD':
+          return 'plus';
+        case 'SUBTRACT':
+          return 'minus';
+        case 'MULTIPLY':
+          return 'multiplied by';
+        case 'DIVIDE':
+          return 'divided by';
+      }
+      break;
+
     default:
       return '';
   }
@@ -252,4 +239,8 @@ var connectBlocks = function(block1, block2, input) {
   var connection2 = block2.outputConnection;
 
   connection1.connect(connection2);
+};
+
+var isEmpty = function(tree) {
+  return (Object.keys(tree).length === 0);
 };
