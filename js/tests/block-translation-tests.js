@@ -263,7 +263,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     assert.equal(treeToLBC(tree), 'F{0, 15}()', 'Temporal interval "up to" block, with end at 15, and "some point" selected, translates to "F{0, 15}()" in LBC');
     assert.equal(treeToEnglish(tree), 'At some point before time 15,', 'Temporal interval "up to" block, with end at 15, and "some point" selected, translates to "At some point before time 15," in English');
 
-    block.setFieldValue('Global', 'TEMP'); // 'all points'
+    block.setFieldValue('GLOBAL', 'TEMP'); // 'all points'
     tree = workspaceToObject(this.workspace);
 
     assert.equal(treeToLBC(tree), 'G{0, 15}()', 'Temporal interval "up to" block, end at 15, and "all points" selected, translates to "G{0, 15}()" in LBC');
