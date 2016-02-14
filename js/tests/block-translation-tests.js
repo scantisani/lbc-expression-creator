@@ -270,6 +270,25 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     assert.equal(treeToEnglish(tree), 'At all points before time 15,', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "At all points before time 15," in English');
   });
 
+  QUnit.test("Conjunction/disjunction block generates correct translations", function(assert) {
+    // make a new Conjunction/disjunction block
+    var block = Blockly.Block.obtain(this.workspace, 'lbc_and');
+
+    // set the block's OPERATOR input field value to 'AND' ('all of the following are true')
+    block.setFieldValue('AND', 'OP');
+
+    var tree = workspaceToObject(this.workspace);
+
+    assert.equal(treeToLBC(tree), ' \u2227 ', 'Conjunction/disjunction block, with conjunction selected, translates to " \u2227 " (logical and operator) in LBC');
+    assert.equal(treeToEnglish(tree), ' and ', 'Conjunction/disjunction block, with conjunction selected, translates to " and " in English');
+
+    block.setFieldValue('OR', 'OP');
+    tree = workspaceToObject(this.workspace);
+
+    assert.equal(treeToLBC(tree), ' \u2228 ', 'Conjunction/disjunction block, with disjunction selected, translates to " \u2228 " (logical and operator) in LBC');
+    assert.equal(treeToEnglish(tree), ' or ', 'Conjunction/disjunction block, with disjunction selected, translates to " or " in English');
+  });
+
   QUnit.module("Multiple-block tests for comparison blocks", function(hooks) {
     // set up all the blocks that can be connected to a Comparison-class block
     hooks.beforeEach(function() {
