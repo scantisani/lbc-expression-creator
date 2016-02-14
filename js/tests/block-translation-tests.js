@@ -152,7 +152,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     // set the block's OPERATOR input field value to 'greater than'
     block.setFieldValue('GT', 'OP');
     // set the block's TEMP input field value to 'Future'
-    block.setFieldValue('Future', 'TEMP');
+    block.setFieldValue('FUTURE', 'TEMP');
 
     var tree = workspaceToObject(this.workspace);
 
@@ -179,7 +179,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     assert.equal(treeToEnglish(tree), 'The concentration of A is eventually not equal to .', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and "!=" as operator, translates to "the concentration of A is eventually not equal to " in English');
 
     // do it all over again, but for 'always'
-    block.setFieldValue('Global', 'TEMP');
+    block.setFieldValue('GLOBAL', 'TEMP');
     block.setFieldValue('GT', 'OP');
     tree = workspaceToObject(this.workspace);
 
@@ -231,7 +231,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     var block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval');
 
     // set the block's TEMP input field value to 'F' ('some point')
-    block.setFieldValue('Future', 'TEMP');
+    block.setFieldValue('FUTURE', 'TEMP');
     // set the block's START input field value to '5'
     block.setFieldValue('5', 'START');
     // set the block's END input field value to '15'
@@ -242,7 +242,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     assert.equal(treeToLBC(tree), 'F{5, 15}()', 'Temporal interval block, with start at 5, end at 15, and "some point" selected, translates to "F{5, 15}()" in LBC');
     assert.equal(treeToEnglish(tree), 'At some point between times 5 and 15,', 'Temporal interval block, with start at 5, end at 15, and "some point" selected, translates to "At some point between times 5 and 15," in English');
 
-    block.setFieldValue('Global', 'TEMP'); // 'all points'
+    block.setFieldValue('GLOBAL', 'TEMP'); // 'all points'
     tree = workspaceToObject(this.workspace);
 
     assert.equal(treeToLBC(tree), 'G{5, 15}()', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "G{5, 15}()" in LBC');
@@ -254,7 +254,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     var block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval_upto');
 
     // set the block's TEMP input field value to 'F' ('some point')
-    block.setFieldValue('Future', 'TEMP');
+    block.setFieldValue('FUTURE', 'TEMP');
     // set the block's END input field value to '15'
     block.setFieldValue('15', 'END');
 
@@ -348,8 +348,8 @@ QUnit.module("Block -> LBC, English", function(hooks) {
 
       // set the block's SPECIES input field value to 'A'
       this.block.setFieldValue('A', 'SPECIES');
-      // set the block's TEMPORAL input field value to 'Future'/'Eventually'
-      this.block.setFieldValue('Future', 'TEMP');
+      // set the block's TEMPORAL input field value to 'FUTURE'/'Eventually'
+      this.block.setFieldValue('FUTURE', 'TEMP');
       // set the block's OPERATOR input field value to 'greater than'
       this.block.setFieldValue('GT', 'OP');
 
@@ -489,7 +489,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     QUnit.test("Temporal interval block with 'all points' selected generates correct translations", function() {
       // make a new Temporal Interval block
       this.block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval');
-      this.block.setFieldValue('Global', 'TEMP');
+      this.block.setFieldValue('GLOBAL', 'TEMP');
       this.block.setFieldValue('5', 'START');
       this.block.setFieldValue('15', 'END');
 
@@ -511,7 +511,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     QUnit.test("Temporal interval block with 'some point' selected generates correct translations", function() {
       // make a new Temporal Interval block
       this.block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval');
-      this.block.setFieldValue('Future', 'TEMP');
+      this.block.setFieldValue('FUTURE', 'TEMP');
       this.block.setFieldValue('5', 'START');
       this.block.setFieldValue('15', 'END');
 
@@ -533,7 +533,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     QUnit.test("Temporal interval block with only end modifiable, with 'all points' selected, generates correct translations", function() {
       // make a new Temporal Interval block
       this.block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval_upto');
-      this.block.setFieldValue('Global', 'TEMP');
+      this.block.setFieldValue('GLOBAL', 'TEMP');
       this.block.setFieldValue('20', 'END');
 
       this.expectedLBC = {
@@ -554,7 +554,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     QUnit.test("Temporal interval block with only end modifiable, with 'some point' selected, generates correct translations", function() {
       // make a new Temporal Interval block
       this.block = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval_upto');
-      this.block.setFieldValue('Future', 'TEMP');
+      this.block.setFieldValue('FUTURE', 'TEMP');
       this.block.setFieldValue('20', 'END');
 
       this.expectedLBC = {

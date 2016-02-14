@@ -17,10 +17,10 @@ var treeToLBC = function(tree) {
       return '"' + tree.text + '" ' + treeToLBC(tree.argument);
 
     case 'Temporal':
-      return (tree.modality === 'Future') ? 'F' : 'G';
+      return (tree.modality === 'FUTURE') ? 'F' : 'G';
 
     case 'TemporalInterval':
-      var modality = (tree.modality === 'Future') ? 'F' : 'G';
+      var modality = (tree.modality === 'FUTURE') ? 'F' : 'G';
 
       return modality + '{' + tree.start  + ', ' + tree.end + '}';
 
@@ -74,7 +74,7 @@ var treeToEnglish = function(tree) {
   switch (tree.tag) {
     case 'Expr1':
       if (isEmpty(tree.comparison)) {
-        return (tree.temporal.modality === 'Future') ? 'Eventually,' : 'It is always the case that';
+        return (tree.temporal.modality === 'FUTURE') ? 'Eventually,' : 'It is always the case that';
       } else {
         var species = tree.comparison.species;
         var temporal = treeToEnglish(tree.temporal);
@@ -111,7 +111,7 @@ var treeToEnglish = function(tree) {
       var end = tree.temporal.end;
 
       if (isEmpty(tree.comparison)) {
-        var point = (tree.temporal.modality === 'Future') ? 'some point' : 'all points';
+        var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
         var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
         return 'At ' + point + ' ' + inTime + ',';
@@ -123,7 +123,7 @@ var treeToEnglish = function(tree) {
 
         var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
-        if (tree.temporal.modality === 'Future') {
+        if (tree.temporal.modality === 'FUTURE') {
           var sentence =  'at some point ' + inTime +
                           ', the concentration of ' + species + ' is ' +
                           operator + ' ' + argument;
@@ -143,7 +143,7 @@ var treeToEnglish = function(tree) {
       return format(sentence);
 
     case 'Temporal':
-      return (tree.modality === 'Future') ? 'eventually' : 'always';
+      return (tree.modality === 'FUTURE') ? 'eventually' : 'always';
 
     case 'Concentration':
       return 'the concentration of ' + tree.species;

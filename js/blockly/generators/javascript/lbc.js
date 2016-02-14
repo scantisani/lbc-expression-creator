@@ -27,7 +27,7 @@ Blockly.JavaScript['lbc_future'] = function(block) {
     tag: 'Expr1',
     temporal: {
       tag: 'Temporal',
-      modality: 'Future'
+      modality: 'FUTURE'
     },
     comparison: comparison
   };
@@ -43,7 +43,7 @@ Blockly.JavaScript['lbc_global'] = function(block) {
     tag: 'Expr1',
     temporal: {
       tag: 'Temporal',
-      modality: 'Global'
+      modality: 'GLOBAL'
     },
     comparison: comparison
   };
