@@ -77,12 +77,12 @@ var treeToEnglish = function(tree) {
         return (tree.temporal.modality === 'Future') ? 'Eventually,' : 'It is always the case that';
       } else {
         var species = tree.comparison.species;
-        var operator = tree.comparison.operator;
-        var argument = tree.comparison.argument;
+        var temporal = treeToEnglish(tree.temporal);
+        var operator = treeToEnglish(tree.comparison.operator);
+        var argument = treeToEnglish(tree.comparison.argument);
 
         var sentence =  'the concentration of ' + species + ' is ' +
-                        treeToEnglish(tree.temporal) + ' ' + treeToEnglish(operator) +
-                        ' ' + treeToEnglish(argument);
+                        temporal + ' ' + operator + ' ' + argument;
 
         return format(sentence);
       }
@@ -90,12 +90,12 @@ var treeToEnglish = function(tree) {
       
     case 'Expr2':
       var species = tree.comparison.species;
-      var operator = tree.comparison.operator;
-      var argument = tree.comparison.argument;
+      var temporal = treeToEnglish(tree.temporal);
+      var operator = treeToEnglish(tree.comparison.operator);
+      var argument = treeToEnglish(tree.comparison.argument);
 
       var sentence =  'the concentration of ' + species + ' is ' +
-                      treeToEnglish(tree.temporal) + ' ' + treeToEnglish(operator) +
-                      ' ' + treeToEnglish(argument);
+                      temporal + ' ' + operator + ' ' + argument;
 
       return format(sentence);
 
