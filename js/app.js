@@ -228,7 +228,17 @@ var workspaceToObject = function(workspace) {
 // takes a Blockly block, extracts the code string it generates,
 // and returns it as a JSON object
 var blockToObject = function(block) {
-  var code = Blockly.JavaScript.blockToCode(block)[0];
+  var code;
+
+  if (block.nextConnection !== null && block.previousConnection !== null) {
+    // if the block is a statement block (i.e. it has top and bottom connectors)
+    // blockToCode returns a single element
+    code = Blockly.JavaScript.blockToCode(block);
+  } else {
+    // if the block is a regular block, blockToCode returns two elements,
+    // the second of which (operator precedence) we ignore 
+    code = Blockly.JavaScript.blockToCode(block)[0];
+  }
 
   return JSON.parse(code);
 };
