@@ -272,7 +272,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
 
   QUnit.test("Conjunction/disjunction block generates correct translations", function(assert) {
     // make a new Conjunction/disjunction block
-    var block = Blockly.Block.obtain(this.workspace, 'lbc_and');
+    var block = Blockly.Block.obtain(this.workspace, 'lbc_and_or');
 
     // set the block's OPERATOR input field value to 'AND' ('all of the following are true')
     block.setFieldValue('AND', 'OP');
@@ -285,7 +285,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     block.setFieldValue('OR', 'OP');
     tree = workspaceToObject(this.workspace);
 
-    assert.equal(treeToLBC(tree), ' \u2228 ', 'Conjunction/disjunction block, with disjunction selected, translates to " \u2228 " (logical and operator) in LBC');
+    assert.equal(treeToLBC(tree), ' \u2228 ', 'Conjunction/disjunction block, with disjunction selected, translates to " \u2228 " (logical or operator) in LBC');
     assert.equal(treeToEnglish(tree), ' or ', 'Conjunction/disjunction block, with disjunction selected, translates to " or " in English');
   });
 
