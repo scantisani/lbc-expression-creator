@@ -37,6 +37,8 @@ Blockly.Blocks['lbc_future'] = {
     this.appendValueInput('COMPARISON')
         .setCheck(['Comparison', 'Comment'])
         .appendField('Eventually,');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
   }
 };
 
@@ -50,6 +52,8 @@ Blockly.Blocks['lbc_global'] = {
     this.appendValueInput('COMPARISON')
         .setCheck(['Comparison', 'Comment'])
         .appendField('It is always the case that');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
   }
 };
 
@@ -77,6 +81,8 @@ Blockly.Blocks['lbc_temporal_interval'] = {
         .appendField('and')
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'END');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
   }
 };
 
@@ -101,6 +107,8 @@ Blockly.Blocks['lbc_temporal_interval_upto'] = {
         .appendField('time')
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'END');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
   }
 };
 

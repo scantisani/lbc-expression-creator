@@ -32,7 +32,7 @@ Blockly.JavaScript['lbc_future'] = function(block) {
     comparison: comparison
   };
 
-  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
+  return JSON.stringify(code);
 };
 
 Blockly.JavaScript['lbc_global'] = function(block) {
@@ -48,7 +48,7 @@ Blockly.JavaScript['lbc_global'] = function(block) {
     comparison: comparison
   };
 
-  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
+  return JSON.stringify(code);
 };
 
 Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
@@ -70,7 +70,7 @@ Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
     comparison: comparison
   };
 
-  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
+  return JSON.stringify(code);
 };
 
 Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
@@ -91,7 +91,7 @@ Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
     comparison: comparison
   };
 
-  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
+  return JSON.stringify(code);
 };
 
 Blockly.JavaScript['lbc_compare'] = function(block) {
