@@ -467,7 +467,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     });
 
     QUnit.test("Future block generates correct translations", function() {
-      // make a new Global block
+      // make a new Future block
       this.block = Blockly.Block.obtain(this.workspace, 'lbc_future');
 
       this.expectedLBC = {
