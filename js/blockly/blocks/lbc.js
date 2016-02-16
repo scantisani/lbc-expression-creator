@@ -255,3 +255,18 @@ Blockly.Blocks['lbc_comment_with_input'] = {
         .appendField(new Blockly.FieldTextInput('Put a comment here!'), 'TEXT');
   }
 };
+
+Blockly.Blocks['lbc_and_or'] = {
+  /**
+   * Block for chaining LBC expressions together with conjunction or disjunction.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([['All of the following are true:', 'AND'], ['At least one of the following is true:', 'OR']]), 'OP');
+    this.appendStatementInput('ARGUMENT');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+  }
+};

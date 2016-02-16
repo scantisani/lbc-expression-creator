@@ -213,3 +213,24 @@ Blockly.JavaScript['lbc_comment_with_input'] = function(block) {
    
   return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
+
+Blockly.JavaScript['lbc_and_or'] = function(block) {
+  var operator = block.getFieldValue('OP');
+  var argument = Blockly.JavaScript.statementToCode(block, 'ARGUMENT');
+
+  // the stack of sub-expressions will be stuck together as as a single, unbroken string
+  // so add square brackets and commas in appropriate places to format as JSON array
+  argument = '[' + argument.trim().replace(/}{/g, '},{') + ']';
+  argument = JSON.parse(argument);
+
+  var code = {
+    tag: 'Connective',
+    operator: {
+      tag: 'LogicalOp',
+      symbol: operator
+    },
+    argument: argument
+  };
+   
+  return JSON.stringify(code);
+};
