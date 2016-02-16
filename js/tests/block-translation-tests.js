@@ -667,4 +667,122 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       assert.equal(treeToEnglish(tree), '"For some reason" "some arbitrary words".');
     });
   });
+
+  QUnit.module("Multiple-block tests for connective (and/or) blocks", function(hooks) {
+    // set up all the blocks that can be connected to a Connective-class (purple) block
+    // we assume Comparison and Temporal blocks have already been thoroughly tested with different inputs
+    hooks.beforeEach(function() {
+      this.future = Blockly.Block.obtain(this.workspace, 'lbc_future');
+      this.global = Blockly.Block.obtain(this.workspace, 'lbc_global');
+
+      this.interval = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval');
+      this.interval.setFieldValue('FUTURE', 'TEMP');
+      this.interval.setFieldValue('5', 'START');
+      this.interval.setFieldValue('10', 'END');
+
+      this.interval_upto = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval_upto');
+      this.interval_upto.setFieldValue('GLOBAL', 'TEMP');
+      this.interval.setFieldValue('15', 'END');
+
+      this.compare1 = Blockly.Block.obtain(this.workspace, 'lbc_compare');
+      this.compare1.setFieldValue('A', 'SPECIES');
+      this.compare1.setFieldValue('GT', 'OP');
+
+      this.compare2 = Blockly.Block.obtain(this.workspace, 'lbc_compare');
+      this.compare2.setFieldValue('A', 'SPECIES');
+      this.compare2.setFieldValue('GT', 'OP');
+
+      this.compare3 = Blockly.Block.obtain(this.workspace, 'lbc_compare');
+      this.compare3.setFieldValue('A', 'SPECIES');
+      this.compare3.setFieldValue('GT', 'OP');
+
+      this.compare4 = Blockly.Block.obtain(this.workspace, 'lbc_compare');
+      this.compare4.setFieldValue('A', 'SPECIES');
+      this.compare4.setFieldValue('GT', 'OP');
+
+      this.real1 = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      this.real1.setFieldValue('15', 'NUM');
+
+      this.real2 = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      this.real2.setFieldValue('15', 'NUM');
+
+      this.real3 = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      this.real3.setFieldValue('15', 'NUM');
+
+      this.real4 = Blockly.Block.obtain(this.workspace, 'lbc_real');
+      this.real4.setFieldValue('15', 'NUM');
+
+      connectBlocks(this.compare1, this.real1, 'ARGUMENT');
+      connectBlocks(this.compare2, this.real2, 'ARGUMENT');
+      connectBlocks(this.compare3, this.real3, 'ARGUMENT');
+      connectBlocks(this.compare4, this.real4, 'ARGUMENT');
+
+      connectBlocks(this.future, this.compare1, 'COMPARISON');
+      connectBlocks(this.global, this.compare2, 'COMPARISON');
+      connectBlocks(this.interval, this.compare3, 'COMPARISON');
+      connectBlocks(this.interval_upto, this.compare4, 'COMPARISON');
+    });
+
+    // keep stacking temporal blocks in the input to our connective block
+    // testing the translation each time
+    hooks.afterEach(function(assert) {
+      connectStatement(this.block, this.future, 'ARGUMENT');
+
+      var tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.future);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.future);
+
+      stackBlocks(this.future, this.global);
+      assert.equal(treeToLBC(tree), this.expectedLBC.global);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.global);
+
+      stackBlocks(this.global, this.interval);
+      assert.equal(treeToLBC(tree), this.expectedLBC.interval);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.interval);
+
+      stackBlocks(this.interval, this.interval_upto);
+      assert.equal(treeToLBC(tree), this.expectedLBC.interval_upto);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.interval_upto);
+    });
+
+    QUnit.test("Regular and block generates correct translations", function() {
+      // make a new and/or block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_and_or');
+      this.block.setFieldValue('AND', 'OP');
+
+      this.expectedLBC = {
+        future: 'F([A] > 15)',
+        global: 'F([A] > 15) \u2227 G([A] > 15)',
+        interval: 'F([A] > 15) \u2227 G([A] > 15) \u2227 F{5, 10}([A] > 15)',
+        interval_upto: 'F([A] > 15) \u2227 G([A] > 15) \u2227 F{5, 10}([A] > 15) \u2227 G{0, 15}([A] > 15)'
+      };
+
+      this.expectedEnglish = {
+        future: 'The concentration of A is eventually greater than 15.',
+        global: 'The concentration of A is eventually greater than 15 and the concentration of A is always greater than 15.',
+        interval: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, and at some point between times 5 and 15, the concentration of A is greater than 15.',
+        interval_upto: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, and before time 15, the concentration of A is always greater than 15.'
+      };
+    });
+
+    QUnit.test("Regular or block generates correct translations", function() {
+      // make a new and/or block
+      this.block = Blockly.Block.obtain(this.workspace, 'lbc_and_or');
+      this.block.setFieldValue('OR', 'OP');
+
+      this.expectedLBC = {
+        future: 'F([A] > 15)',
+        global: 'F([A] > 15) \u2228 G([A] > 15)',
+        interval: 'F([A] > 15) \u2228 G([A] > 15) \u2228 F{5, 10}([A] > 15)',
+        interval_upto: 'F([A] > 15) \u2228 G([A] > 15) \u2228 F{5, 10}([A] > 15) \u2228 G{0, 15}([A] > 15)'
+      };
+
+      this.expectedEnglish = {
+        future: 'The concentration of A is eventually greater than 15.',
+        global: 'The concentration of A is eventually greater than 15 or the concentration of A is always greater than 15.',
+        interval: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, or at some point between times 5 and 15, the concentration of A is greater than 15.',
+        interval_upto: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, or before time 15, the concentration of A is always greater than 15.'
+      };
+    });
+  });
 });
