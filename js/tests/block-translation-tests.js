@@ -270,7 +270,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     assert.equal(treeToEnglish(tree), 'At all points before time 15,', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "At all points before time 15," in English');
   });
 
-  QUnit.test("Conjunction/disjunction block generates correct translations", function(assert) {
+  QUnit.test("Connective (and/or) block generates correct translations", function(assert) {
     // make a new Conjunction/disjunction block
     var block = Blockly.Block.obtain(this.workspace, 'lbc_and_or');
 
@@ -279,14 +279,14 @@ QUnit.module("Block -> LBC, English", function(hooks) {
 
     var tree = workspaceToObject(this.workspace);
 
-    assert.equal(treeToLBC(tree), ' \u2227 ', 'Conjunction/disjunction block, with conjunction selected, translates to " \u2227 " (logical and operator) in LBC');
-    assert.equal(treeToEnglish(tree), ' and ', 'Conjunction/disjunction block, with conjunction selected, translates to " and " in English');
+    assert.equal(treeToLBC(tree), '', 'Conjunction/disjunction block, with conjunction selected and no sub-expressions, translates to "" (empty string) in LBC');
+    assert.equal(treeToEnglish(tree), '', 'Conjunction/disjunction block, with conjunction selected and no sub-expressions, translates to "" (empty string) in English');
 
     block.setFieldValue('OR', 'OP');
     tree = workspaceToObject(this.workspace);
 
-    assert.equal(treeToLBC(tree), ' \u2228 ', 'Conjunction/disjunction block, with disjunction selected, translates to " \u2228 " (logical or operator) in LBC');
-    assert.equal(treeToEnglish(tree), ' or ', 'Conjunction/disjunction block, with disjunction selected, translates to " or " in English');
+    assert.equal(treeToLBC(tree), '', 'Conjunction/disjunction block, with disjunction selected and no sub-expressions, translates to "" (empty string) in LBC');
+    assert.equal(treeToEnglish(tree), '', 'Conjunction/disjunction block, with disjunction selected and no sub-expressions, translates to "" (empty string) in English');
   });
 
   QUnit.module("Multiple-block tests for comparison blocks", function(hooks) {
@@ -682,7 +682,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
 
       this.interval_upto = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval_upto');
       this.interval_upto.setFieldValue('GLOBAL', 'TEMP');
-      this.interval.setFieldValue('15', 'END');
+      this.interval_upto.setFieldValue('15', 'END');
 
       this.compare1 = Blockly.Block.obtain(this.workspace, 'lbc_compare');
       this.compare1.setFieldValue('A', 'SPECIES');
@@ -733,14 +733,17 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       assert.equal(treeToEnglish(tree), this.expectedEnglish.future);
 
       stackBlocks(this.future, this.global);
+      tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.global);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.global);
 
       stackBlocks(this.global, this.interval);
+      tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.interval);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.interval);
 
       stackBlocks(this.interval, this.interval_upto);
+      tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.interval_upto);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.interval_upto);
     });
