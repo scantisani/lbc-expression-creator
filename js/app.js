@@ -251,6 +251,23 @@ var connectBlocks = function(block1, block2, input) {
   connection1.connect(connection2);
 };
 
+// takes two Blockly blocks and stacks them (block1 on top of block2)
+var stackBlocks = function(block1, block2) {
+  var connection1 = block1.nextConnection;
+  var connection2 = block2.previousConnection;
+
+  connection1.connect(connection2);
+};
+
+// takes two Blockly blocks, block1 (a C-shaped block) and block2 (a statement block)
+// and connects block2's previousConnection to block1 via the connection specified in 'input'
+var connectStatement = function(block1, block2, input) {
+  var connection1 = block1.getInput(input).connection;
+  var connection2 = block2.previousConnection;
+
+  connection1.connect(connection2);
+};
+
 var isEmpty = function(tree) {
   return (Object.keys(tree).length === 0);
 };
