@@ -188,6 +188,32 @@ var englishHelper = function(tree) {
       }
       break;
 
+    case 'Connective':
+      var conjunction = (tree.operator.symbol === 'AND') ? 'and' : 'or';
+
+      if (tree.argument.length === 0) {
+        return '';
+      } else if (tree.argument.length === 1) {
+        return englishHelper(tree.argument[0]);
+      } else if (tree.argument.length === 2) {
+        return englishHelper(tree.argument[0]) + ' ' + conjunction + ' ' + englishHelper(tree.argument[1]);
+      } else {
+        var sentence = englishHelper(tree.argument[0]);
+
+        for (var i = 1; i < tree.argument.length - 1; i++) {
+          if (tree.argument[i].tag === 'Connective') {
+            sentence += ', ' + conjunction + ' ' + englishHelper(tree.argument[i]);
+          } else {
+            sentence += ', ' + englishHelper(tree.argument[i]);
+          }
+        }
+
+        sentence += ', ' + conjunction + ' ' + englishHelper(tree.argument[tree.argument.length - 1]);
+
+        return sentence;
+      }
+      break;
+
     case 'Real':
       return tree.number;
 
