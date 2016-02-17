@@ -30,6 +30,27 @@ var treeToLBC = function(tree) {
     case 'Arithmetic':
       return '([' + tree.species + ']' + ' ' + treeToLBC(tree.operator) + ' ' + treeToLBC(tree.argument) + ')';
 
+    case 'Connective':
+      if (tree.argument.length === 0) {
+        return '';
+      } else if (tree.argument.length === 1) {
+        return treeToLBC(tree.argument[0]);
+      } else {
+        var sentence = treeToLBC(tree.argument[0]);
+        var symbol = (tree.operator.symbol === 'AND') ? '\u2227' : '\u2228';
+
+        for (var i = 1; i < tree.argument.length; i++) {
+          if (tree.argument[i].tag === 'Connective') {
+            sentence += ' ' + symbol + ' (' + treeToLBC(tree.argument[i]) + ')';
+          } else {
+            sentence += ' ' + symbol + ' ' + treeToLBC(tree.argument[i]);
+          }
+        }
+
+        return sentence;
+      }
+      break;
+
     case 'Comment':
       return '"' + tree.text + '"';
 
