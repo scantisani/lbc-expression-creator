@@ -92,40 +92,44 @@ var treeToLBC = function(tree) {
 };
 
 var treeToEnglish = function(tree) {
+  return format(englishHelper(tree));
+};
+
+var englishHelper = function(tree) {
   switch (tree.tag) {
     case 'Expr1':
       if (isEmpty(tree.comparison)) {
-        return (tree.temporal.modality === 'FUTURE') ? 'Eventually,' : 'It is always the case that';
+        return (tree.temporal.modality === 'FUTURE') ? 'eventually,' : 'it is always the case that';
       } else {
         var species = tree.comparison.species;
-        var temporal = treeToEnglish(tree.temporal);
-        var operator = treeToEnglish(tree.comparison.operator);
-        var argument = treeToEnglish(tree.comparison.argument);
+        var temporal = englishHelper(tree.temporal);
+        var operator = englishHelper(tree.comparison.operator);
+        var argument = englishHelper(tree.comparison.argument);
 
         var sentence =  'the concentration of ' + species + ' is ' +
                         temporal + ' ' + operator + ' ' + argument;
 
-        return format(sentence);
+        return sentence;
       }
       break;
       
     case 'Expr2':
       var species = tree.comparison.species;
-      var temporal = treeToEnglish(tree.temporal);
-      var operator = treeToEnglish(tree.comparison.operator);
-      var argument = treeToEnglish(tree.comparison.argument);
+      var temporal = englishHelper(tree.temporal);
+      var operator = englishHelper(tree.comparison.operator);
+      var argument = englishHelper(tree.comparison.argument);
 
       var sentence =  'the concentration of ' + species + ' is ' +
                       temporal + ' ' + operator + ' ' + argument;
 
-      return format(sentence);
+      return sentence;
 
     case 'Expr3':
       var opString = (tree.operator.symbol === 'GT') ? 'rises to and stays above' : 'drops to and stays below';
       var sentence =  'the concentration of ' + tree.species + ' eventually ' +
-                      opString + ' ' + treeToEnglish(tree.argument);
+                      opString + ' ' + englishHelper(tree.argument);
 
-      return format(sentence);
+      return sentence;
 
     case 'Expr4':
       var start = tree.temporal.start;
@@ -139,8 +143,8 @@ var treeToEnglish = function(tree) {
 
       } else {
         var species = tree.comparison.species;
-        var operator = treeToEnglish(tree.comparison.operator);
-        var argument = treeToEnglish(tree.comparison.argument);
+        var operator = englishHelper(tree.comparison.operator);
+        var argument = englishHelper(tree.comparison.argument);
 
         var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
@@ -154,14 +158,14 @@ var treeToEnglish = function(tree) {
                           operator + ' ' + argument;
         }
 
-        return format(sentence);
+        return sentence;
       }
       break;
       
     case 'Expr5':
-      var sentence = '"' + tree.text + '" ' + treeToEnglish(tree.argument);
+      var sentence = '"' + tree.text + '" ' + englishHelper(tree.argument);
 
-      return format(sentence);
+      return sentence;
 
     case 'Temporal':
       return (tree.modality === 'FUTURE') ? 'eventually' : 'always';
@@ -170,17 +174,17 @@ var treeToEnglish = function(tree) {
       return 'the concentration of ' + tree.species;
 
     case 'Comparison':
-      return  'the concentration of ' + tree.species + ' is ' + treeToEnglish(tree.operator) +
-              ' ' + treeToEnglish(tree.argument);
+      return  'the concentration of ' + tree.species + ' is ' + englishHelper(tree.operator) +
+              ' ' + englishHelper(tree.argument);
 
     case 'Arithmetic':
       // if we're chaining arithmetic blocks, add a comma in the translation
       if (tree.argument.tag === 'Arithmetic') {
-        return  'the concentration of ' + tree.species + ', ' + treeToEnglish(tree.operator) +
-                ' ' + treeToEnglish(tree.argument);
+        return  'the concentration of ' + tree.species + ', ' + englishHelper(tree.operator) +
+                ' ' + englishHelper(tree.argument);
       } else {
-        return  'the concentration of ' + tree.species + ' ' + treeToEnglish(tree.operator) +
-                ' ' + treeToEnglish(tree.argument);
+        return  'the concentration of ' + tree.species + ' ' + englishHelper(tree.operator) +
+                ' ' + englishHelper(tree.argument);
       }
       break;
 
@@ -225,7 +229,7 @@ var format = function(sentence) {
   // Capitalize the first letter of the sentence
   var formattedSentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
   // Add a full stop at the end of the sentence
-  formattedSentence = formattedSentence + '.';
+  // formattedSentence = formattedSentence + '.';
 
   return formattedSentence;
 };
