@@ -763,7 +763,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       this.expectedEnglish = {
         future: 'The concentration of A is eventually greater than 15',
         global: 'The concentration of A is eventually greater than 15 and the concentration of A is always greater than 15',
-        interval: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, and at some point between times 5 and 15, the concentration of A is greater than 15',
+        interval: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, and at some point between times 5 and 10, the concentration of A is greater than 15',
         interval_upto: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, and before time 15, the concentration of A is always greater than 15',
         nested_connective: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, before time 15, the concentration of A is always greater than 15, and the concentration of A is eventually greater than 15 and the concentration of A is always greater than 15'
       };
@@ -785,7 +785,7 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       this.expectedEnglish = {
         future: 'The concentration of A is eventually greater than 15',
         global: 'The concentration of A is eventually greater than 15 or the concentration of A is always greater than 15',
-        interval: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, or at some point between times 5 and 15, the concentration of A is greater than 15',
+        interval: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, or at some point between times 5 and 10, the concentration of A is greater than 15',
         interval_upto: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, or before time 15, the concentration of A is always greater than 15',
         nested_connective: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, before time 15, the concentration of A is always greater than 15, or the concentration of A is eventually greater than 15 and the concentration of A is always greater than 15'
       };
