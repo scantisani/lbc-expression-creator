@@ -266,7 +266,5 @@ Blockly.Blocks['lbc_and_or'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([['All of the following are true:', 'AND'], ['At least one of the following is true:', 'OR']]), 'OP');
     this.appendStatementInput('ARGUMENT');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
   }
 };

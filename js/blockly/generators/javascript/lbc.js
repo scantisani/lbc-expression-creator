@@ -232,5 +232,5 @@ Blockly.JavaScript['lbc_and_or'] = function(block) {
     argument: argument
   };
    
-  return JSON.stringify(code);
+  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };

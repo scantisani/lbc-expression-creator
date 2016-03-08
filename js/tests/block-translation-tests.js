@@ -672,11 +672,9 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     // set up all the blocks that can be connected to a Connective-class (purple) block
     // we assume Comparison and Temporal blocks have already been thoroughly tested with different inputs
     hooks.beforeEach(function() {
-      this.future1 = Blockly.Block.obtain(this.workspace, 'lbc_future');
-      this.future2 = Blockly.Block.obtain(this.workspace, 'lbc_future');
+      this.future = Blockly.Block.obtain(this.workspace, 'lbc_future');
 
-      this.global1 = Blockly.Block.obtain(this.workspace, 'lbc_global');
-      this.global2 = Blockly.Block.obtain(this.workspace, 'lbc_global');
+      this.global = Blockly.Block.obtain(this.workspace, 'lbc_global');
 
       this.interval = Blockly.Block.obtain(this.workspace, 'lbc_temporal_interval');
       this.interval.setFieldValue('FUTURE', 'TEMP');
@@ -688,8 +686,8 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       this.interval_upto.setFieldValue('15', 'END');
 
       // set up some identical Compare and Real blocks, then connect them
-      this.compare = new Array(6);
-      this.real = new Array(6);
+      this.compare = new Array(4);
+      this.real = new Array(4);
 
       for (var i = 0; i < this.compare.length; i++) {
         this.compare[i] = Blockly.Block.obtain(this.workspace, 'lbc_compare');
@@ -702,36 +700,27 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         connectBlocks(this.compare[i], this.real[i], 'ARGUMENT');
       }
 
-      connectBlocks(this.future1, this.compare[0], 'COMPARISON');
-      connectBlocks(this.future2, this.compare[1], 'COMPARISON');
-      connectBlocks(this.global1, this.compare[2], 'COMPARISON');
-      connectBlocks(this.global2, this.compare[3], 'COMPARISON');
-      connectBlocks(this.interval, this.compare[4], 'COMPARISON');
-      connectBlocks(this.interval_upto, this.compare[5], 'COMPARISON');
-
-      // set up a nested Connective block
-      this.nested_connective = Blockly.Block.obtain(this.workspace, 'lbc_and_or');
-      this.nested_connective.setFieldValue('AND', 'OP');
-
-      connectStatement(this.nested_connective, this.future2, 'ARGUMENT');
-      stackBlocks(this.future2, this.global2);
+      connectBlocks(this.future, this.compare[0], 'COMPARISON');
+      connectBlocks(this.global, this.compare[1], 'COMPARISON');
+      connectBlocks(this.interval, this.compare[2], 'COMPARISON');
+      connectBlocks(this.interval_upto, this.compare[3], 'COMPARISON');
     });
 
     // keep stacking temporal blocks in the input to our connective block
     // testing the translation each time
     hooks.afterEach(function(assert) {
-      connectStatement(this.block, this.future1, 'ARGUMENT');
+      connectStatement(this.block, this.future, 'ARGUMENT');
 
       var tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.future);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.future);
 
-      stackBlocks(this.future1, this.global1);
+      stackBlocks(this.future, this.global);
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.global);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.global);
 
-      stackBlocks(this.global1, this.interval);
+      stackBlocks(this.global, this.interval);
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.interval);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.interval);
@@ -740,11 +729,6 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.interval_upto);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.interval_upto);
-
-      stackBlocks(this.interval_upto, this.nested_connective);
-      tree = blockToObject(this.block);
-      assert.equal(treeToLBC(tree), this.expectedLBC.nested_connective);
-      assert.equal(treeToEnglish(tree), this.expectedEnglish.nested_connective);
     });
 
     QUnit.test("Regular and block generates correct translations", function() {
@@ -756,16 +740,14 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         future: 'F([A] > 15)',
         global: 'F([A] > 15) \u2227 G([A] > 15)',
         interval: 'F([A] > 15) \u2227 G([A] > 15) \u2227 F{5, 10}([A] > 15)',
-        interval_upto: 'F([A] > 15) \u2227 G([A] > 15) \u2227 F{5, 10}([A] > 15) \u2227 G{0, 15}([A] > 15)',
-        nested_connective: 'F([A] > 15) \u2227 G([A] > 15) \u2227 F{5, 10}([A] > 15) \u2227 G{0, 15}([A] > 15) \u2227 (F([A] > 15) \u2227 G([A] > 15))'
+        interval_upto: 'F([A] > 15) \u2227 G([A] > 15) \u2227 F{5, 10}([A] > 15) \u2227 G{0, 15}([A] > 15)'
       };
 
       this.expectedEnglish = {
         future: 'The concentration of A is eventually greater than 15',
         global: 'The concentration of A is eventually greater than 15 and the concentration of A is always greater than 15',
         interval: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, and at some point between times 5 and 10, the concentration of A is greater than 15',
-        interval_upto: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, and before time 15, the concentration of A is always greater than 15',
-        nested_connective: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, before time 15, the concentration of A is always greater than 15, and the concentration of A is eventually greater than 15 and the concentration of A is always greater than 15'
+        interval_upto: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, and before time 15, the concentration of A is always greater than 15'
       };
     });
 
@@ -778,16 +760,14 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         future: 'F([A] > 15)',
         global: 'F([A] > 15) \u2228 G([A] > 15)',
         interval: 'F([A] > 15) \u2228 G([A] > 15) \u2228 F{5, 10}([A] > 15)',
-        interval_upto: 'F([A] > 15) \u2228 G([A] > 15) \u2228 F{5, 10}([A] > 15) \u2228 G{0, 15}([A] > 15)',
-        nested_connective: 'F([A] > 15) \u2228 G([A] > 15) \u2228 F{5, 10}([A] > 15) \u2228 G{0, 15}([A] > 15) \u2228 (F([A] > 15) \u2227 G([A] > 15))'
+        interval_upto: 'F([A] > 15) \u2228 G([A] > 15) \u2228 F{5, 10}([A] > 15) \u2228 G{0, 15}([A] > 15)'
       };
 
       this.expectedEnglish = {
         future: 'The concentration of A is eventually greater than 15',
         global: 'The concentration of A is eventually greater than 15 or the concentration of A is always greater than 15',
         interval: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, or at some point between times 5 and 10, the concentration of A is greater than 15',
-        interval_upto: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, or before time 15, the concentration of A is always greater than 15',
-        nested_connective: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, before time 15, the concentration of A is always greater than 15, or the concentration of A is eventually greater than 15 and the concentration of A is always greater than 15'
+        interval_upto: 'The concentration of A is eventually greater than 15, the concentration of A is always greater than 15, at some point between times 5 and 10, the concentration of A is greater than 15, or before time 15, the concentration of A is always greater than 15'
       };
     });
   });
