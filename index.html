@@ -118,6 +118,7 @@
     var workspace = Blockly.inject('blocklyDiv',
         {media: 'js/blockly/media/',
          toolbox: document.getElementById('toolbox')});
+
     var onresize = function(e) {
       // Compute the absolute coordinates and dimensions of blocklyArea.
       var element = blocklyArea;
@@ -137,17 +138,17 @@
     window.addEventListener('resize', onresize, false);
     onresize();
 
-    function debug() {
+    var debug = function() {
       var code = Blockly.JavaScript.workspaceToCode(workspace);
       document.getElementById("debug").innerHTML = code;
     }
 
-    function showTranslation() {
+    var showTranslation = function() {
       showLBC();
       showEnglish();
     }
 
-    function showLBC() {
+    var showLBC = function() {
       try {
         var tree = workspaceToObject(workspace);
         var str = treeToLBC(tree);
@@ -158,7 +159,7 @@
       document.getElementById("lbc").innerHTML = str;
     }
 
-    function showEnglish() {
+    var showEnglish = function() {
       try {
         var tree = workspaceToObject(workspace);
         var str = treeToEnglish(tree);
