@@ -12,6 +12,11 @@ goog.require('Blockly.Blocks');
 Blockly.HSV_SATURATION = 0.7;
 Blockly.HSV_VALUE = 0.7;
 
+var temporalColour = 56;
+var valueColour = 327;
+var comparisonColour = 202;
+var commentColour = 26;
+var connectiveColour = 260;
 
 Blockly.Blocks['lbc_concentration'] = {
   /**
@@ -19,7 +24,7 @@ Blockly.Blocks['lbc_concentration'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(327);
+    this.setColour(valueColour);
     this.appendDummyInput()
         .appendField('the concentration of')
         .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
@@ -33,7 +38,7 @@ Blockly.Blocks['lbc_future'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(56);
+    this.setColour(temporalColour);
     this.appendValueInput('COMPARISON')
         .setCheck(['Comparison', 'Comment'])
         .appendField('Eventually,');
@@ -48,7 +53,7 @@ Blockly.Blocks['lbc_global'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(56);
+    this.setColour(temporalColour);
     this.appendValueInput('COMPARISON')
         .setCheck(['Comparison', 'Comment'])
         .appendField('It is always the case that');
@@ -68,7 +73,7 @@ Blockly.Blocks['lbc_temporal_interval'] = {
           ['all points', 'GLOBAL']
         ];
 
-    this.setColour(56);
+    this.setColour(temporalColour);
     this.appendDummyInput()
         .appendField('At')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP')
@@ -97,7 +102,7 @@ Blockly.Blocks['lbc_temporal_interval_upto'] = {
           ['all points', 'GLOBAL']
         ];
 
-    this.setColour(56);
+    this.setColour(temporalColour);
     this.appendDummyInput()
         .appendField('At')
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP')
@@ -125,7 +130,7 @@ Blockly.Blocks['lbc_compare'] = {
           ['is greater than', 'GT']
         ];
 
-    this.setColour(202);
+    this.setColour(comparisonColour);
     this.setOutput(true, 'Comparison');
     this.appendDummyInput()
         .appendField('the concentration of')
@@ -155,7 +160,7 @@ Blockly.Blocks['lbc_compare_inbuilt_temporal'] = {
           ['always', 'GLOBAL']
         ];
 
-    this.setColour(202);
+    this.setColour(comparisonColour);
     this.setOutput(false);
     this.appendDummyInput()
         .appendField('The concentration of')
@@ -176,7 +181,7 @@ Blockly.Blocks['lbc_real'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(327);
+    this.setColour(valueColour);
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'NUM');
@@ -195,7 +200,7 @@ Blockly.Blocks['lbc_compare_inbuilt_stays'] = {
           ['drops to and stays below', 'LT']
         ];
 
-    this.setColour(202);
+    this.setColour(comparisonColour);
     this.appendDummyInput()
         .appendField('The concentration of')
         .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
@@ -219,7 +224,7 @@ Blockly.Blocks['lbc_arithmetic'] = {
          [Blockly.Msg.MATH_MULTIPLICATION_SYMBOL, 'MULTIPLY'],
          [Blockly.Msg.MATH_DIVISION_SYMBOL, 'DIVIDE']];
 
-    this.setColour(327);
+    this.setColour(valueColour);
     this.setOutput(true, 'Value');
     this.appendDummyInput()
         .appendField('the concentration of')
@@ -237,7 +242,7 @@ Blockly.Blocks['lbc_comment_with_output'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(26);
+    this.setColour(commentColour);
     this.setOutput(true, 'Comment');
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput('Put a comment here!'), 'TEXT');
@@ -250,7 +255,7 @@ Blockly.Blocks['lbc_comment_with_input'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(26);
+    this.setColour(commentColour);
     this.appendValueInput('ARGUMENT')
         .appendField(new Blockly.FieldTextInput('Put a comment here!'), 'TEXT');
   }
@@ -262,7 +267,7 @@ Blockly.Blocks['lbc_and_or'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setColour(260);
+    this.setColour(connectiveColour);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([['All of the following are true:', 'AND'], ['At least one of the following is true:', 'OR']]), 'OP');
     this.appendStatementInput('ARGUMENT');
