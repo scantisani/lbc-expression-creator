@@ -51,24 +51,18 @@
       <td id="buttonArea" class="title">
           <button onclick="showTranslation()">Show Translation</button>
       </td>
-      <td>
+      <td id="errorArea">
         <span id="errorMessage"></span>
       </td>
     </td>
-    <tr id="lbcTranslation">
+    <tr id="lbcRow">
       <td class="title">
         <b>LBC:</b>
       </td>
-      <td>
-        <span id="lbc"></span>
-      </td>
     </tr>
-    <tr id="englishTranslation">
+    <tr id="englishRow">
       <td class="title">
         <b>English:</b>
-      </td>
-      <td>
-        <span id="english"></span>
       </td>
     </tr>
   </table>
@@ -145,33 +139,56 @@
     window.addEventListener('resize', onresize, false);
     onresize();
 
-    var debug = function() {
-      var code = Blockly.JavaScript.workspaceToCode(workspace);
-      document.getElementById("debug").innerHTML = code;
-    }
-
     var showTranslation = function() {
       try {
+        var topBlocks = workspace.topBlocks_;
+        var lbcTranslation, englishTranslation, newCell;
 
-        try {
-          var tree = workspaceToObject(workspace);
-        } catch (e) {
-          console.log(e.message);
-          throw "These blocks either don't form a complete expression yet, or something went wrong converting the workspace to a syntax tree.";
+        var lbcRow = document.getElementById("lbcRow");
+        var englishRow = document.getElementById("englishRow");
+
+        lbcRow.innerHTML = '<td class="title"> <b>LBC:</b> </td>'
+        englishRow.innerHTML = '<td class="title"> <b>English:</b> </td>'
+
+        for (var i = 0; i < topBlocks.length; i++) {
+          try {
+            var tree = blockToObject(topBlocks[i]);
+          } catch (e) {
+            console.log(e.message);
+            throw "These blocks either don't form a complete expression yet, or something went wrong converting the workspace to a syntax tree.";
+          }
+
+          try {
+            lbcTranslation = treeToLBC(tree);
+          } catch (e) {
+            console.log(e.message);
+            throw "These blocks either don't form a complete expression yet, or something went wrong with the LBC translation.";
+          }
+
+          try {
+            englishTranslation = treeToEnglish(tree);
+          } catch (e) {
+            console.log(e.message);
+            throw "These blocks either don't form a complete expression yet, or something went wrong with the English translation.";
+          }
+
+          newCell = lbcRow.insertCell();
+          newCell.className = "title";
+          newCell.innerHTML = lbcTranslation;
+
+          newCell = englishRow.insertCell();
+          newCell.className = "title";
+          newCell.innerHTML = englishTranslation;
         }
 
-        try {
-          var lbcString = treeToLBC(tree);
-        } catch (e) {
-          console.log(e.message);
-          throw "These blocks either don't form a complete expression yet, or something went wrong with the LBC translation.";
-        }
-
-        try {
-          var englishString = treeToEnglish(tree);
-        } catch (e) {
-          console.log(e.message);
-          throw "These blocks either don't form a complete expression yet, or something went wrong with the English translation.";
+        // dynamically resize the Blockly and error areas
+        // depending on the number of columns in of the table of translations
+        if (topBlocks.length > 1) {
+          blocklyArea.colSpan = topBlocks.length + 1;
+          errorArea.colSpan = topBlocks.length;
+        } else {
+          blocklyArea.colSpan = 2;
+          errorArea.colSpan = 1;
         }
 
       } catch (e) {
@@ -179,8 +196,6 @@
       }
 
       document.getElementById("errorMessage").innerHTML = errorString || "";
-      document.getElementById("lbc").innerHTML = lbcString || "";
-      document.getElementById("english").innerHTML = englishString || "";
     }
   </script>
 </body>
