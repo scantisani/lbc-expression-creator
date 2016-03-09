@@ -23,6 +23,12 @@
       height: 100%;
       width: 100%;
     }
+    tr {
+      text-align: left;
+    }
+    .title {
+      width: 120px;
+    }
     #blocklyArea {
       height: 80%;
     }
@@ -38,28 +44,31 @@
 <body>
   <table>
     <tr>
-      <td id="blocklyArea">
+      <td id="blocklyArea" colspan="2">
       </td>
     </tr>
     <tr>
-      <td id="buttonArea">
-          <button onclick="debug()">Debug</button>
+      <td id="buttonArea" class="title">
           <button onclick="showTranslation()">Show Translation</button>
       </td>
+      <td>
+        <span id="errorMessage"></span>
+      </td>
     </td>
-    <tr>
+    <tr id="lbcTranslation">
+      <td class="title">
+        <b>LBC:</b>
+      </td>
       <td>
-        <span id="debug"></span>
+        <span id="lbc"></span>
       </td>
     </tr>
-    <tr>
-      <td>
-        <b>LBC: </b><span id="lbc"></span>
+    <tr id="englishTranslation">
+      <td class="title">
+        <b>English:</b>
       </td>
-    </tr>
-    <tr>
       <td>
-        <b>English: </b><span id="english"></span>
+        <span id="english"></span>
       </td>
     </tr>
   </table>
