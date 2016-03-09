@@ -153,30 +153,36 @@
     }
 
     var showTranslation = function() {
-      showLBC();
-      showEnglish();
-    }
-
-    var showLBC = function() {
       try {
-        var tree = workspaceToObject(workspace);
-        var str = treeToLBC(tree);
-      } catch (e) {
-        var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
-        console.log(e.message);
-      }
-      document.getElementById("lbc").innerHTML = str;
-    }
 
-    var showEnglish = function() {
-      try {
-        var tree = workspaceToObject(workspace);
-        var str = treeToEnglish(tree);
+        try {
+          var tree = workspaceToObject(workspace);
+        } catch (e) {
+          console.log(e.message);
+          throw "These blocks either don't form a complete expression yet, or something went wrong converting the workspace to a syntax tree.";
+        }
+
+        try {
+          var lbcString = treeToLBC(tree);
+        } catch (e) {
+          console.log(e.message);
+          throw "These blocks either don't form a complete expression yet, or something went wrong with the LBC translation.";
+        }
+
+        try {
+          var englishString = treeToEnglish(tree);
+        } catch (e) {
+          console.log(e.message);
+          throw "These blocks either don't form a complete expression yet, or something went wrong with the English translation.";
+        }
+
       } catch (e) {
-        var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
-        console.log(e.message);
+        var errorString = e;
       }
-      document.getElementById("english").innerHTML = str;
+
+      document.getElementById("errorMessage").innerHTML = errorString || "";
+      document.getElementById("lbc").innerHTML = lbcString || "";
+      document.getElementById("english").innerHTML = englishString || "";
     }
   </script>
 </body>
