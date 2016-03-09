@@ -3,9 +3,6 @@ var treeToLBC = function(tree) {
     case 'Expr1':
       return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
 
-    case 'Expr2':
-      return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
-
     case 'Expr3':
       return  'F(G([' + tree.species + '] ' +
               treeToLBC(tree.operator) + ' ' + treeToLBC(tree.argument) + '))';
@@ -122,17 +119,6 @@ var englishHelper = function(tree) {
       }
       break;
       
-    case 'Expr2':
-      var species = tree.comparison.species;
-      var temporal = englishHelper(tree.temporal);
-      var operator = englishHelper(tree.comparison.operator);
-      var argument = englishHelper(tree.comparison.argument);
-
-      var sentence =  'the concentration of ' + species + ' is ' +
-                      temporal + ' ' + operator + ' ' + argument;
-
-      return sentence;
-
     case 'Expr3':
       var opString = (tree.operator.symbol === 'GT') ? 'rises to and stays above' : 'drops to and stays below';
       var sentence =  'the concentration of ' + tree.species + ' eventually ' +
