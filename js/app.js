@@ -134,7 +134,7 @@ var englishHelper = function(tree) {
         var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
         var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
-        return 'At ' + point + ' ' + inTime + ',';
+        return 'at ' + point + ' ' + inTime + ',';
 
       } else if (tree.comparison.tag === 'Comment') {
         var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
@@ -142,7 +142,7 @@ var englishHelper = function(tree) {
 
         var comment = englishHelper(tree.comparison);
 
-        return 'At ' + point + ' ' + inTime + ', ' + comment;
+        return 'at ' + point + ' ' + inTime + ', ' + comment;
 
       } else {
         var species = tree.comparison.species;
