@@ -142,39 +142,6 @@ Blockly.Blocks['lbc_compare'] = {
   }
 };
 
-Blockly.Blocks['lbc_compare_inbuilt_temporal'] = {
-  /**
-   * Block for comparison with temporal drop-down menu.
-   * @this Blockly.Block
-   */
-  init: function() {
-    var OPERATORS = [
-          ['equal to', 'EQ'],
-          ['not equal to', 'NEQ'],
-          ['less than', 'LT'],
-          ['greater than', 'GT']
-        ];
-
-    var TEMP_MODALITIES = [
-          ['eventually', 'FUTURE'],
-          ['always', 'GLOBAL']
-        ];
-
-    this.setColour(comparisonColour);
-    this.setOutput(false);
-    this.appendDummyInput()
-        .appendField('The concentration of')
-        .appendField(new Blockly.FieldTextInput('P'), 'SPECIES');
-    this.appendDummyInput()
-        .appendField('is')
-        .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP');
-    this.appendValueInput('ARGUMENT')
-        .setCheck(['Concentration', 'Real', 'Value', 'Comment'])
-        .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
-    this.setInputsInline(true);
-  }
-};
-
 Blockly.Blocks['lbc_real'] = {
   /**
    * Block for real numbers.

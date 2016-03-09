@@ -143,68 +143,6 @@ QUnit.module("Block -> LBC, English", function(hooks) {
     assert.equal(treeToEnglish(tree), 'The concentration of A is not equal to ', 'Comparison block with A as species and "not equal to" as operator translates to "The concentration of A is not equal to " in English');
   });
 
-  QUnit.test("Comparison block with inbuilt temporal drop-down generates correct translations", function(assert) {
-    // make a new Comparison block with inbuilt temporal
-    var block = Blockly.Block.obtain(this.workspace, 'lbc_compare_inbuilt_temporal');
-
-    // set the block's SPECIES input field value to 'A'
-    block.setFieldValue('A', 'SPECIES');
-    // set the block's OPERATOR input field value to 'greater than'
-    block.setFieldValue('GT', 'OP');
-    // set the block's TEMP input field value to 'Future'
-    block.setFieldValue('FUTURE', 'TEMP');
-
-    var tree = workspaceToObject(this.workspace);
-
-    assert.equal(treeToLBC(tree), 'F([A] > )', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and ">" as operator, translates to "F([A] > )" in LBC');
-    assert.equal(treeToEnglish(tree), 'The concentration of A is eventually greater than ', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and ">" as operator, translates to "the concentration of A is eventually greater than " in English');
-
-    // now test the rest of the possible operators
-    block.setFieldValue('LT', 'OP');
-    tree = workspaceToObject(this.workspace);
-
-    assert.equal(treeToLBC(tree), 'F([A] < )', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and "<" as operator, translates to "F([A] < )" in LBC');
-    assert.equal(treeToEnglish(tree), 'The concentration of A is eventually less than ', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and "<" as operator, translates to "the concentration of A is eventually less than " in English');
-
-    block.setFieldValue('EQ', 'OP');
-    tree = workspaceToObject(this.workspace);
-
-    assert.equal(treeToLBC(tree), 'F([A] = )', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and "=" as operator, translates to "F([A] = )" in LBC');
-    assert.equal(treeToEnglish(tree), 'The concentration of A is eventually equal to ', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and "=" as operator, translates to "the concentration of A is eventually equal to " in English');
-
-    block.setFieldValue('NEQ', 'OP');
-    tree = workspaceToObject(this.workspace);
-
-    assert.equal(treeToLBC(tree), 'F([A] != )', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and "!=" as operator, translates to "F([A] != )" in LBC');
-    assert.equal(treeToEnglish(tree), 'The concentration of A is eventually not equal to ', 'Comparison block with inbuilt temporal, having "eventually" as temporal, "A" as species, and "!=" as operator, translates to "the concentration of A is eventually not equal to " in English');
-
-    // do it all over again, but for 'always'
-    block.setFieldValue('GLOBAL', 'TEMP');
-    block.setFieldValue('GT', 'OP');
-    tree = workspaceToObject(this.workspace);
-
-    assert.equal(treeToLBC(tree), 'G([A] > )', 'Comparison block with inbuilt temporal, having "always" as temporal, "A" as species, and ">" as operator, translates to "G([A] > )" in LBC');
-    assert.equal(treeToEnglish(tree), 'The concentration of A is always greater than ', 'Comparison block with inbuilt temporal, having "always" as temporal, "A" as species, and ">" as operator, translates to "the concentration of A is always greater than " in English');
-
-    block.setFieldValue('LT', 'OP');
-    tree = workspaceToObject(this.workspace);
-
-    assert.equal(treeToLBC(tree), 'G([A] < )', 'Comparison block with inbuilt temporal, having "always" as temporal, "A" as species, and "<" as operator, translates to "G([A] < )" in LBC');
-    assert.equal(treeToEnglish(tree), 'The concentration of A is always less than ', 'Comparison block with inbuilt temporal, having "always" as temporal, "A" as species, and "<" as operator, translates to "the concentration of A is always less than " in English');
-
-    block.setFieldValue('EQ', 'OP');
-    tree = workspaceToObject(this.workspace);
-
-    assert.equal(treeToLBC(tree), 'G([A] = )', 'Comparison block with inbuilt temporal, having "always" as temporal, "A" as species, and "=" as operator, translates to "G([A] = )" in LBC');
-    assert.equal(treeToEnglish(tree), 'The concentration of A is always equal to ', 'Comparison block with inbuilt temporal, having "always" as temporal, "A" as species, and "=" as operator, translates to "the concentration of A is always equal to " in English');
-
-    block.setFieldValue('NEQ', 'OP');
-    tree = workspaceToObject(this.workspace);
-
-    assert.equal(treeToLBC(tree), 'G([A] != )', 'Comparison block with inbuilt temporal, having "always" as temporal, "A" as species, and "!=" as operator, translates to "G([A] != )" in LBC');
-    assert.equal(treeToEnglish(tree), 'The concentration of A is always not equal to ', 'Comparison block with inbuilt temporal, having "always" as temporal, "A" as species, and "!=" as operator, translates to "the concentration of A is always not equal to " in English');
-  });
-
   QUnit.test("Comparison block with inbuilt 'drops/rises to and stays below/above' menu generates correct translations", function(assert) {
     // make a new Comparison block with inbuilt 'drops/rises to and stays below/above' menu
     var block = Blockly.Block.obtain(this.workspace, 'lbc_compare_inbuilt_stays');
@@ -358,32 +296,6 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         concentration: 'The concentration of A is greater than the concentration of B',
         arith: 'The concentration of A is greater than the concentration of C plus 15',
         comment: 'The concentration of A is greater than "some arbitrary words"'
-      };
-    });
-
-    QUnit.test("Comparison block with inbuilt 'always/eventually' generates correct translations", function() {
-      // make a new Comparison block
-      this.block = Blockly.Block.obtain(this.workspace, 'lbc_compare_inbuilt_temporal');
-
-      // set the block's SPECIES input field value to 'A'
-      this.block.setFieldValue('A', 'SPECIES');
-      // set the block's TEMPORAL input field value to 'FUTURE'/'Eventually'
-      this.block.setFieldValue('FUTURE', 'TEMP');
-      // set the block's OPERATOR input field value to 'greater than'
-      this.block.setFieldValue('GT', 'OP');
-
-      this.expectedLBC = {
-        real: 'F([A] > 15)',
-        concentration: 'F([A] > [B])',
-        arith: 'F([A] > ([C] + 15))',
-        comment: 'F([A] > "some arbitrary words")'
-      };
-
-      this.expectedEnglish = {
-        real: 'The concentration of A is eventually greater than 15',
-        concentration: 'The concentration of A is eventually greater than the concentration of B',
-        arith: 'The concentration of A is eventually greater than the concentration of C plus 15',
-        comment: 'The concentration of A is eventually greater than "some arbitrary words"'
       };
     });
 

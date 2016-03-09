@@ -113,33 +113,6 @@ Blockly.JavaScript['lbc_compare'] = function(block) {
   return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['lbc_compare_inbuilt_temporal'] = function(block) {
-  var species = block.getFieldValue('SPECIES');
-  var operator = block.getFieldValue('OP');
-  var modality = block.getFieldValue('TEMP');
-  var argument = Blockly.JavaScript.valueToCode(block, 'ARGUMENT', Blockly.JavaScript.ORDER_NONE) || '{}';
-  argument = JSON.parse(argument);
-
-  var code = {
-    tag: 'Expr2',
-    temporal: {
-      tag: 'Temporal',
-      modality: modality
-    },
-    comparison: {
-      tag: 'Comparison',
-      species: species,
-      operator: {
-        tag: 'ComparisonOp',
-        symbol: operator
-      },
-      argument: argument
-    }
-  };
-
-  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
-};
-
 Blockly.JavaScript['lbc_real'] = function(block) {
   var number = block.getFieldValue('NUM');
 
