@@ -100,6 +100,15 @@ var englishHelper = function(tree) {
     case 'Expr1':
       if (isEmpty(tree.comparison)) {
         return (tree.temporal.modality === 'FUTURE') ? 'eventually,' : 'it is always the case that';
+
+      } else if (tree.comparison.tag === 'Comment') {
+        var temporal = (tree.temporal.modality === 'FUTURE') ? 'eventually,' : 'it is always the case that';
+        var comment = englishHelper(tree.comparison);
+
+        var sentence = temporal + ' ' + comment;
+
+        return sentence;
+
       } else {
         var species = tree.comparison.species;
         var temporal = englishHelper(tree.temporal);
@@ -140,6 +149,14 @@ var englishHelper = function(tree) {
         var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
         return 'At ' + point + ' ' + inTime + ',';
+
+      } else if (tree.comparison.tag === 'Comment') {
+        var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
+        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+
+        var comment = englishHelper(tree.comparison);
+
+        return 'At ' + point + ' ' + inTime + ', ' + comment;
 
       } else {
         var species = tree.comparison.species;

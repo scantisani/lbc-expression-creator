@@ -348,10 +348,10 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       this.comment.setFieldValue('some arbitrary words', 'TEXT');
     });
 
-    // connect the comparison block to our temporal block, then attach different blocks
-    // to our comparison block; test the translation
-    // against the (test-specific) expected values for that particular Temporal block
     hooks.afterEach(function(assert) {
+      // connect the comparison block to our temporal block,
+      // then attach different blocks to our comparison block.
+      // test the translation against the (test-specific) expected values for that particular temporal block
       connectBlocks(this.block, this.compare, 'COMPARISON');
 
       connectBlocks(this.compare, this.real, 'ARGUMENT');
@@ -376,6 +376,14 @@ QUnit.module("Block -> LBC, English", function(hooks) {
       tree = blockToObject(this.block);
       assert.equal(treeToLBC(tree), this.expectedLBC.comment);
       assert.equal(treeToEnglish(tree), this.expectedEnglish.comment);
+
+      // finally, connect the temporal block directly to a comment block
+      this.compare.unplug();
+      this.comment.unplug();
+      connectBlocks(this.block, this.comment, 'COMPARISON');
+      tree = blockToObject(this.block);
+      assert.equal(treeToLBC(tree), this.expectedLBC.directComment);
+      assert.equal(treeToEnglish(tree), this.expectedEnglish.directComment);
     });
 
     QUnit.test("Future block generates correct translations", function() {
@@ -386,7 +394,8 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         real: 'F([A] > 15)',
         concentration: 'F([A] > [B])',
         arith: 'F([A] > ([C] + 15))',
-        comment: 'F([A] > "some arbitrary words")'
+        comment: 'F([A] > "some arbitrary words")',
+        directComment: 'F("some arbitrary words")'
       };
 
       // lowercase and missing full stop because this is an incomplete set of blocks
@@ -394,7 +403,8 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         real: 'The concentration of A is eventually greater than 15',
         concentration: 'The concentration of A is eventually greater than the concentration of B',
         arith: 'The concentration of A is eventually greater than the concentration of C plus 15',
-        comment: 'The concentration of A is eventually greater than "some arbitrary words"'
+        comment: 'The concentration of A is eventually greater than "some arbitrary words"',
+        directComment: 'Eventually, "some arbitrary words"'
       };
     });
 
@@ -406,14 +416,16 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         real: 'G([A] > 15)',
         concentration: 'G([A] > [B])',
         arith: 'G([A] > ([C] + 15))',
-        comment: 'G([A] > "some arbitrary words")'
+        comment: 'G([A] > "some arbitrary words")',
+        directComment: 'G("some arbitrary words")'
       };
 
       this.expectedEnglish = {
         real: 'The concentration of A is always greater than 15',
         concentration: 'The concentration of A is always greater than the concentration of B',
         arith: 'The concentration of A is always greater than the concentration of C plus 15',
-        comment: 'The concentration of A is always greater than "some arbitrary words"'
+        comment: 'The concentration of A is always greater than "some arbitrary words"',
+        directComment: 'It is always the case that "some arbitrary words"'
       };
     });
 
@@ -428,14 +440,16 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         real: 'G{5, 15}([A] > 15)',
         concentration: 'G{5, 15}([A] > [B])',
         arith: 'G{5, 15}([A] > ([C] + 15))',
-        comment: 'G{5, 15}([A] > "some arbitrary words")'
+        comment: 'G{5, 15}([A] > "some arbitrary words")',
+        directComment: 'G{5, 15}("some arbitrary words")'
       };
 
       this.expectedEnglish = {
         real: 'Between times 5 and 15, the concentration of A is always greater than 15',
         concentration: 'Between times 5 and 15, the concentration of A is always greater than the concentration of B',
         arith: 'Between times 5 and 15, the concentration of A is always greater than the concentration of C plus 15',
-        comment: 'Between times 5 and 15, the concentration of A is always greater than "some arbitrary words"'
+        comment: 'Between times 5 and 15, the concentration of A is always greater than "some arbitrary words"',
+        directComment: 'At all points between times 5 and 15, "some arbitrary words"'
       };
     });
 
@@ -450,14 +464,16 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         real: 'F{5, 15}([A] > 15)',
         concentration: 'F{5, 15}([A] > [B])',
         arith: 'F{5, 15}([A] > ([C] + 15))',
-        comment: 'F{5, 15}([A] > "some arbitrary words")'
+        comment: 'F{5, 15}([A] > "some arbitrary words")',
+        directComment: 'F{5, 15}("some arbitrary words")'
       };
 
       this.expectedEnglish = {
         real: 'At some point between times 5 and 15, the concentration of A is greater than 15',
         concentration: 'At some point between times 5 and 15, the concentration of A is greater than the concentration of B',
         arith: 'At some point between times 5 and 15, the concentration of A is greater than the concentration of C plus 15',
-        comment: 'At some point between times 5 and 15, the concentration of A is greater than "some arbitrary words"'
+        comment: 'At some point between times 5 and 15, the concentration of A is greater than "some arbitrary words"',
+        directComment: 'At some point between times 5 and 15, "some arbitrary words"'
       };
     });
 
@@ -471,14 +487,17 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         real: 'G{0, 20}([A] > 15)',
         concentration: 'G{0, 20}([A] > [B])',
         arith: 'G{0, 20}([A] > ([C] + 15))',
-        comment: 'G{0, 20}([A] > "some arbitrary words")'
+        comment: 'G{0, 20}([A] > "some arbitrary words")',
+        directComment: 'G{0, 20}("some arbitrary words")'
+
       };
 
       this.expectedEnglish = {
         real: 'Before time 20, the concentration of A is always greater than 15',
         concentration: 'Before time 20, the concentration of A is always greater than the concentration of B',
         arith: 'Before time 20, the concentration of A is always greater than the concentration of C plus 15',
-        comment: 'Before time 20, the concentration of A is always greater than "some arbitrary words"'
+        comment: 'Before time 20, the concentration of A is always greater than "some arbitrary words"',
+        directComment: 'At all points before time 20, "some arbitrary words"'
       };
     });
 
@@ -492,14 +511,16 @@ QUnit.module("Block -> LBC, English", function(hooks) {
         real: 'F{0, 20}([A] > 15)',
         concentration: 'F{0, 20}([A] > [B])',
         arith: 'F{0, 20}([A] > ([C] + 15))',
-        comment: 'F{0, 20}([A] > "some arbitrary words")'
+        comment: 'F{0, 20}([A] > "some arbitrary words")',
+        directComment: 'F{0, 20}("some arbitrary words")'
       };
 
       this.expectedEnglish = {
         real: 'At some point before time 20, the concentration of A is greater than 15',
         concentration: 'At some point before time 20, the concentration of A is greater than the concentration of B',
         arith: 'At some point before time 20, the concentration of A is greater than the concentration of C plus 15',
-        comment: 'At some point before time 20, the concentration of A is greater than "some arbitrary words"'
+        comment: 'At some point before time 20, the concentration of A is greater than "some arbitrary words"',
+        directComment: 'At some point before time 20, "some arbitrary words"'
       };
     });
   });
