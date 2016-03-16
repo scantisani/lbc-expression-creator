@@ -175,6 +175,8 @@ Blockly.Blocks['lbc_compare_inbuilt_stays'] = {
         .setCheck(['Concentration', 'Real', 'Value', 'Comment'])
         .appendField('eventually')
         .appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
     // this.setInputsInline(true);
   }
 };

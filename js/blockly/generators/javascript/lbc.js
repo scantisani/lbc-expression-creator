@@ -140,7 +140,7 @@ Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
     argument: argument
   };
 
-  return [JSON.stringify(code), Blockly.JavaScript.ORDER_NONE];
+  return JSON.stringify(code);
 };
 
 Blockly.JavaScript['lbc_arithmetic'] = function(block) {
