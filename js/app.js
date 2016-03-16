@@ -199,7 +199,7 @@ var englishHelper = function(tree) {
       } else if (tree.argument.length === 1) {
         return englishHelper(tree.argument[0]);
       } else if (tree.argument.length === 2) {
-        return englishHelper(tree.argument[0]) + ' ' + conjunction + ' ' + englishHelper(tree.argument[1]);
+        return englishHelper(tree.argument[0]) + ', ' + conjunction + ' ' + englishHelper(tree.argument[1]);
       } else {
         var sentence = englishHelper(tree.argument[0]);
 
