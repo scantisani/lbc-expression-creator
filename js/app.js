@@ -3,9 +3,6 @@ var treeToLBC = function(tree) {
     case 'Expr1':
       return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
 
-    case 'Expr2':
-      return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
-
     case 'Expr3':
       return  'F(G([' + tree.species + '] ' +
               treeToLBC(tree.operator) + ' ' + treeToLBC(tree.argument) + '))';
@@ -100,6 +97,15 @@ var englishHelper = function(tree) {
     case 'Expr1':
       if (isEmpty(tree.comparison)) {
         return (tree.temporal.modality === 'FUTURE') ? 'eventually,' : 'it is always the case that';
+
+      } else if (tree.comparison.tag === 'Comment') {
+        var temporal = (tree.temporal.modality === 'FUTURE') ? 'eventually,' : 'it is always the case that';
+        var comment = englishHelper(tree.comparison);
+
+        var sentence = temporal + ' ' + comment;
+
+        return sentence;
+
       } else {
         var species = tree.comparison.species;
         var temporal = englishHelper(tree.temporal);
@@ -113,17 +119,6 @@ var englishHelper = function(tree) {
       }
       break;
       
-    case 'Expr2':
-      var species = tree.comparison.species;
-      var temporal = englishHelper(tree.temporal);
-      var operator = englishHelper(tree.comparison.operator);
-      var argument = englishHelper(tree.comparison.argument);
-
-      var sentence =  'the concentration of ' + species + ' is ' +
-                      temporal + ' ' + operator + ' ' + argument;
-
-      return sentence;
-
     case 'Expr3':
       var opString = (tree.operator.symbol === 'GT') ? 'rises to and stays above' : 'drops to and stays below';
       var sentence =  'the concentration of ' + tree.species + ' eventually ' +
@@ -139,7 +134,15 @@ var englishHelper = function(tree) {
         var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
         var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
-        return 'At ' + point + ' ' + inTime + ',';
+        return 'at ' + point + ' ' + inTime + ',';
+
+      } else if (tree.comparison.tag === 'Comment') {
+        var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
+        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+
+        var comment = englishHelper(tree.comparison);
+
+        return 'at ' + point + ' ' + inTime + ', ' + comment;
 
       } else {
         var species = tree.comparison.species;
@@ -196,7 +199,7 @@ var englishHelper = function(tree) {
       } else if (tree.argument.length === 1) {
         return englishHelper(tree.argument[0]);
       } else if (tree.argument.length === 2) {
-        return englishHelper(tree.argument[0]) + ' ' + conjunction + ' ' + englishHelper(tree.argument[1]);
+        return englishHelper(tree.argument[0]) + ', ' + conjunction + ' ' + englishHelper(tree.argument[1]);
       } else {
         var sentence = englishHelper(tree.argument[0]);
 

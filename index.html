@@ -18,62 +18,123 @@
     }
     body {
       overflow: hidden;
+      font-family: sans-serif;
     }
     table {
       height: 100%;
       width: 100%;
     }
+    tr {
+      text-align: left;
+    }
+    .title {
+      width: 120px;
+    }
     #blocklyArea {
-      height: 80%;
+      height: 70%;
+    }
+    /* Vertically centres things inside the #buttonArea */
+    #buttonArea:before {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
     }
     #buttonArea {
-      height: 5%;
+      height: 10%;
     }
-    #code {
-      height: 15%;
+    #buttonArea button {
+      border: none;
+      border-left-color: #B26B35;
+      border-left-style: solid;
+      border-left-width: 8px;
+      background-color: #DDDDDD;
+      font-size: 16px;
+      height: 50px;
+      width: 120px;
+    }
+    #buttonArea button:hover {
+      background-color: #E4E4E4;
+    }
+    #buttonArea button:focus {
+      background-color: #B26B35;
+      outline: none;
+    }
+    #errorMessage {
+      display: inline-block;
+      color: red;
+      font-weight: bold;
+    }
+    #translationArea {
+      height: 20%;
+      width: 100%;
+      text-align: left;
+    }
+    .translation {
+      display: inline-block;
+      height: 80%;
+      padding: 5px 15px 5px 5px;
+      max-width: 20%;
+      vertical-align: text-top;
     }
   </style>
 </head>
 
 <body>
-  <table>
-    <tr>
-      <td id="blocklyArea">
-      </td>
-    </tr>
-    <tr>
-      <td id="buttonArea">
-          <button onclick="showTranslation()">Show Translation</button>
-      </td>
-    </td>
-    <tr>
-      <td>
-        <b>LBC: </b><span id="lbc"></span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <b>English: </b><span id="english"></span>
-      </td>
-    </tr>
-  </table>
+  <div id="blocklyArea"></div>
+
+  <div id="buttonArea">
+    <button onclick="showTranslation()">Translate</button>
+    <span id="errorMessage"></span>
+  </div>
+
+  <div id="translationArea">
+  </div>
 
   <div id="blocklyDiv" style="position: absolute"></div>
 
   <xml id="toolbox" style="display: none">
-    <block type="lbc_future"></block>
-    <block type="lbc_global"></block>
-    <block type="lbc_temporal_interval"></block>
-    <block type="lbc_temporal_interval_upto"></block>
-    <block type="lbc_compare"></block>
-    <block type="lbc_compare_inbuilt_temporal"></block>
-    <block type="lbc_compare_inbuilt_stays"></block>
-    <block type="lbc_real"></block>
-    <block type="lbc_concentration"></block>
-    <block type="lbc_arithmetic"></block>
-    <block type="lbc_comment_with_output"></block>
-    <block type="lbc_comment_with_input"></block>
-    <block type="lbc_and_or"></block>
+    <category name="All">
+      <block type="lbc_and_or"></block>
+      <block type="lbc_future"></block>
+      <block type="lbc_global"></block>
+      <block type="lbc_temporal_interval"></block>
+      <block type="lbc_temporal_interval_upto"></block>
+      <block type="lbc_compare"></block>
+      <block type="lbc_compare_inbuilt_stays"></block>
+      <block type="lbc_real"></block>
+      <block type="lbc_concentration"></block>
+      <block type="lbc_arithmetic"></block>
+      <block type="lbc_comment_with_output"></block>
+      <block type="lbc_comment_with_input"></block>
+    </category>
+
+    <category name="And/Or" colour="260">
+      <block type="lbc_and_or"></block>
+    </category>
+
+    <category name="Time" colour="56">
+      <block type="lbc_future"></block>
+      <block type="lbc_global"></block>
+      <block type="lbc_temporal_interval"></block>
+      <block type="lbc_temporal_interval_upto"></block>
+    </category>
+
+    <category name="Comparison" colour="202">
+      <block type="lbc_compare"></block>
+      <block type="lbc_compare_inbuilt_stays"></block>
+    </category>
+
+    <category name="Value" colour="327">
+      <block type="lbc_real"></block>
+      <block type="lbc_concentration"></block>
+      <block type="lbc_arithmetic"></block>
+    </category>
+
+    <category name="Comment" colour="26">
+      <block type="lbc_comment_with_output"></block>
+      <block type="lbc_comment_with_input"></block>
+    </category>
   </xml>
 
   <script>
@@ -82,6 +143,7 @@
     var workspace = Blockly.inject('blocklyDiv',
         {media: 'js/blockly/media/',
          toolbox: document.getElementById('toolbox')});
+
     var onresize = function(e) {
       // Compute the absolute coordinates and dimensions of blocklyArea.
       var element = blocklyArea;
@@ -101,36 +163,52 @@
     window.addEventListener('resize', onresize, false);
     onresize();
 
-    function debug() {
-      var code = Blockly.JavaScript.workspaceToCode(workspace);
-      document.getElementById("debug").innerHTML = code;
-    }
-
-    function showTranslation() {
-      showLBC();
-      showEnglish();
-    }
-
-    function showLBC() {
+    var showTranslation = function() {
       try {
-        var tree = workspaceToObject(workspace);
-        var str = treeToLBC(tree);
-      } catch (e) {
-        var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
-        console.log(e.message);
-      }
-      document.getElementById("lbc").innerHTML = str;
-    }
+        var topBlocks = workspace.topBlocks_;
+        var lbcTranslation, englishTranslation;
+        var newDiv = "";
 
-    function showEnglish() {
-      try {
-        var tree = workspaceToObject(workspace);
-        var str = treeToEnglish(tree);
+        if (topBlocks.length > 4) {
+          throw "There are too many unconnected blocks on the workspace! Please remove or connect some."
+        }
+
+        document.getElementById("translationArea").innerHTML = "";
+
+        for (var i = 0; i < topBlocks.length; i++) {
+          try {
+            var tree = blockToObject(topBlocks[i]);
+          } catch (e) {
+            console.log(e.message);
+            throw "These blocks either don't form a complete expression yet, or something went wrong converting the workspace to a syntax tree.";
+          }
+
+          try {
+            lbcTranslation = treeToLBC(tree);
+          } catch (e) {
+            console.log(e.message);
+            throw "These blocks either don't form a complete expression yet, or something went wrong with the LBC translation.";
+          }
+
+          try {
+            englishTranslation = "<i>" + treeToEnglish(tree) + "</i>";
+          } catch (e) {
+            console.log(e.message);
+            throw "These blocks either don't form a complete expression yet, or something went wrong with the English translation.";
+          }
+
+          newDiv = document.createElement("div");
+          newDiv.className = 'translation';
+          newDiv.innerHTML = lbcTranslation + "<br /><br /><br />" + englishTranslation;
+
+          document.getElementById("translationArea").appendChild(newDiv);
+        }
+
       } catch (e) {
-        var str = "These blocks either don't form a complete expression yet, or something went wrong. Check the console (Ctrl+Shift+J) for the full error message.";
-        console.log(e.message);
+        var errorString = e;
       }
-      document.getElementById("english").innerHTML = str;
+
+      document.getElementById("errorMessage").innerHTML = errorString || "";
     }
   </script>
 </body>
