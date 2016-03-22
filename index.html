@@ -18,6 +18,7 @@
     }
     body {
       overflow: hidden;
+      font-family: sans-serif;
     }
     table {
       height: 100%;
@@ -30,42 +31,64 @@
       width: 120px;
     }
     #blocklyArea {
-      height: 80%;
+      height: 70%;
+    }
+    /* Vertically centres things inside the #buttonArea */
+    #buttonArea:before {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
     }
     #buttonArea {
-      height: 5%;
+      height: 10%;
     }
-    #code {
-      height: 15%;
+    #buttonArea button {
+      border: none;
+      border-left-color: #B26B35;
+      border-left-style: solid;
+      border-left-width: 8px;
+      background-color: #DDDDDD;
+      font-size: 16px;
+      height: 50px;
+      width: 120px;
+    }
+    #buttonArea button:hover {
+      background-color: #E4E4E4;
+    }
+    #buttonArea button:focus {
+      background-color: #B26B35;
+      outline: none;
+    }
+    #errorMessage {
+      display: inline-block;
+      color: red;
+      font-weight: bold;
+    }
+    #translationArea {
+      height: 20%;
+      width: 100%;
+      text-align: left;
+    }
+    .translation {
+      display: inline-block;
+      height: 80%;
+      padding: 5px 15px 5px 5px;
+      max-width: 20%;
     }
   </style>
 </head>
 
 <body>
-  <table>
-    <tr>
-      <td id="blocklyArea" colspan="2">
-      </td>
-    </tr>
-    <tr>
-      <td id="buttonArea" class="title">
-          <button onclick="showTranslation()">Show Translation</button>
-      </td>
-      <td id="errorArea">
-        <span id="errorMessage"></span>
-      </td>
-    </td>
-    <tr id="lbcRow">
-      <td class="title">
-        <b>LBC:</b>
-      </td>
-    </tr>
-    <tr id="englishRow">
-      <td class="title">
-        <b>English:</b>
-      </td>
-    </tr>
-  </table>
+  <div id="blocklyArea"></div>
+
+  <div id="buttonArea">
+    <button onclick="showTranslation()">Translate</button>
+    <span id="errorMessage"></span>
+  </div>
+
+  <div id="translationArea">
+  </div>
 
   <div id="blocklyDiv" style="position: absolute"></div>
 
@@ -142,13 +165,14 @@
     var showTranslation = function() {
       try {
         var topBlocks = workspace.topBlocks_;
-        var lbcTranslation, englishTranslation, newCell;
+        var lbcTranslation, englishTranslation;
+        var newDiv = "";
 
-        var lbcRow = document.getElementById("lbcRow");
-        var englishRow = document.getElementById("englishRow");
+        if (topBlocks.length > 4) {
+          throw "There are too many unconnected blocks on the workspace! Please remove or connect some."
+        }
 
-        lbcRow.innerHTML = '<td class="title"> <b>LBC:</b> </td>'
-        englishRow.innerHTML = '<td class="title"> <b>English:</b> </td>'
+        document.getElementById("translationArea").innerHTML = "";
 
         for (var i = 0; i < topBlocks.length; i++) {
           try {
@@ -166,29 +190,17 @@
           }
 
           try {
-            englishTranslation = treeToEnglish(tree);
+            englishTranslation = "<i>" + treeToEnglish(tree) + "</i>";
           } catch (e) {
             console.log(e.message);
             throw "These blocks either don't form a complete expression yet, or something went wrong with the English translation.";
           }
 
-          newCell = lbcRow.insertCell();
-          newCell.className = "title";
-          newCell.innerHTML = lbcTranslation;
+          newDiv = document.createElement("div");
+          newDiv.className = 'translation';
+          newDiv.innerHTML = lbcTranslation + "<br /><br /><br />" + englishTranslation;
 
-          newCell = englishRow.insertCell();
-          newCell.className = "title";
-          newCell.innerHTML = englishTranslation;
-        }
-
-        // dynamically resize the Blockly and error areas
-        // depending on the number of columns in of the table of translations
-        if (topBlocks.length > 1) {
-          blocklyArea.colSpan = topBlocks.length + 1;
-          errorArea.colSpan = topBlocks.length;
-        } else {
-          blocklyArea.colSpan = 2;
-          errorArea.colSpan = 1;
+          document.getElementById("translationArea").appendChild(newDiv);
         }
 
       } catch (e) {
