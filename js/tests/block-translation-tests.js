@@ -1,4 +1,4 @@
-QUnit.module("Block -> LBC, English", function(hooks) {
+QUnit.module("Translation", function(hooks) {
   hooks.beforeEach(function() {
     this.workspace = new Blockly.Workspace();
   });
