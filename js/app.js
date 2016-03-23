@@ -37,11 +37,7 @@ var treeToLBC = function(tree) {
         var symbol = (tree.operator.symbol === 'AND') ? '\u2227' : '\u2228';
 
         for (var i = 1; i < tree.argument.length; i++) {
-          if (tree.argument[i].tag === 'Connective') {
-            sentence += ' ' + symbol + ' (' + treeToLBC(tree.argument[i]) + ')';
-          } else {
-            sentence += ' ' + symbol + ' ' + treeToLBC(tree.argument[i]);
-          }
+          sentence += ' ' + symbol + ' ' + treeToLBC(tree.argument[i]);
         }
 
         return sentence;
@@ -204,11 +200,7 @@ var englishHelper = function(tree) {
         var sentence = englishHelper(tree.argument[0]);
 
         for (var i = 1; i < tree.argument.length - 1; i++) {
-          if (tree.argument[i].tag === 'Connective') {
-            sentence += ', ' + conjunction + ' ' + englishHelper(tree.argument[i]);
-          } else {
-            sentence += ', ' + englishHelper(tree.argument[i]);
-          }
+          sentence += ', ' + englishHelper(tree.argument[i]);
         }
 
         sentence += ', ' + conjunction + ' ' + englishHelper(tree.argument[tree.argument.length - 1]);
