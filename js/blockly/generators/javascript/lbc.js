@@ -85,7 +85,7 @@ Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
     temporal: {
       tag: 'TemporalInterval',
       modality: modality,
-      start: 0,
+      start: '0',
       end: end
     },
     comparison: comparison

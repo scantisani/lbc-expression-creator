@@ -128,13 +128,13 @@ var englishHelper = function(tree) {
 
       if (isEmpty(tree.comparison)) {
         var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
-        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+        var inTime = (start === '0') ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
         return 'at ' + point + ' ' + inTime + ',';
 
       } else if (tree.comparison.tag === 'Comment') {
         var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
-        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+        var inTime = (start === '0') ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
         var comment = englishHelper(tree.comparison);
 
@@ -145,7 +145,7 @@ var englishHelper = function(tree) {
         var operator = englishHelper(tree.comparison.operator);
         var argument = englishHelper(tree.comparison.argument);
 
-        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+        var inTime = (start === '0') ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
         if (tree.temporal.modality === 'FUTURE') {
           var sentence =  'at some point ' + inTime +
