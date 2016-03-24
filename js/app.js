@@ -37,11 +37,7 @@ var treeToLBC = function(tree) {
         var symbol = (tree.operator.symbol === 'AND') ? '\u2227' : '\u2228';
 
         for (var i = 1; i < tree.argument.length; i++) {
-          if (tree.argument[i].tag === 'Connective') {
-            sentence += ' ' + symbol + ' (' + treeToLBC(tree.argument[i]) + ')';
-          } else {
-            sentence += ' ' + symbol + ' ' + treeToLBC(tree.argument[i]);
-          }
+          sentence += ' ' + symbol + ' ' + treeToLBC(tree.argument[i]);
         }
 
         return sentence;
@@ -132,13 +128,13 @@ var englishHelper = function(tree) {
 
       if (isEmpty(tree.comparison)) {
         var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
-        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+        var inTime = (start === '0') ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
         return 'at ' + point + ' ' + inTime + ',';
 
       } else if (tree.comparison.tag === 'Comment') {
         var point = (tree.temporal.modality === 'FUTURE') ? 'some point' : 'all points';
-        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+        var inTime = (start === '0') ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
         var comment = englishHelper(tree.comparison);
 
@@ -149,7 +145,7 @@ var englishHelper = function(tree) {
         var operator = englishHelper(tree.comparison.operator);
         var argument = englishHelper(tree.comparison.argument);
 
-        var inTime = (start === 0) ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
+        var inTime = (start === '0') ? ('before time ' + end) : ('between times ' + start + ' and ' + end);
 
         if (tree.temporal.modality === 'FUTURE') {
           var sentence =  'at some point ' + inTime +
@@ -198,19 +194,12 @@ var englishHelper = function(tree) {
         return '';
       } else if (tree.argument.length === 1) {
         return englishHelper(tree.argument[0]);
-      } else if (tree.argument.length === 2) {
-        return englishHelper(tree.argument[0]) + ', ' + conjunction + ' ' + englishHelper(tree.argument[1]);
       } else {
         var sentence = englishHelper(tree.argument[0]);
 
         for (var i = 1; i < tree.argument.length - 1; i++) {
-          if (tree.argument[i].tag === 'Connective') {
-            sentence += ', ' + conjunction + ' ' + englishHelper(tree.argument[i]);
-          } else {
-            sentence += ', ' + englishHelper(tree.argument[i]);
-          }
+          sentence += ', ' + englishHelper(tree.argument[i]);
         }
-
         sentence += ', ' + conjunction + ' ' + englishHelper(tree.argument[tree.argument.length - 1]);
 
         return sentence;
