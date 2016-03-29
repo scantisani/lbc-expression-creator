@@ -60,7 +60,7 @@ Blockly.JavaScript['lbc_temporal_interval'] = function(block) {
   var end = block.getFieldValue('END');
 
   var code = {
-    tag: 'Expr4',
+    tag: 'Expr3',
     temporal: {
       tag: 'TemporalInterval',
       modality: modality,
@@ -81,7 +81,7 @@ Blockly.JavaScript['lbc_temporal_interval_upto'] = function(block) {
   var end = block.getFieldValue('END');
 
   var code = {
-    tag: 'Expr4',
+    tag: 'Expr3',
     temporal: {
       tag: 'TemporalInterval',
       modality: modality,
@@ -131,7 +131,7 @@ Blockly.JavaScript['lbc_compare_inbuilt_stays'] = function(block) {
   argument = JSON.parse(argument);
 
   var code = {
-    tag: 'Expr3',
+    tag: 'Expr2',
     species: species,
     operator: {
       tag: 'ComparisonOp',
@@ -179,7 +179,7 @@ Blockly.JavaScript['lbc_comment_with_input'] = function(block) {
   argument = JSON.parse(argument);
 
   var code = {
-    tag: 'Expr5',
+    tag: 'Expr4',
     text: text,
     argument: argument
   };

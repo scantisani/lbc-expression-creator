@@ -3,14 +3,14 @@ var treeToLBC = function(tree) {
     case 'Expr1':
       return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
 
-    case 'Expr3':
+    case 'Expr2':
       return  'F(G([' + tree.species + '] ' +
               treeToLBC(tree.operator) + ' ' + treeToLBC(tree.argument) + '))';
 
-    case 'Expr4':
+    case 'Expr3':
       return treeToLBC(tree.temporal) + '(' + treeToLBC(tree.comparison) + ')';
 
-    case 'Expr5':
+    case 'Expr4':
       return '"' + tree.text + '" ' + treeToLBC(tree.argument);
 
     case 'Temporal':
@@ -115,14 +115,14 @@ var englishHelper = function(tree) {
       }
       break;
       
-    case 'Expr3':
+    case 'Expr2':
       var opString = (tree.operator.symbol === 'GT') ? 'rises to and stays above' : 'drops to and stays below';
       var sentence =  'the concentration of ' + tree.species + ' eventually ' +
                       opString + ' ' + englishHelper(tree.argument);
 
       return sentence;
 
-    case 'Expr4':
+    case 'Expr3':
       var start = tree.temporal.start;
       var end = tree.temporal.end;
 
@@ -161,7 +161,7 @@ var englishHelper = function(tree) {
       }
       break;
       
-    case 'Expr5':
+    case 'Expr4':
       var sentence = '"' + tree.text + '" ' + englishHelper(tree.argument);
 
       return sentence;
