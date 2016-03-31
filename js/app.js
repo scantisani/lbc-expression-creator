@@ -188,8 +188,6 @@ var englishHelper = function(tree) {
       break;
 
     case 'Connective':
-      var conjunction = (tree.operator.symbol === 'AND') ? 'and' : 'or';
-
       if (tree.argument.length === 0) {
         return '';
       } else if (tree.argument.length === 1) {
@@ -200,6 +198,8 @@ var englishHelper = function(tree) {
         for (var i = 1; i < tree.argument.length - 1; i++) {
           sentence += ', ' + englishHelper(tree.argument[i]);
         }
+
+        var conjunction = (tree.operator.symbol === 'AND') ? 'and' : 'or';
         sentence += ', ' + conjunction + ' ' + englishHelper(tree.argument[tree.argument.length - 1]);
 
         return sentence;
