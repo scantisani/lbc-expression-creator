@@ -18,6 +18,8 @@ var comparisonColour = 202;
 var commentColour = 26;
 var connectiveColour = 260;
 
+var allowedTemporalInputs = ['Comparison', 'Connective', 'Comment'];
+
 Blockly.Blocks['lbc_concentration'] = {
   /**
    * Block for concentration of a species.
@@ -40,7 +42,7 @@ Blockly.Blocks['lbc_future'] = {
   init: function() {
     this.setColour(temporalColour);
     this.appendValueInput('COMPARISON')
-        .setCheck(['Comparison', 'Comment'])
+        .setCheck(allowedTemporalInputs)
         .appendField('Eventually,');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -55,7 +57,7 @@ Blockly.Blocks['lbc_global'] = {
   init: function() {
     this.setColour(temporalColour);
     this.appendValueInput('COMPARISON')
-        .setCheck(['Comparison', 'Comment'])
+        .setCheck(allowedTemporalInputs)
         .appendField('It is always the case that');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -79,7 +81,7 @@ Blockly.Blocks['lbc_temporal_interval'] = {
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP')
         .appendField('between');
     this.appendValueInput('COMPARISON')
-        .setCheck(['Comparison', 'Comment'])
+        .setCheck(allowedTemporalInputs)
         .appendField('times')
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'START')
@@ -108,7 +110,7 @@ Blockly.Blocks['lbc_temporal_interval_upto'] = {
         .appendField(new Blockly.FieldDropdown(TEMP_MODALITIES), 'TEMP')
         .appendField('before');
     this.appendValueInput('COMPARISON')
-        .setCheck(['Comparison', 'Comment'])
+        .setCheck(allowedTemporalInputs)
         .appendField('time')
         .appendField(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'END');
