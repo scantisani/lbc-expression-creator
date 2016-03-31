@@ -254,7 +254,7 @@ var format = function(sentence) {
 
 // takes the Blockly workspace, extracts the code string it generates from the blocks,
 // removes trailing semicolon (if present), and returns it as a JSON object
-var workspaceToObject = function(workspace) {
+var workspaceToTree = function(workspace) {
   var code = Blockly.JavaScript.workspaceToCode(workspace);
 
   // remove any trailing whitespace
@@ -270,7 +270,7 @@ var workspaceToObject = function(workspace) {
 
 // takes a Blockly block, extracts the code string it generates,
 // and returns it as a JSON object
-var blockToObject = function(block) {
+var blockToTree = function(block) {
   var code;
 
   if (block.nextConnection !== null && block.previousConnection !== null) {

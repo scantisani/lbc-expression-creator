@@ -12,7 +12,7 @@ QUnit.module("Translation", function(hooks) {
     // set the block's SPECIES input field value to 'A'
     block.setFieldValue('A', 'SPECIES');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '[A]', '"The concentration of A" block translates to "[A]" in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A', '"The concentration of A" block translates to "The concentration of A" in English');
@@ -25,7 +25,7 @@ QUnit.module("Translation", function(hooks) {
     // set the block's NUM input field value to '15'
     block.setFieldValue('15', 'NUM');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '15', '"15" in Real block translates to "15" in LBC');
     assert.equal(treeToEnglish(tree), '15', '"15" in Real block translates to "15" in English');
@@ -35,7 +35,7 @@ QUnit.module("Translation", function(hooks) {
     // make a new Global block
     var block = Blockly.Block.obtain(this.workspace, 'lbc_global');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), 'G()', '"It is always the case that" block translates to "G()" in LBC');
     assert.equal(treeToEnglish(tree), 'It is always the case that', '"It is always the case that" block translates to "It is always the case that" in English');
@@ -45,7 +45,7 @@ QUnit.module("Translation", function(hooks) {
     // make a new Future block
     var block = Blockly.Block.obtain(this.workspace, 'lbc_future');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), 'F()', '"Eventually" block translates to "F()" in LBC');
     assert.equal(treeToEnglish(tree), 'Eventually,', '"Eventually" block translates to "Eventually," in English');
@@ -60,25 +60,25 @@ QUnit.module("Translation", function(hooks) {
     // set the block's OP input field value to 'ADD'
     block.setFieldValue('ADD', 'OP');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '([A] + )', 'Arithmetic block with + operator translates to "([A] + )" in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A plus ', 'Arithmetic block with + operator translates to "The concentration of A plus " in English');
 
     block.setFieldValue('SUBTRACT', 'OP');
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '([A] - )', 'Arithmetic block with - operator translates to "([A] - )" in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A minus ', 'Arithmetic block with - operator translates to "The concentration of A minus " in English');
 
     block.setFieldValue('MULTIPLY', 'OP');
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '([A] * )', 'Arithmetic block with * operator translates to "([A] * )" in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A multiplied by ', 'Arithmetic block with * operator translates to "The concentration of A multiplied by " in English');
 
     block.setFieldValue('DIVIDE', 'OP');
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '([A] / )', 'Arithmetic block with / operator translates to "([A] / )" in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A divided by ', 'Arithmetic block with / operator translates to "The concentration of A divided by " in English');
@@ -91,7 +91,7 @@ QUnit.module("Translation", function(hooks) {
     // set the block's TEXT input field value to 'this is a comment'
     block.setFieldValue('this is a comment', 'TEXT');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '"this is a comment" ', 'Comment block containing "this is a comment" translates to  "this is a comment" with trailing space in LBC');
     assert.equal(treeToEnglish(tree), '"this is a comment" ', 'Comment block containing "this is a comment" translates to "this is a comment" with trailing space in English');
@@ -104,7 +104,7 @@ QUnit.module("Translation", function(hooks) {
     // set the block's TEXT input field value to 'this is a comment'
     block.setFieldValue('this is a comment', 'TEXT');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '"this is a comment"', 'Comment block containing "this is a comment" translates to  "this is a comment" in LBC');
     assert.equal(treeToEnglish(tree), '"this is a comment"', 'Comment block containing "this is a comment" translates to  "this is a comment" in English');
@@ -119,25 +119,25 @@ QUnit.module("Translation", function(hooks) {
     // set the block's OPERATOR input field value to 'greater than'
     block.setFieldValue('GT', 'OP');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '[A] > ', 'Comparison block with A as species and "greater than" as operator translates to "[A] > " in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A is greater than ', 'Comparison block with A as species and "greater than" as operator translates to "the concentration of A is greater than " in English');
 
     block.setFieldValue('LT', 'OP');
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '[A] < ', 'Comparison block with A as species and "less than" as operator translates to "[A] < " in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A is less than ', 'Comparison block with A as species and "less than" as operator translates to "The concentration of A is less than " in English');
 
     block.setFieldValue('EQ', 'OP');
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '[A] = ', 'Comparison block with A as species and "equal to" as operator translates to "[A] = " in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A is equal to ', 'Comparison block with A as species and "equal to" as operator translates to "The concentration of A is equal to " in English');
 
     block.setFieldValue('NEQ', 'OP');
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '[A] != ', 'Comparison block with A as species and "not equal to" as operator translates to "[A] != " in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A is not equal to ', 'Comparison block with A as species and "not equal to" as operator translates to "The concentration of A is not equal to " in English');
@@ -152,13 +152,13 @@ QUnit.module("Translation", function(hooks) {
     // set the block's OPERATOR input field value to 'greater than' (rises to and stays above)
     block.setFieldValue('GT', 'OP');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), 'F(G([A] > ))', 'F(G())-style block, having "rises to and stays above" as temporal, "A" as species, translates to "F(G([A] > ))" in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A eventually rises to and stays above ', 'F(G())-style block, having "rises to and stays above" as temporal, "A" as species, translates to "The concentration of A eventually rises to and stays above " in English');
 
     block.setFieldValue('LT', 'OP'); // 'less than' = drops to and stays below
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), 'F(G([A] < ))', 'F(G())-style block, having "drops to and stays below" as temporal, "A" as species, translates to "F(G([A] < ))" in LBC');
     assert.equal(treeToEnglish(tree), 'The concentration of A eventually drops to and stays below ', 'F(G())-style block, having "drops to and stays below" as temporal, "A" as species, translates to "The concentration of A eventually drops to and stays below " in English');
@@ -175,13 +175,13 @@ QUnit.module("Translation", function(hooks) {
     // set the block's END input field value to '15'
     block.setFieldValue('15', 'END');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), 'F{5, 15}()', 'Temporal interval block, with start at 5, end at 15, and "some point" selected, translates to "F{5, 15}()" in LBC');
     assert.equal(treeToEnglish(tree), 'At some point between times 5 and 15,', 'Temporal interval block, with start at 5, end at 15, and "some point" selected, translates to "At some point between times 5 and 15," in English');
 
     block.setFieldValue('GLOBAL', 'TEMP'); // 'all points'
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), 'G{5, 15}()', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "G{5, 15}()" in LBC');
     assert.equal(treeToEnglish(tree), 'At all points between times 5 and 15,', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "At all points between times 5 and 15," in English');
@@ -196,13 +196,13 @@ QUnit.module("Translation", function(hooks) {
     // set the block's END input field value to '15'
     block.setFieldValue('15', 'END');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), 'F{0, 15}()', 'Temporal interval "up to" block, with end at 15, and "some point" selected, translates to "F{0, 15}()" in LBC');
     assert.equal(treeToEnglish(tree), 'At some point before time 15,', 'Temporal interval "up to" block, with end at 15, and "some point" selected, translates to "At some point before time 15," in English');
 
     block.setFieldValue('GLOBAL', 'TEMP'); // 'all points'
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), 'G{0, 15}()', 'Temporal interval "up to" block, end at 15, and "all points" selected, translates to "G{0, 15}()" in LBC');
     assert.equal(treeToEnglish(tree), 'At all points before time 15,', 'Temporal interval block, with start at 5, end at 15, and "all points" selected, translates to "At all points before time 15," in English');
@@ -215,13 +215,13 @@ QUnit.module("Translation", function(hooks) {
     // set the block's OPERATOR input field value to 'AND' ('all of the following are true')
     block.setFieldValue('AND', 'OP');
 
-    var tree = workspaceToObject(this.workspace);
+    var tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '', 'Conjunction/disjunction block, with conjunction selected and no sub-expressions, translates to "" (empty string) in LBC');
     assert.equal(treeToEnglish(tree), '', 'Conjunction/disjunction block, with conjunction selected and no sub-expressions, translates to "" (empty string) in English');
 
     block.setFieldValue('OR', 'OP');
-    tree = workspaceToObject(this.workspace);
+    tree = workspaceToTree(this.workspace);
 
     assert.equal(treeToLBC(tree), '', 'Conjunction/disjunction block, with disjunction selected and no sub-expressions, translates to "" (empty string) in LBC');
     assert.equal(treeToEnglish(tree), '', 'Conjunction/disjunction block, with disjunction selected and no sub-expressions, translates to "" (empty string) in English');
@@ -230,7 +230,7 @@ QUnit.module("Translation", function(hooks) {
   QUnit.module("Multiple-block tests", function() {
 
     QUnit.assert.correctTranslations = function(translationType, block, expectedLBC, expectedEnglish) {
-      var tree = blockToObject(block);
+      var tree = blockToTree(block);
 
       this.push(treeToLBC(tree) === expectedLBC[translationType],
                 treeToLBC(tree),
@@ -537,7 +537,7 @@ QUnit.module("Translation", function(hooks) {
         real.setFieldValue('15', 'NUM');
         connectBlocks(compare, real, 'ARGUMENT');
 
-        var tree = blockToObject(block);
+        var tree = blockToTree(block);
         assert.equal(treeToLBC(tree), '"For some reason" [A] > 15');
         assert.equal(treeToEnglish(tree), '"For some reason" the concentration of A is greater than 15');
         real.unplug();
@@ -546,7 +546,7 @@ QUnit.module("Translation", function(hooks) {
         concentration.setFieldValue('B', 'SPECIES');
         connectBlocks(compare, concentration, 'ARGUMENT');
 
-        tree = blockToObject(block);
+        tree = blockToTree(block);
         assert.equal(treeToLBC(tree), '"For some reason" [A] > [B]');
         assert.equal(treeToEnglish(tree), '"For some reason" the concentration of A is greater than the concentration of B');
         concentration.unplug();
@@ -559,7 +559,7 @@ QUnit.module("Translation", function(hooks) {
         connectBlocks(arith, arith_real, 'ARGUMENT');
         connectBlocks(compare, arith, 'ARGUMENT');
 
-        tree = blockToObject(block);
+        tree = blockToTree(block);
         assert.equal(treeToLBC(tree), '"For some reason" [A] > ([C] + 15)');
         assert.equal(treeToEnglish(tree), '"For some reason" the concentration of A is greater than the concentration of C plus 15');
         arith.unplug();
@@ -568,32 +568,32 @@ QUnit.module("Translation", function(hooks) {
         comment.setFieldValue('some arbitrary words', 'TEXT');
         connectBlocks(compare, comment, 'ARGUMENT');
 
-        tree = blockToObject(block);
+        tree = blockToTree(block);
         assert.equal(treeToLBC(tree), '"For some reason" [A] > "some arbitrary words"');
         assert.equal(treeToEnglish(tree), '"For some reason" the concentration of A is greater than "some arbitrary words"');
         compare.unplug();
         comment.unplug();
 
         connectBlocks(block, real, 'ARGUMENT');
-        tree = blockToObject(block);
+        tree = blockToTree(block);
         assert.equal(treeToLBC(tree), '"For some reason" 15');
         assert.equal(treeToEnglish(tree), '"For some reason" 15');
         real.unplug();
 
         connectBlocks(block, concentration, 'ARGUMENT');
-        tree = blockToObject(block);
+        tree = blockToTree(block);
         assert.equal(treeToLBC(tree), '"For some reason" [B]');
         assert.equal(treeToEnglish(tree), '"For some reason" the concentration of B');
         concentration.unplug();
 
         connectBlocks(block, arith, 'ARGUMENT');
-        tree = blockToObject(block);
+        tree = blockToTree(block);
         assert.equal(treeToLBC(tree), '"For some reason" ([C] + 15)');
         assert.equal(treeToEnglish(tree), '"For some reason" the concentration of C plus 15');
         arith.unplug();
 
         connectBlocks(block, comment, 'ARGUMENT');
-        tree = blockToObject(block);
+        tree = blockToTree(block);
         assert.equal(treeToLBC(tree), '"For some reason" "some arbitrary words"');
         assert.equal(treeToEnglish(tree), '"For some reason" "some arbitrary words"');
       });

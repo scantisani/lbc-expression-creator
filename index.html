@@ -177,7 +177,7 @@
 
         for (var i = 0; i < topBlocks.length; i++) {
           try {
-            var tree = blockToObject(topBlocks[i]);
+            var tree = blockToTree(topBlocks[i]);
           } catch (e) {
             console.log(e.message);
             throw "These blocks either don't form a complete expression yet, or something went wrong converting the workspace to a syntax tree.";
